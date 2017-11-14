@@ -13,5 +13,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://fcc-classroom-mode-uuts.c9users.io/:8081"
+  "proxy": "http://fcc-classroom-mode-uuts.c9users.io:8081"
 }
