@@ -21,7 +21,7 @@ Inside the /server folder, run
 npm install
 ```
 
-If running on cloud9, you must rename the .env.development.cloud9 as .env.development
+If running on cloud9, you must rename the .env.development.cloud9 as .env.development.  Note that you should not commit this file to github.  It should be disabled when deploying to a productoin environment 
 
 
 To run the application, you must start both the client and the server: 
