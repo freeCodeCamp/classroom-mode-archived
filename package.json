@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cd server && npm install && node ./bin/www"
+    "start": "cd server && npm install && node ./bin/www",
+    "heroku-post-build": "cd client && npm install --only=dev && npm install && npm run build"
   }
 }
