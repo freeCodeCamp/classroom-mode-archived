@@ -1,0 +1,8 @@
+{
+  "name": "fcc-classroom-mode",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cd server && node ./bin/www"
+  }
+}
