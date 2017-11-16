@@ -3,6 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cd server && npm install && node ./bin/www",
+    "start": "cd server && npm install && node ./bin/www"
   }
 }
