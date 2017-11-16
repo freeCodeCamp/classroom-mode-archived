@@ -22,6 +22,8 @@ console.log('app is running on port ', port);
 
 var server = http.createServer(app);
 
+console.log("server was successfully created"); 
+
 /**
  * Listen on provided port, on all network interfaces.
  */
