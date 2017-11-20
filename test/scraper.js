@@ -1,15 +1,29 @@
 var should = require('chai').should(); 
+var scraper = require('../server/routes/helpers/scraper'); 
 
 
-it('should list ALL blobs on /blobs GET', function(done) {
-//   chai.request(server)
-//     .get('/blobs')
-//     .end(function(err, res){
-//       res.should.have.status(200);
-//       done();
-//     });
+// scraper.fetchUserInfoFromFCC('utsabsdfsdf', function(err, results) {
+//     if (err) {
+//         console.log("In test: received error:  "); 
+//         console.log(err); 
+//     }
+//     console.log(results); 
+// });
 
-    // foo.should.be.a('string2');
-    foo.should.be.a('string');
-    done(); 
+
+it('should get a successful response for a valid github username', function(done) {
+    scraper.fetchUserInfoFromFCC('utsab', function(err, results) {
+        should.not.exist(err); 
+        done(); 
+    });
+    
+});
+
+
+it('should get a error response for an invalid github username', function(done) {
+    scraper.fetchUserInfoFromFCC('utsabsdfdfsdf', function(err, results) {
+        should.exist(err); 
+        done(); 
+    });
+    
 });
