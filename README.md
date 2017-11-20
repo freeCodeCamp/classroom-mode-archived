@@ -26,16 +26,15 @@ If running on cloud9, you must rename the .env.development.cloud9 as .env.develo
 
 To run the application, you must start both the client and the server: 
 
-Naviagate to the /client folder, and then run
-
 ```
-npm start
+npm run server
 ```
 
-Navigate to the /server folder, and then run
+In a seperate terminal:
 
 ```
-PORT=8081 npm start
+npm run client
 ```
+
 
 
