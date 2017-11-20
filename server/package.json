@@ -12,6 +12,7 @@
     "express": "~4.15.5",
     "hjs": "~0.0.6",
     "morgan": "~1.9.0",
+    "request": "^2.83.0",
     "serve-favicon": "~2.4.5"
   }
 }
