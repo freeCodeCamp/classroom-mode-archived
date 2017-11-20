@@ -6,11 +6,14 @@ import './App.css';
 function DisplayUserInfo(props) {
      if (props.user_info.name) {
        return (
-         <div> User is defined!!!! </div>
+         <div>
+           <div> {props.user_info.name} </div>
+           <div> {props.user_info.completedChallenges.length} challenges completed</div>
+         </div>
        ); 
      } else {
         return (
-          <div> User is not loaded!!! </div>
+          <div>  </div>
         ); 
      }
 }
