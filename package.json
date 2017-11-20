@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "start": "cd server && npm install && node ./bin/www", 
+    "server": "cd server && PORT=8081 node ./bin/www",
+    "client": "cd client && npm start",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   }
 }
