@@ -1,10 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var scraper = require('./helpers/scraper'); 
 
-
-
-const fccBaseUrl = 'https://fcc-profile-scraper.herokuapp.com/user/';
 
 
 
@@ -16,18 +14,13 @@ router.get('/:userId', function(req, res, next) {
      console.log(req.params);
      let githubName = req.params.userId; 
      
-     request(fccBaseUrl + githubName, function (error, response, body){
-          console.log("Received scraper response"); 
-          
-          if (error) {
-               // throw error;
-               // reject();
-               console.log("Error: " + error); 
+     scraper.fetchUserInfoFromFCC(githubName, function(err, results) {
+          if (err) {
+               console.log(results); 
           }
          
-          body = JSON.parse(body);
-          res.json(body); 
-     }); 
+          res.json(results); 
+     });
 });
 
 module.exports = router;
