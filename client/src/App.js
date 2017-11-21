@@ -10,6 +10,7 @@ function DisplayUserInfo(props) {
          <div>
            <div> {props.user_info.name} </div>
            <div> {props.user_info.completedChallenges.length} challenges completed</div>
+           <div> Days Inactive: {props.user_info.daysInactive} </div>
          </div>
        ); 
      } else {

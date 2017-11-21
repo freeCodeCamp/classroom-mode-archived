@@ -24,8 +24,30 @@ function fetchUserInfoFromFCC(githubName, callback) {
           }
     
           var fccResults = JSON.parse(body);
+          fccResults.daysInactive = computeDaysInactive(fccResults.completedChallenges);
           callback(null, fccResults); 
      }); 
+}
+
+function findMostRecentCompletedChallenge(completedChallenges) {
+    var mostRecentDate = new Date ("Jan 1, 1980"); 
+    
+    for (var challenge of completedChallenges) {
+        var completedDate = new Date(challenge.completed_at); 
+        if (completedDate > mostRecentDate) {
+            mostRecentDate = completedDate;
+        }
+    }
+    
+    return mostRecentDate; 
+}
+
+function computeDaysInactive(completedChallenges) {
+    var mostRecentDate = findMostRecentCompletedChallenge(completedChallenges); 
+    var currentDate = new Date(); 
+    var daysInactive = (currentDate - mostRecentDate) / (1000 * 60 * 60 * 24); 
+    daysInactive = Math.floor(daysInactive); 
+    return daysInactive; 
 }
 
 exports.fetchUserInfoFromFCC = fetchUserInfoFromFCC;
