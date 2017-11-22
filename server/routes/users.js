@@ -2,7 +2,10 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var scraper = require('./helpers/scraper'); 
+var mongoose = require('mongoose');
 
+
+mongoose.connect('mongodb://masscreation:password@ds115446.mlab.com:15446/fcc-classroom');
 
 
 
