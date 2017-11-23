@@ -3,9 +3,12 @@ var router = express.Router();
 var request = require('request');
 var scraper = require('./helpers/scraper'); 
 var mongoose = require('mongoose');
+var DB_URI = process.env.DATABASE_URI || require('../config/secret').DATABASE_URI; 
 
+// PLan: create a file: secret.js.  Don't commit this to github
+console.log("DB_URI: " + DB_URI); 
 
-mongoose.connect('mongodb://masscreation:password@ds115446.mlab.com:15446/fcc-classroom');
+mongoose.connect(DB_URI);
 
 
 
