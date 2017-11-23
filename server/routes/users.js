@@ -2,14 +2,10 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var scraper = require('./helpers/scraper'); 
-var mongoose = require('mongoose');
-var DB_URI = process.env.DATABASE_URI || require('../config/secret').DATABASE_URI; 
+var db = require('./helpers/database').db; 
 
-// PLan: create a file: secret.js.  Don't commit this to github
-console.log("DB_URI: " + DB_URI); 
-
-mongoose.connect(DB_URI);
-
+console.log("db: "); 
+console.log(db); 
 
 
 /* GET users listing. */
