@@ -4,20 +4,30 @@ var DB_URI = process.env.DATABASE_URI || require('../../config/secret').DATABASE
 
 console.log("About to connect to DB_URI: "  + DB_URI );
 
-mongoose.connect(DB_URI);
+var db
 
-var db = mongoose.connection;
+function getDbInstance() {
+  return db;
+}
 
-db.on('error', function() {
-  console.log("Database connection error: " + DB_URI);
-});
+function connectToDB(cb) {
+    mongoose.connect(DB_URI);
 
-db.once('open', function() {
-  console.log("Successfully connected to DB_URI: " + DB_URI);
-});
+  db = mongoose.connection;
+
+  db.on('error', function() {
+    console.log("Database connection error: " + DB_URI);
+  });
+
+  db.once('open', function() {
+    console.log("Successfully connected to DB_URI: " + DB_URI);
+    cb(); 
+  })
+} 
 
 module.exports = {
-    db: db,
+    getDbInstance: getDbInstance,
+    connectToDB: connectToDB,
     DB_URI: DB_URI
 }
 

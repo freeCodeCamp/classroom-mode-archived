@@ -3,8 +3,8 @@
 /**
  * Module dependencies.
  */
-
-var app = require('../app');
+var connectToDB = require('../routes/helpers/database').connectToDB; 
+// var app = require('../app');
 var debug = require('debug')('fcc-classroom-mode:server');
 var http = require('http');
 
@@ -14,24 +14,30 @@ var http = require('http');
 
 var port = normalizePort(process.env.PORT || '8081');
 //var port = normalizePort('5000');
-app.set('port', port);
-console.log('app is running on port ', port); 
+// app.set('port', port);
+// console.log('app is running on port ', port); 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+// var server = http.createServer(app);
 
 console.log("server was successfully created"); 
-
+var server; 
 /**
  * Listen on provided port, on all network interfaces.
  */
+function startListening() {
+  var app = require('../app');
+  app.set('port', port);
+  console.log('app is running on port ', port); 
+  server = http.createServer(app);
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+}; 
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
+connectToDB( startListening ); 
 /**
  * Normalize a port into a number, string, or false.
  */
