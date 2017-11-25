@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var scraper = require('./helpers/scraper'); 
-var db = require('./helpers/database').db; 
+var getDbInstance = require('./helpers/database').getDbInstance; 
+var db = getDbInstance(); 
+// var schema = require('schema')
 
 console.log("db: "); 
 console.log(db); 
