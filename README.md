@@ -36,5 +36,13 @@ In a seperate terminal:
 npm run client
 ```
 
+Setup Database Configuration
+```
+cp server/config/secret.js.example server/config/secret.js
+```
 
+Run Test
+```
+npm test
+```
 
