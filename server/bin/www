@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-var connectToDB = require('../routes/helpers/database').connectToDB; 
+var databaseModule = require('../routes/helpers/database_singleton'); 
 // var app = require('../app');
 var debug = require('debug')('fcc-classroom-mode:server');
 var http = require('http');
@@ -36,7 +36,17 @@ function start() {
   server.on('error', onError);
 }; 
 
-connectToDB( start ); 
+var db = databaseModule.getDbInstance(); 
+
+db.on('error', function() {
+    console.log("Database connection error: " + DB_URI);
+  });
+
+db.once('open', function() {
+  console.log("Successfully connected to DB_URI: " + databaseModule.DB_URI);
+  start();  
+})
+  
 /**
  * Normalize a port into a number, string, or false.
  */
