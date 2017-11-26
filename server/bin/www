@@ -23,20 +23,20 @@ var port = normalizePort(process.env.PORT || '8081');
 // var server = http.createServer(app);
 
 console.log("server was successfully created"); 
-var server; 
+
 /**
  * Listen on provided port, on all network interfaces.
  */
-function startListening() {
+function start() {
   var app = require('../app');
   app.set('port', port);
   console.log('app is running on port ', port); 
-  server = http.createServer(app);
+  var server = http.createServer(app);
   server.listen(port);
   server.on('error', onError);
 }; 
 
-connectToDB( startListening ); 
+connectToDB( start ); 
 /**
  * Normalize a port into a number, string, or false.
  */
