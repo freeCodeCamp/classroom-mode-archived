@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var scraper = require('./helpers/scraper'); 
-var getDbInstance = require('./helpers/database').getDbInstance; 
-var db = getDbInstance(); 
+var databaseModule = require('./helpers/database_singleton'); 
+var db = databaseModule.getDbInstance(); 
 // var schema = require('schema')
 
 console.log("db: "); 
