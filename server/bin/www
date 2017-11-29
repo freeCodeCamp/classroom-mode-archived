@@ -39,7 +39,7 @@ function start() {
 var db = databaseModule.getDbInstance(); 
 
 db.on('error', function() {
-    console.log("Database connection error: " + DB_URI);
+    console.log("Database connection error: " + databaseModule.DB_URI);
   });
 
 db.once('open', function() {
