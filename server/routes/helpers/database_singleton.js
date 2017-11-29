@@ -6,12 +6,11 @@ var DB_URI = process.env.DATABASE_URI || require('../../config/secret').DATABASE
 var db;
 
 function getDbInstance() {
-  if (!db) {
-    console.log("About to connect to DB_URI: "  + DB_URI );
-    mongoose.connect(DB_URI);
-    db = mongoose.connection;
-  }
-  
+  if (db) { return db };
+
+  console.log("About to connect to DB_URI: "  + DB_URI );
+  mongoose.connect(DB_URI);
+  db = mongoose.connection;
   return db;
 }
 
