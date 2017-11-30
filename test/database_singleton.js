@@ -1,6 +1,5 @@
 var should = require('chai').should(); 
 var sinon = require('sinon');
-var proxyquire = require('proxyquire');
 var mongoose = require('../server/node_modules/mongoose');
 var databaseModule = require('../server/routes/helpers/database_singleton'); 
 
@@ -26,6 +25,7 @@ describe('getDbInstance()', function(){
     var connectSpy = sinon.spy(mongoose, 'connect');
     databaseModule.getDbInstance();
     sinon.assert.notCalled(connectSpy);
+    connectSpy.restore(); 
     done();
   })
 })
