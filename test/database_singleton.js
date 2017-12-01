@@ -29,9 +29,9 @@ describe('getDbInstance()', function(){
     done();
   })
     
-  it('should not connect to db again if getDbInstance was previously called', function(done){
-    databaseModule.getDbInstance();
-    //sinon.assert.notCalled(connectSpy);
-    done();
-  })
+  // it('should not connect to db again if getDbInstance was previously called', function(done){
+  //   databaseModule.getDbInstance();
+  //   //sinon.assert.notCalled(connectSpy);
+  //   done();
+  // })
 })
