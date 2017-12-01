@@ -13,7 +13,6 @@ it('should have a DATABASE_URI defined', function(done) {
 describe('getDbInstance()', function(){
 
   var connectSpy; 
-  var db; 
   
   beforeEach(()=>{
       //connectSpy = sinon.spy(mongoose, 'connect');
@@ -21,7 +20,7 @@ describe('getDbInstance()', function(){
 
   afterEach(()=>{
       //connectSpy.restore();
-      db.closeConnection(); 
+      databaseModule.closeConnection(); 
   });
 
   it('should connect db when db is undefined', function(done){

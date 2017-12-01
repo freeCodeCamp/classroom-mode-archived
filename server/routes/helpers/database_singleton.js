@@ -15,7 +15,7 @@ function getDbInstance() {
 }
 
 function closeConnection() {
-  db.disconnect(); 
+  mongoose.disconnect(); 
   db = null; 
 }
 
