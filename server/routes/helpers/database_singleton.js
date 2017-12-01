@@ -14,9 +14,14 @@ function getDbInstance() {
   return db;
 }
 
+function closeConnection() {
+  db.disconnect(); 
+  db = null; 
+}
 
 module.exports = {
     getDbInstance: getDbInstance,
+    closeConnection: closeConnection,
     DB_URI: DB_URI
 }
 
