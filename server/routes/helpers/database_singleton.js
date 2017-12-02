@@ -14,9 +14,14 @@ function getDbInstance() {
   return db;
 }
 
+function closeConnection() {
+  mongoose.disconnect(); 
+  db = null; 
+}
 
 module.exports = {
     getDbInstance: getDbInstance,
+    closeConnection: closeConnection,
     DB_URI: DB_URI
 }
 
