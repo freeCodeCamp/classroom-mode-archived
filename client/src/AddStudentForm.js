@@ -15,7 +15,7 @@ class AddStudentForm extends Component {
   }
 
   open() {
-    this.setState({showModel: true});
+    this.setState({showModal: true});
   }
 
   render() {
