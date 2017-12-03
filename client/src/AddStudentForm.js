@@ -29,7 +29,18 @@ class AddStudentForm extends Component {
               <Modal.Body>
                 <h4>Text in a modal</h4>
                 <form>
-                    <input type="text" />
+                    <label for="name">Name: </label>
+                    <input id="name" type="text" />   
+                    <br/>
+                    <label for="user-name">FCC username: </label>
+                    <input id="user-name" type="text" />
+                    <br/>
+                    <label for="email">Email: </label>
+                    <input id="email" type="email" />
+                    <br/>
+                    <label for="notes">Notes: </label>
+                    <input id="notes" type="text" /> 
+                    <br/>
                     <input type="submit" />
                 </form>
               </Modal.Body>
