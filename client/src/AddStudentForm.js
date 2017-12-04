@@ -14,6 +14,7 @@ class AddStudentForm extends Component {
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
     this.submit = this.submit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   close() {
@@ -25,7 +26,17 @@ class AddStudentForm extends Component {
   }
 
   submit() {
-    console.log('submit');
+    fetch('/add_student', {
+      method: 'post',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        name: this.state.name
+      })
+    })
+  }
+  
+  handleChange(e) {
+    this.setState({ name: e.target.value });
   }
 
   render() {
@@ -40,7 +51,9 @@ class AddStudentForm extends Component {
                 <form>
                 <FormGroup controlId="name">
                   <ControlLabel>Name: </ControlLabel>
-                  <FormControl type="text"/>
+                  <FormControl type="text"
+                               value={this.state.value}
+                               onChange={this.handleChange}/>
                 </FormGroup>
                 <FormGroup controlId="user-name">
                   <ControlLabel>FCC Username: </ControlLabel>
