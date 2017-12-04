@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button,
+         Modal,
+         FormGroup,
+         FromControl,
+         ControlLabel,
+         FormControl } from 'react-bootstrap';
 
 
 class AddStudentForm extends Component {
@@ -20,7 +25,6 @@ class AddStudentForm extends Component {
   }
 
   submit() {
-    console.log(this)
     console.log('submit');
   }
 
@@ -34,18 +38,22 @@ class AddStudentForm extends Component {
               </Modal.Header>
               <Modal.Body>
                 <form>
-                    <label for="name">Name: </label>
-                    <input id="name" type="text" />   
-                    <br/>
-                    <label for="user-name">FCC username: </label>
-                    <input id="user-name" type="text" />
-                    <br/>
-                    <label for="email">Email: </label>
-                    <input id="email" type="email" />
-                    <br/>
-                    <label for="notes">Notes: </label>
-                    <input id="notes" type="text" /> 
-                    <br/>
+                <FormGroup controlId="name">
+                  <ControlLabel>Name: </ControlLabel>
+                  <FormControl type="text"/>
+                </FormGroup>
+                <FormGroup controlId="user-name">
+                  <ControlLabel>FCC Username: </ControlLabel>
+                  <FormControl type="text"/>
+                </FormGroup>
+                <FormGroup controlId="email">
+                  <ControlLabel>Email: </ControlLabel>
+                  <FormControl type="email"/>
+                </FormGroup>
+                <FormGroup controlId="notes">
+                  <ControlLabel>Notes: </ControlLabel>
+                  <FormControl type="text"/>
+                </FormGroup>
                     <Button onClick={this.close}>Close</Button>
                     <Button onClick={this.submit}>Submit</Button>
                 </form>
