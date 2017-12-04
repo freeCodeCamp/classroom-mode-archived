@@ -8,6 +8,7 @@ class AddStudentForm extends Component {
     this.state = { showModal: false };
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
+    this.submit = this.submit.bind(this);
   }
 
   close() {
@@ -18,16 +19,20 @@ class AddStudentForm extends Component {
     this.setState({showModal: true});
   }
 
+  submit() {
+    console.log(this)
+    console.log('submit');
+  }
+
   render() {
     return (
         <div className="AddStudentForm">
             <Button bsSize="large" active onClick={this.open}>Button</Button>
             <Modal show={this.state.showModal} onHide={this.close}>
               <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>Add Student</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <h4>Text in a modal</h4>
                 <form>
                     <label for="name">Name: </label>
                     <input id="name" type="text" />   
@@ -41,12 +46,10 @@ class AddStudentForm extends Component {
                     <label for="notes">Notes: </label>
                     <input id="notes" type="text" /> 
                     <br/>
-                    <input type="submit" />
+                    <Button onClick={this.close}>Close</Button>
+                    <Button onClick={this.submit}>Submit</Button>
                 </form>
               </Modal.Body>
-              <Modal.Footer>
-                <Button onClick={this.close}>Close</Button>
-              </Modal.Footer>
             </Modal>
         </div>
     );
