@@ -6,7 +6,7 @@ var db = databaseModule.getDbInstance();
 
 router.post('/', function(req, res) {
     console.log('hitting server');
-    console.log("params:" + req.body.name);
+    console.log(req.body);
 })
 
 module.exports = router;

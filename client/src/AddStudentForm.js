@@ -30,13 +30,22 @@ class AddStudentForm extends Component {
       method: 'post',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
-        name: this.state.name
+        name: this.state.name,
+        username: this.state.username,
+        email: this.state.email,
+        notes: this.state.notes
       })
     })
   }
   
   handleChange(e) {
-    this.setState({ name: e.target.value });
+    const name = e.target.name;
+    const value = e.target.value;
+    console.log(name)
+    console.log(value)
+    this.setState({
+      [name]: value
+    });
   }
 
   render() {
@@ -52,20 +61,30 @@ class AddStudentForm extends Component {
                 <FormGroup controlId="name">
                   <ControlLabel>Name: </ControlLabel>
                   <FormControl type="text"
-                               value={this.state.value}
+                               name="name"
+                               value={this.state.name}
                                onChange={this.handleChange}/>
                 </FormGroup>
-                <FormGroup controlId="user-name">
+                <FormGroup controlId="username">
                   <ControlLabel>FCC Username: </ControlLabel>
-                  <FormControl type="text"/>
+                  <FormControl type="text"
+                               name="username"
+                               value={this.state.username}
+                               onChange={this.handleChange}/>
                 </FormGroup>
                 <FormGroup controlId="email">
                   <ControlLabel>Email: </ControlLabel>
-                  <FormControl type="email"/>
+                  <FormControl type="text"
+                               name="email"
+                               value={this.state.email}
+                               onChange={this.handleChange}/>
                 </FormGroup>
-                <FormGroup controlId="notes">
+                <FormGroup controlId="Notes">
                   <ControlLabel>Notes: </ControlLabel>
-                  <FormControl type="text"/>
+                  <FormControl type="text"
+                               name="notes"
+                               value={this.state.notes}
+                               onChange={this.handleChange}/>
                 </FormGroup>
                     <Button onClick={this.close}>Close</Button>
                     <Button onClick={this.submit}>Submit</Button>
