@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { Button,
          Modal,
          FormGroup,
-         FromControl,
          ControlLabel,
          FormControl } from 'react-bootstrap';
 
 
 class AddStudentForm extends Component {
   constructor(props){
-    super(props); 
+    super(props);
     this.state = { showModal: false };
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
@@ -35,14 +34,12 @@ class AddStudentForm extends Component {
         email: this.state.email,
         notes: this.state.notes
       })
-    })
+    });
   }
-  
+
   handleChange(e) {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(name)
-    console.log(value)
     this.setState({
       [name]: value
     });
@@ -58,36 +55,36 @@ class AddStudentForm extends Component {
               </Modal.Header>
               <Modal.Body>
                 <form>
-                <FormGroup controlId="name">
-                  <ControlLabel>Name: </ControlLabel>
-                  <FormControl type="text"
-                               name="name"
-                               value={this.state.name}
-                               onChange={this.handleChange}/>
-                </FormGroup>
-                <FormGroup controlId="username">
-                  <ControlLabel>FCC Username: </ControlLabel>
-                  <FormControl type="text"
-                               name="username"
-                               value={this.state.username}
-                               onChange={this.handleChange}/>
-                </FormGroup>
-                <FormGroup controlId="email">
-                  <ControlLabel>Email: </ControlLabel>
-                  <FormControl type="text"
-                               name="email"
-                               value={this.state.email}
-                               onChange={this.handleChange}/>
-                </FormGroup>
-                <FormGroup controlId="Notes">
-                  <ControlLabel>Notes: </ControlLabel>
-                  <FormControl type="text"
-                               name="notes"
-                               value={this.state.notes}
-                               onChange={this.handleChange}/>
-                </FormGroup>
-                    <Button onClick={this.close}>Close</Button>
-                    <Button onClick={this.submit}>Submit</Button>
+                  <FormGroup controlId="name">
+                    <ControlLabel>Name: </ControlLabel>
+                    <FormControl type="text"
+                                 name="name"
+                                 value={this.state.name}
+                                 onChange={this.handleChange}/>
+                  </FormGroup>
+                  <FormGroup controlId="username">
+                    <ControlLabel>FCC Username: </ControlLabel>
+                    <FormControl type="text"
+                                 name="username"
+                                 value={this.state.username}
+                                 onChange={this.handleChange}/>
+                  </FormGroup>
+                  <FormGroup controlId="email">
+                    <ControlLabel>Email: </ControlLabel>
+                    <FormControl type="text"
+                                 name="email"
+                                 value={this.state.email}
+                                 onChange={this.handleChange}/>
+                  </FormGroup>
+                  <FormGroup controlId="Notes">
+                    <ControlLabel>Notes: </ControlLabel>
+                    <FormControl type="text"
+                                 name="notes"
+                                 value={this.state.notes}
+                                 onChange={this.handleChange}/>
+                  </FormGroup>
+                  <Button onClick={this.close}>Close</Button>
+                  <Button onClick={this.submit}>Submit</Button>
                 </form>
               </Modal.Body>
             </Modal>
