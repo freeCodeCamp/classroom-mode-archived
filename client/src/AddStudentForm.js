@@ -31,7 +31,7 @@ class AddStudentForm extends Component {
   render() {
     return (
         <div className="AddStudentForm">
-            <Button bsSize="large" active onClick={this.open}>Button</Button>
+            <Button bsSize="large" active onClick={this.open}>Add Student</Button>
             <Modal show={this.state.showModal} onHide={this.close}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Student</Modal.Title>
