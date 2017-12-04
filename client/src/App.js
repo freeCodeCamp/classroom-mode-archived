@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import AddStudentForm from './AddStudentForm';
 
 
 
@@ -45,6 +46,7 @@ class App extends Component {
           <input type="text" id="github-name-input"></input>
           <button onClick={this.handleSearch.bind(this)}>Search</button>
           <DisplayUserInfo user_info={this.state.user_info}/>
+          <AddStudentForm/>
       </div>
     );
   }
