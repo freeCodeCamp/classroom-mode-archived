@@ -9,7 +9,13 @@ import { Button,
 class AddStudentForm extends Component {
   constructor(props){
     super(props);
-    this.state = { showModal: false };
+    this.state = {
+      showModal: false,
+      name: '',
+      username: '',
+      email: '',
+      notes: ''
+    };
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
     this.submit = this.submit.bind(this);
