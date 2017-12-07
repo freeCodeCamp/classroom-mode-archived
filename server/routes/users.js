@@ -6,8 +6,7 @@ var databaseModule = require('./helpers/database_singleton');
 var db = databaseModule.getDbInstance(); 
 // var schema = require('schema')
 
-console.log("db: "); 
-console.log(db); 
+ 
 
 
 /* GET users listing. */

@@ -40,7 +40,11 @@ class AddStudentForm extends Component {
         email: this.state.email,
         notes: this.state.notes
       })
-    });
+    })
+    .then(res => res.json())
+    .then(function(data) {
+        console.log(data); 
+      });
   }
 
   handleChange(e) {
