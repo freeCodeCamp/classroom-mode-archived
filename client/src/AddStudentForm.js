@@ -14,7 +14,8 @@ class AddStudentForm extends Component {
       name: '',
       username: '',
       email: '',
-      notes: ''
+      notes: '', 
+      errors: []
     };
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
@@ -44,7 +45,8 @@ class AddStudentForm extends Component {
     .then(res => res.json())
     .then(function(data) {
         console.log(data); 
-      });
+        this.setState({ errors: data.errors });
+      }.bind(this));
   }
 
   handleChange(e) {
@@ -58,12 +60,16 @@ class AddStudentForm extends Component {
   render() {
     return (
         <div className="AddStudentForm">
+            
             <Button bsSize="large" active onClick={this.open}>Add Student</Button>
             <Modal show={this.state.showModal} onHide={this.close}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Student</Modal.Title>
               </Modal.Header>
               <Modal.Body>
+                { this.state.errors.map(function(error){
+                  return <li>{error}</li>;
+                })}
                 <form>
                   <FormGroup controlId="name">
                     <ControlLabel>Name: </ControlLabel>
