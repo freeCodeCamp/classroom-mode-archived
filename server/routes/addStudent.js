@@ -16,8 +16,12 @@ router.post('/', function(req, res) {
         errors.push("Username is required."); 
     }
     
-    if (!req.body.email) {
-        errors.push("Email is required."); 
+    let email = req.body.email;
+    let re = /\S+@\S+\.\S+/;
+    if (email && !re.test(email)) {
+        errors.push("Email is invalid.");
+    } else if (!email) {
+        errors.push('Email is required.');
     }
     
     if (errors.length > 0) {
