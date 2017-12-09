@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var request = require('request');
 var databaseModule = require('./helpers/database_singleton');
-var db = databaseModule.getDbInstance();
 var Student = require('./helpers/studentSchema');
 var validateGithubUsername = require('./helpers/validateGithub');
 
