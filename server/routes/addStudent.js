@@ -20,6 +20,12 @@ router.post('/', function(req, res) {
         errors.push("Email is required."); 
     }
     
+    if (errors.length > 0) {
+        res.json({'errors': errors});
+        return; 
+    }
+    
+    
     var student = new Student({
         name: req.body.name,
         username: req.body.username,
@@ -30,8 +36,6 @@ router.post('/', function(req, res) {
     student.save(function(err, fluffy) {
         if (err) {return console.error(err)};
         console.log(student);
-    
-        res.json({'errors': errors});
     });
     
      
