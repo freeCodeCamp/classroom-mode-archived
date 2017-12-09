@@ -25,7 +25,7 @@ router.post('/', function(req, res) {
     }
     
     if (errors.length > 0) {
-        res.json({'errors': errors});
+        res.status(422).json({'errors': errors});
         return; 
     }
     
