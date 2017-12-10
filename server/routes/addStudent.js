@@ -40,6 +40,7 @@ router.post('/', function(req, res) {
         student.save(function(err, fluffy) {
           if (err) return console.error(err);
           console.log(student);
+          res.sendStatus(200);
         });
       } else {
         errors.push('freeCodeCamp username is invalid.');
