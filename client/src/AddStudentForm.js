@@ -72,9 +72,11 @@ class AddStudentForm extends Component {
                 <Modal.Title>Add Student</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                { this.state.errors.map(function(error){
-                  return <li>{error}</li>;
-                })}
+                <ul>
+                  { this.state.errors.map(function(error, index){
+                    return <li key={index}>{error}</li>;
+                  })}
+                </ul>
                 <form>
                   <FormGroup controlId="name">
                     <ControlLabel>Name: </ControlLabel>
