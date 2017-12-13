@@ -1,20 +1,30 @@
 var should = require('chai').should(); 
 var scraper = require('../server/routes/helpers/scraper'); 
 
-
-it('should get a successful response for a valid github username', function(done) {
-    scraper.fetchUserInfoFromFCC('utsab', function(err, results) {
-        should.not.exist(err); 
-        done(); 
-    });
+it('should return an error if scraper has a non-200 status code', function(done) {
     
 });
 
 
-it('should get a error response for an invalid github username', function(done) {
-    scraper.fetchUserInfoFromFCC('utsabsdfdfsdf', function(err, results) {
-        should.exist(err); 
-        done(); 
-    });
-    
+
+it('should return no errors if scraper has a 200 status code', function(done) {
+     
+});
+
+
+
+it('should compute correct number of inactive days', function(done) {
+     
+});
+
+
+
+it('should compute correct number of inactive days when user has no history', function(done) {
+     
+});
+
+
+
+it('should compute correct number of inactive days when user was active today', function(done) {
+     
 });
