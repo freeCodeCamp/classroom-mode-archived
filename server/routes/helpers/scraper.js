@@ -8,7 +8,7 @@ const fccBaseUrl = 'https://fcc-profile-scraper.herokuapp.com/user/';
 
 
 function fetchUserInfoFromFCC(githubName, callback) {
-    request(fccBaseUrl + githubName, function (error, response, body){
+    request.get(fccBaseUrl + githubName, function (error, response, body){
           console.log("Received scraper response"); 
           
           if (error) {
