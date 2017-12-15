@@ -14,7 +14,8 @@ class AddStudentForm extends Component {
       name: '',
       username: '',
       email: '',
-      notes: ''
+      notes: '', 
+      errors: []
     };
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
@@ -40,7 +41,17 @@ class AddStudentForm extends Component {
         email: this.state.email,
         notes: this.state.notes
       })
-    });
+    })
+    .then(function(res){
+      if (res.status === 200) {
+        this.close();
+      } else {
+        res.json().then(function(data){
+          console.log(data);
+          this.setState({ errors: data.errors });
+        }.bind(this));
+      }
+    }.bind(this));
   }
 
   handleChange(e) {
@@ -54,12 +65,18 @@ class AddStudentForm extends Component {
   render() {
     return (
         <div className="AddStudentForm">
+            
             <Button bsSize="large" active onClick={this.open}>Add Student</Button>
             <Modal show={this.state.showModal} onHide={this.close}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Student</Modal.Title>
               </Modal.Header>
               <Modal.Body>
+                <ul>
+                  { this.state.errors.map(function(error, index){
+                    return <li key={index}>{error}</li>;
+                  })}
+                </ul>
                 <form>
                   <FormGroup controlId="name">
                     <ControlLabel>Name: </ControlLabel>
