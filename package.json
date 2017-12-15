@@ -7,6 +7,6 @@
     "server": "cd server && PORT=8081 node ./bin/www",
     "client": "cd client && npm start",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
-    "test": "mocha"
+    "test": "cd server && npm test"
   }
 }
