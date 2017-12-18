@@ -8,29 +8,18 @@ The react server proxies requests to the express server (see /client/package.jso
 
 ## Installation Instructions
 
-Inside the /client folder, run 
-
-```
-npm install
-```
-
-
-Inside the /server folder, run 
-
-```
-npm install
-```
+`npm run setup` to install both server and client applications dependencies.
 
 If running on cloud9, you must rename the .env.development.cloud9 as .env.development.  Note that you should not commit this file to github.  It should be disabled when deploying to a productoin environment 
 
-
 To run the application, you must start both the client and the server: 
 
+`npm run dev` to start both servers
+
+Or you may run the below script in separate terminals
 ```
 npm run server
 ```
-
-In a seperate terminal:
 
 ```
 npm run client
