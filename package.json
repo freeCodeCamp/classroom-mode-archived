@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "start": "cd server && npm install && node ./bin/www",
-    "server": "cd server && PORT=8081 node ./bin/www",
-    "client": "cd client && npm start",
+    "server": "PORT=8081 npm start --prefix server",
+    "client": "npm start --prefix client",
+    "dev": "npm run server & npm run client",
+    "setup": "npm install --prefix server && npm install --prefix client",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
     "test": "mocha"
   },
