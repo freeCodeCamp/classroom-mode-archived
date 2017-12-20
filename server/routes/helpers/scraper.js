@@ -25,7 +25,7 @@ function fetchUserInfoFromFCC(githubName, callback) {
     
           var fccResults = JSON.parse(body);
           fccResults.daysInactive = computeDaysInactive(fccResults.completedChallenges);
-          callback(null, fccResults); 
+          callback(false, fccResults); 
      }); 
 }
 
