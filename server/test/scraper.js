@@ -83,7 +83,7 @@ it('should compute correct number of inactive days', function(done) {
          },
          {
             "title": "Configure your Code Portfolio",
-            "completed_at": "Dec 15, 2017",  // 2.  Set this to be new Date() - 1 
+            "completed_at": "Dec 15, 2017",  
             "updated_at": "",
             "url": "https://www.freecodecamp.com/challenges/Configure your Code Portfolio"
          }
