@@ -45,7 +45,8 @@ function findMostRecentCompletedChallenge(completedChallenges) {
 function computeDaysInactive(completedChallenges) {
     var mostRecentDate = findMostRecentCompletedChallenge(completedChallenges); 
     var currentDate = new Date(); 
-    var daysInactive = (currentDate - mostRecentDate) / (1000 * 60 * 60 * 24); 
+    var daysInactive = (currentDate - mostRecentDate) / (1000 * 60 * 60 * 24);
+    console.log('days inactive: ', daysInactive); 
     daysInactive = Math.floor(daysInactive); 
     return daysInactive; 
 }
