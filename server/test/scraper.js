@@ -5,9 +5,15 @@ var sinon = require('sinon');
 var request = require('request');
 
 
+var sandbox = sinon.sandbox.create();
 
+afterEach(function(){
+   sandbox.restore(); 
+}); 
+   
+   
 it('should return an error if scraper has a non-200 status code', function(done) {
-   var get = sinon.stub(request, "get");
+   var get = sandbox.stub(request, "get");
    
    get.yieldsOn(this, null, {statusCode:400}, "{}");
    
@@ -16,13 +22,12 @@ it('should return an error if scraper has a non-200 status code', function(done)
        expect(results.error).to.be.a('object'); 
        done(); 
    })
-   get.restore(); 
 });
 
 
 
 it('should return no errors if scraper has a 200 status code', function(done) {
-  var get = sinon.stub(request, "get");
+  var get = sandbox.stub(request, "get");
    
    var testData = JSON.stringify({
       "name": "Utsab Saha",
@@ -56,13 +61,12 @@ it('should return no errors if scraper has a 200 status code', function(done) {
        expect(err).to.equal(false); 
        done(); 
    })
-   get.restore(); 
 });
 
 it('should compute correct number of inactive days', function(done) {
-      var get = sinon.stub(request, "get");
+      var get = sandbox.stub(request, "get");
       var now = new Date("December 17, 2017 11:13:00");
-      var clock = sinon.useFakeTimers(now.getTime());
+      var clock = sandbox.useFakeTimers(now.getTime());
    
    var testData = JSON.stringify({
       "name": "Utsab Saha",
@@ -96,14 +100,12 @@ it('should compute correct number of inactive days', function(done) {
        expect(results.daysInactive).to.equal(2); 
        done(); 
    })
-   get.restore(); 
-   clock.restore(); 
 });
 
 
 
 it('should compute correct number of inactive days when user has no history', function(done) {
-   var get = sinon.stub(request, "get");
+   var get = sandbox.stub(request, "get");
    
    var testData = JSON.stringify({
       "name": "Utsab Saha",
@@ -118,15 +120,14 @@ it('should compute correct number of inactive days when user has no history', fu
        expect(results.daysInactive).to.equal("N/A"); 
        done(); 
    })
-   get.restore(); 
 });
 
 
 
 it('should compute correct number of inactive days when user was active today', function(done) {
-   var get = sinon.stub(request, "get");
+   var get = sandbox.stub(request, "get");
    var now = new Date("December 17, 2017 11:13:00");
-   var clock = sinon.useFakeTimers(now.getTime());
+   var clock = sandbox.useFakeTimers(now.getTime());
    
    var testData = JSON.stringify({
       "name": "Utsab Saha",
@@ -160,6 +161,4 @@ it('should compute correct number of inactive days when user was active today', 
        expect(results.daysInactive).to.equal(0); 
        done(); 
    })
-   get.restore(); 
-   clock.restore(); 
 });
