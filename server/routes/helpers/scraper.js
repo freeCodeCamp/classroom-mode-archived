@@ -8,7 +8,7 @@ const fccBaseUrl = 'https://fcc-profile-scraper.herokuapp.com/user/';
 
 
 function fetchUserInfoFromFCC(githubName, callback) {
-    request(fccBaseUrl + githubName, function (error, response, body){
+    request.get(fccBaseUrl + githubName, function (error, response, body){
           console.log("Received scraper response"); 
           
           if (error) {
@@ -25,7 +25,7 @@ function fetchUserInfoFromFCC(githubName, callback) {
     
           var fccResults = JSON.parse(body);
           fccResults.daysInactive = computeDaysInactive(fccResults.completedChallenges);
-          callback(null, fccResults); 
+          callback(false, fccResults); 
      }); 
 }
 
@@ -43,9 +43,14 @@ function findMostRecentCompletedChallenge(completedChallenges) {
 }
 
 function computeDaysInactive(completedChallenges) {
+    if (completedChallenges.length == 0) {
+        return "N/A"; 
+    }
+    
     var mostRecentDate = findMostRecentCompletedChallenge(completedChallenges); 
-    var currentDate = new Date(); 
-    var daysInactive = (currentDate - mostRecentDate) / (1000 * 60 * 60 * 24); 
+    var currentDate = new Date();   
+    var daysInactive = (currentDate - mostRecentDate) / (1000 * 60 * 60 * 24);
+    console.log('days inactive: ', daysInactive); 
     daysInactive = Math.floor(daysInactive); 
     return daysInactive; 
 }
