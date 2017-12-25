@@ -26,10 +26,21 @@ describe("AddStudentForm", () => {
     };
     mountedAddStudentForm = undefined;
   });
-  
+
   it("always renders a div", () => {
     const divs = addStudentForm().find("div");
     expect(divs.length).toBeGreaterThan(0);
+  });
+
+  it("should open modal when open()", () => {
+    addStudentForm().instance().open();
+    expect(addStudentForm().instance().state.showModal).toBe(true);
+  });
+
+  it("should close modal when close()", () => {
+    addStudentForm().instance().setState({showModal: true});
+    addStudentForm().instance().close();
+    expect(addStudentForm().instance().state.showModal).toBe(false)
   });
 
   it("should close the modal when submitting returns a 200 response", async () => {
@@ -42,14 +53,14 @@ describe("AddStudentForm", () => {
         }
       });
     };
-  
+
     window.fetch = jest.fn().mockImplementation(function() {
-        console.log("In the mocked fetch function"); 
-        return Promise.resolve(mockResponse(200, null, '{"foo":"bar"}')); 
+        console.log("In the mocked fetch function");
+        return Promise.resolve(mockResponse(200, null, '{"foo":"bar"}'));
       }
     );
 
-    var addStudentFormComponentWrapper = addStudentForm(); 
+    var addStudentFormComponentWrapper = addStudentForm();
     await addStudentFormComponentWrapper.instance().open();
     await addStudentFormComponentWrapper.instance().submit();
     expect(addStudentFormComponentWrapper.instance().state.showModal).toBe(false);
