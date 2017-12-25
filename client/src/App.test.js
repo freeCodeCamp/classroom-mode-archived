@@ -32,11 +32,8 @@ describe("AddStudentForm", () => {
     const divs = addStudentForm().find("div");
     expect(divs.length).toBeGreaterThan(0);
   });
-  
-  
 
-  it("should close the modal when submitting returns a 200 response", () => {
-    
+  it("should close the modal when submitting returns a 200 response", async () => {
     const mockResponse = (status, statusText, response) => {
       return new window.Response(response, {
         status: status,
@@ -52,18 +49,10 @@ describe("AddStudentForm", () => {
         return Promise.resolve(mockResponse(200, null, '{"foo":"bar"}')); 
       }
     );
-      
-      
+
     var addStudentFormComponentWrapper = addStudentForm(); 
-    addStudentFormComponentWrapper.instance().open(); 
-    addStudentFormComponentWrapper.instance().submit(); 
-    console.log("state: "); 
-    console.log(addStudentFormComponentWrapper.instance().state); 
-    
-    // This is not working yet because it gets executed immediately.  However, the fetch happens asyncronously, 
-    // so we won't see the impact of the fetch until later.  
-    expect(addStudentFormComponentWrapper.instance().state.showModal).toBe(false); 
-    
-  
+    await addStudentFormComponentWrapper.instance().open();
+    await addStudentFormComponentWrapper.instance().submit();
+    expect(addStudentFormComponentWrapper.instance().state.showModal).toBe(false);
   });
 });
