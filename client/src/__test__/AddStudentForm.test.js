@@ -65,4 +65,17 @@ describe("AddStudentForm", () => {
     await addStudentFormComponentWrapper.instance().submit();
     expect(addStudentFormComponentWrapper.instance().state.showModal).toBe(false);
   });
+
+  it("should set state on handleChange", () => {
+    let event = {
+      target: {
+        name: 'username',
+        value: 'newValue'
+      }
+    }
+
+    let addStudentFormComponentWrapperInstance = addStudentForm().instance();
+    addStudentFormComponentWrapperInstance.handleChange(event);
+    expect(addStudentFormComponentWrapperInstance.state.username).toEqual('newValue');
+  });
 });
