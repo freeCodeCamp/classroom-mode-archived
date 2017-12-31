@@ -9,6 +9,8 @@
     "dev": "npm run server & npm run client",
     "setup": "npm install --prefix server && npm install --prefix client",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
-    "test": "cd server && npm test"
+    "server-test": "npm test --prefix server",
+    "client-test": "npm test --prefix client",
+    "test": "npm run server-test && npm run client-test"
   }
 }
