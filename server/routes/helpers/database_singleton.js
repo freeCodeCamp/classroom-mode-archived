@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 
-var DB_URI = process.env.DATABASE_URI || require('../../config/secret').DATABASE_URI; 
-
+if (process.env.CI === undefined) {
+  var DB_URI = process.env.DATABASE_URI || require('../../config/secret').DATABASE_URI;
+} else {
+  var DB_URI = process.env.DATABASE_URI;
+}
 
 var db;
 
