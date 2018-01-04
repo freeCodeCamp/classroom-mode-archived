@@ -61,7 +61,7 @@ describe("AddStudentForm", () => {
     );
 
     var addStudentFormComponentWrapper = addStudentForm();
-    await addStudentFormComponentWrapper.instance().open();
+    addStudentFormComponentWrapper.instance().open();
     await addStudentFormComponentWrapper.instance().submit();
     expect(addStudentFormComponentWrapper.instance().state.showModal).toBe(false);
   });
