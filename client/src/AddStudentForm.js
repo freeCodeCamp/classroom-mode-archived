@@ -47,7 +47,6 @@ class AddStudentForm extends Component {
         this.close();
       } else {
         res.json().then(function(data){
-          console.log(data);
           this.setState({ errors: data.errors });
         }.bind(this));
       }

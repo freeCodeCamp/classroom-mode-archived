@@ -45,7 +45,6 @@ describe("AddStudentForm", () => {
 
   it("should close the modal when submitting returns a 200 response", async () => {
     window.fetch = jest.fn().mockImplementation(function() {
-        console.log("In the mocked fetch function");
         return Promise.resolve(mockResponse(200, null, '{}'));
       }
     );
@@ -54,6 +53,20 @@ describe("AddStudentForm", () => {
     await addStudentFormComponentWrapper.find('button.open-modal').simulate('click');
     await addStudentFormComponentWrapper.find('button.submit').simulate('click');
     expect(addStudentFormComponentWrapper.instance().state.showModal).toBe(false);
+  });
+
+  it("should returns errors and not close modal when submitting returns a non 200", async () => {
+    window.fetch = jest.fn().mockImplementation(function() {
+        return Promise.resolve(mockResponse(422, null, JSON.stringify({errors: ["Name is wrong", "Email is wrong"]})));
+      }
+    );
+
+    var addStudentFormComponentWrapper = addStudentForm();
+    await addStudentFormComponentWrapper.find('button.open-modal').simulate('click');
+    await addStudentFormComponentWrapper.find('button.submit').simulate('click');
+    expect(addStudentFormComponentWrapper.instance().state.showModal).toBe(true);
+    expect(addStudentFormComponentWrapper.instance().state.errors[0]).toEqual("Name is wrong");
+    expect(addStudentFormComponentWrapper.instance().state.errors[1]).toEqual("Email is wrong");
   });
 
   it("should set state on handleChange", () => {
