@@ -4,6 +4,7 @@ import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({ adapter: new Adapter() });
 import ReactDOM from 'react-dom';
 import AddStudentForm from './../AddStudentForm';
+import mockResponse from './mock/response';
 
 describe("AddStudentForm", () => {
   let props;
@@ -43,16 +44,6 @@ describe("AddStudentForm", () => {
   });
 
   it("should close the modal when submitting returns a 200 response", async () => {
-    const mockResponse = (status, statusText, response) => {
-      return new window.Response(response, {
-        status: status,
-        statusText: statusText,
-        headers: {
-          'Content-type': 'application/json'
-        }
-      });
-    };
-
     window.fetch = jest.fn().mockImplementation(function() {
         console.log("In the mocked fetch function");
         return Promise.resolve(mockResponse(200, null, '{}'));
