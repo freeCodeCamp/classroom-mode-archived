@@ -1,8 +1,7 @@
 import React from 'react';
-import Enzyme from 'enzyme';
+import Enzyme, { mount, render, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({ adapter: new Adapter() });
-import { mount } from "enzyme";
 import ReactDOM from 'react-dom';
 import AddStudentForm from './../AddStudentForm';
 
@@ -56,13 +55,13 @@ describe("AddStudentForm", () => {
 
     window.fetch = jest.fn().mockImplementation(function() {
         console.log("In the mocked fetch function");
-        return Promise.resolve(mockResponse(200, null, '{"foo":"bar"}'));
+        return Promise.resolve(mockResponse(200, null, '{}'));
       }
     );
 
     var addStudentFormComponentWrapper = addStudentForm();
-    addStudentFormComponentWrapper.instance().open();
-    await addStudentFormComponentWrapper.instance().submit();
+    await addStudentFormComponentWrapper.find('button.open-modal').simulate('click');
+    await addStudentFormComponentWrapper.find('button.submit').simulate('click');
     expect(addStudentFormComponentWrapper.instance().state.showModal).toBe(false);
   });
 
