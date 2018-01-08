@@ -62,11 +62,13 @@ class AddStudentForm extends Component {
   }
 
   render() {
+  
+    
     return (
         <div className="AddStudentForm">
 
-            <Button className='open-modal' bsSize="large" active onClick={this.open}>Add Student</Button>
-            <Modal show={this.state.showModal} onHide={this.close}>
+            <Button className='open-modal'  bsSize="large" active onClick={this.open}>Add Student</Button>
+            <Modal className='add-student-modal' show={this.state.showModal} onHide={this.close}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Student</Modal.Title>
               </Modal.Header>
