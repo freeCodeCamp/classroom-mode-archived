@@ -5,6 +5,7 @@ Enzyme.configure({ adapter: new Adapter() });
 import ReactDOM from 'react-dom';
 import AddStudentForm from './../AddStudentForm';
 import mockResponse from './mock/response';
+import renderer from 'react-test-renderer';
 
 describe("AddStudentForm", () => {
   let props;
@@ -74,6 +75,19 @@ describe("AddStudentForm", () => {
     expect(addStudentFormComponentWrapper.instance().state.errors[0]).toEqual("Name is wrong");
     expect(addStudentFormComponentWrapper.instance().state.errors[1]).toEqual("Email is wrong");
   });
+  
+  it("snapshot - should close the modal when submitting returns a 200 response", () => {
+    // window.fetch = jest.fn().mockImplementation(function() {
+    //     return Promise.resolve(mockResponse(200, null, '{}'));
+    //   }
+    // );
+
+    let studentForm = renderer.create(<AddStudentForm {...props} />).toJSON();
+    // studentForm.find('button.open-modal').simulate('click');
+    // studentForm.find('button.submit').simulate('click');
+    
+    expect(studentForm).toMatchSnapshot();
+  })
 
   it("should set state on handleChange", () => {
     let event = {
