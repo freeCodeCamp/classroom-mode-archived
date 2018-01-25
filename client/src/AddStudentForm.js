@@ -32,7 +32,8 @@ class AddStudentForm extends Component {
   }
 
   submit() {
-    fetch('/add_student', {
+    console.log('submitting!!!!!!');
+    return fetch('/add_student', {
       method: 'post',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
@@ -44,9 +45,11 @@ class AddStudentForm extends Component {
     })
     .then(function(res){
       if (res.status === 200) {
+        console.log('200000000');
         this.close();
       } else {
         res.json().then(function(data){
+          console.log('data:',  data);
           this.setState({ errors: data.errors });
         }.bind(this));
       }
