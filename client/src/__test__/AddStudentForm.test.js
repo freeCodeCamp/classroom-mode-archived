@@ -50,31 +50,11 @@ describe("AddStudentForm", () => {
       }
     );
 
-    var addStudentFormComponentWrapper = addStudentForm();
-    await addStudentFormComponentWrapper.find('button.open-modal').simulate('click');
-    await addStudentFormComponentWrapper.find('button.submit').simulate('click');
+    await addStudentForm().find('button.open-modal').simulate('click');
+    await addStudentForm().find('button.submit').simulate('click');
     
-    let modalComponent = addStudentFormComponentWrapper.find('.add-student-modal').get(0);
-    
-    console.log("*******************************"); 
-    console.log("modal at 0: ", modalComponent.props.show); 
-    //TODO: check whether modalComponent.props.show has the right value (should be false). 
-    //console.log("modal component props: ", modalComponent.props()); 
+    expect(addStudentForm().instance().state.showModal).toBe(false);
   });
-
-  // it("should returns errors and not close modal when submitting returns a non 200", async () => {
-  //   window.fetch = jest.fn().mockImplementation(function() {
-  //       return Promise.resolve(mockResponse(422, null, JSON.stringify({errors: ["Name is wrong", "Email is wrong"]})));
-  //     }
-  //   );
-
-  //   var addStudentFormComponentWrapper = addStudentForm();
-  //   await addStudentFormComponentWrapper.find('button.open-modal').simulate('click');
-  //   await addStudentFormComponentWrapper.find('button.submit').simulate('click');
-  //   expect(addStudentFormComponentWrapper.instance().state.showModal).toBe(true);
-  //   expect(addStudentFormComponentWrapper.instance().state.errors[0]).toEqual("Name is wrong");
-  //   expect(addStudentFormComponentWrapper.instance().state.errors[1]).toEqual("Email is wrong");
-  // });
   
   it("should return errors when submit", () => {
     window.fetch = jest.fn().mockImplementation(function() {
@@ -89,19 +69,6 @@ describe("AddStudentForm", () => {
     });
   });
   
-  it("snapshot - should close the modal when submitting returns a 200 response", () => {
-    // window.fetch = jest.fn().mockImplementation(function() {
-    //     return Promise.resolve(mockResponse(200, null, '{}'));
-    //   }
-    // );
-
-    let studentForm = renderer.create(<AddStudentForm {...props} />).toJSON();
-    // studentForm.find('button.open-modal').simulate('click');
-    // studentForm.find('button.submit').simulate('click');
-    
-    expect(studentForm).toMatchSnapshot();
-  })
-
   it("should set state on handleChange", () => {
     let event = {
       target: {
