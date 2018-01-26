@@ -50,7 +50,7 @@ describe("AddStudentForm", () => {
       }
     );
 
-    await addStudentForm().find('button.open-modal').simulate('click');
+    addStudentForm().find('button.open-modal').simulate('click');
     await addStudentForm().find('button.submit').simulate('click');
     
     expect(addStudentForm().instance().state.showModal).toBe(false);
