@@ -69,6 +69,14 @@ describe("AddStudentForm", () => {
     });
   });
   
+  it("should invoke submit() when submit button is clicked", () => {
+    const submitSpy = jest.spyOn(AddStudentForm.prototype, 'submit');
+
+    addStudentForm().find('button.open-modal').simulate('click');
+    addStudentForm().find('button.submit').simulate('click');
+    expect(submitSpy).toHaveBeenCalled();
+  })
+
   it("should set state on handleChange", () => {
     let event = {
       target: {
