@@ -5,6 +5,7 @@ var Student = require('./helpers/studentSchema');
 var validateGithubUsername = require('./helpers/validateGithub');
 
 router.post('/', function(req, res) {
+    console.log('in actual code');
     var errors = []; 
     
     if (!req.body.name) {
