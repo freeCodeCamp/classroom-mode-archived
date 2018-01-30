@@ -1,11 +1,9 @@
 import React from 'react';
-import Enzyme, { mount, render, shallow } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({ adapter: new Adapter() });
-import ReactDOM from 'react-dom';
 import AddStudentForm from './../AddStudentForm';
 import mockResponse from './mock/response';
-import renderer from 'react-test-renderer';
 
 describe("AddStudentForm", () => {
   let props;
@@ -46,6 +44,12 @@ describe("AddStudentForm", () => {
 
     
   it("should invoke submit() when submit button is clicked", () => {
+    
+    window.fetch = jest.fn().mockImplementation(function() {
+        return Promise.resolve(mockResponse(200, null, '{}'));
+      }
+    );
+    
     const submitSpy = jest.spyOn(AddStudentForm.prototype, 'submit');
 
     addStudentForm().find('button.open-modal').simulate('click');
