@@ -14,7 +14,7 @@ class AddStudentForm extends Component {
       name: '',
       username: '',
       email: '',
-      notes: '', 
+      notes: '',
       errors: []
     };
     this.open = this.open.bind(this);
@@ -32,7 +32,7 @@ class AddStudentForm extends Component {
   }
 
   submit() {
-    fetch('/add_student', {
+    return fetch('/add_student', {
       method: 'post',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
@@ -47,7 +47,6 @@ class AddStudentForm extends Component {
         this.close();
       } else {
         res.json().then(function(data){
-          console.log(data);
           this.setState({ errors: data.errors });
         }.bind(this));
       }
@@ -63,11 +62,13 @@ class AddStudentForm extends Component {
   }
 
   render() {
+  
+    
     return (
         <div className="AddStudentForm">
-            
-            <Button bsSize="large" active onClick={this.open}>Add Student</Button>
-            <Modal show={this.state.showModal} onHide={this.close}>
+
+            <Button className='open-modal'  bsSize="large" active onClick={this.open}>Add Student</Button>
+            <Modal className='add-student-modal' show={this.state.showModal} onHide={this.close}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Student</Modal.Title>
               </Modal.Header>
@@ -107,7 +108,7 @@ class AddStudentForm extends Component {
                                  onChange={this.handleChange}/>
                   </FormGroup>
                   <Button onClick={this.close}>Close</Button>
-                  <Button onClick={this.submit}>Submit</Button>
+                  <Button className="submit" onClick={this.submit}>Submit</Button>
                 </form>
               </Modal.Body>
             </Modal>
