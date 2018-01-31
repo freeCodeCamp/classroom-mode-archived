@@ -21,4 +21,4 @@ function validateGithubUsername(usrName, handleResult) {
 }
 
 
-module.exports = validateGithubUsername; 
+module.exports = { validateGithubUsername: validateGithubUsername };
