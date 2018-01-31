@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var databaseModule = require('./helpers/database_singleton');
 var Student = require('./helpers/studentSchema');
-var validateGithubUsername = require('./helpers/validateGithub');
+var validateGithubUsername = require('./helpers/validateGithub').validateGithubUsername;
 
 router.post('/', function(req, res) {
     console.log('in actual code');
