@@ -5,7 +5,7 @@ function validateGithubUsername(usrName, handleResult) {
 	
 	var uri = 'http://fcc-profile-scraper.herokuapp.com/user/' + usrName; 
 	
-	request(uri, function (error, response, body) {
+	request.get(uri, function (error, response, body) {
       console.log('error:', error); // Print the error if one occurred
       
       var statusCode = response && response.statusCode; 
@@ -16,8 +16,7 @@ function validateGithubUsername(usrName, handleResult) {
       } else {
           handleResult(false);
       }
-});
-
+    });
 }
 
 

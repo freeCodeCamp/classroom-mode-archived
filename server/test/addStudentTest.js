@@ -2,8 +2,18 @@ var expect = require('chai').expect;
 var sinon = require('sinon');
 var app = require('../app');
 var request = require('supertest');
-var validateGithubUsername = require('../routes/helpers/validateGithub');
+var serverRequestToScraper = require('request');
+var validateHelper = require('../routes/helpers/validateGithub');
 
+
+var sandbox = sinon.sandbox.create();
+
+afterEach(function(){
+   sandbox.restore(); 
+}); 
+  
+  
+  
 
 describe('POST /add_student', () => {
   it('should return an error if student name is absent', (done) => {
@@ -30,17 +40,13 @@ describe('POST /add_student', () => {
       });
   });
 
-  it('should return an error if fcc username is invalid', (done) => {
-    // var sandbox = sinon.sandbox.create();
-    // var mockValidateUsername = sandbox.stub(validateGithubUsername, 'validateGithubUsername');
-  
+  it('should receive an error message if scraper returns a non-200 response,', (done) => {
+ 
+    var get = sandbox.stub(serverRequestToScraper, "get");
+   
+    get.yieldsOn(this, null, {statusCode:404}, "{}");
+   
     
-    sinon.stub(validateGithubUsername, 'validateGithubUsername')
-         .callsFake(function fakeFn(username, callback) {
-      console.log("***********");
-      console.log(username);
-      return false;
-    });
 
     request(app)
       .post('/add_student')
