@@ -4,7 +4,7 @@ var app = require('../app');
 var request = require('supertest');
 var serverRequestToScraper = require('request');
 var validateHelper = require('../routes/helpers/validateGithub');
-
+var Student = require('../routes/helpers/studentSchema');
 
 var sandbox = sinon.sandbox.create();
 
@@ -57,7 +57,33 @@ describe('POST /add_student', () => {
         expect(JSON.parse(res.text).errors).to.include('freeCodeCamp username is invalid.');
         done();
       });
-  })
+  });
+  
+  it('should call the mongoose save method when all fields are valid', (done) => {
+ 
+    var get = sandbox.stub(serverRequestToScraper, "get");
+   
+    get.yieldsOn(this, null, {statusCode: 200}, "{}");
+    console.log("%%%%%%%%%%%%%%%");
+    // console.log(Student);
+    var save = sandbox.stub(Student.prototype, "save");
+    
+    save.callsFake(function fakeFn() {
+      console.log("************");
+      console.log("Inside save fake");
+      return 'bar';
+    });
+
+    request(app)
+      .post('/add_student')
+      .send({ name: 'fccStudent', email: 'user@freecodecamp.com', username: 'invalidUsername' })
+      .expect(200)
+      .end(function(_err, res){
+        console.log(res.text);
+        expect(JSON.parse(res.text).errors).to.include('freeCodeCamp username is invalid.');
+        done();
+      });
+  });
 });
 
 
