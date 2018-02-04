@@ -62,25 +62,20 @@ describe('POST /add_student', () => {
   it('should call the mongoose save method when all fields are valid', (done) => {
  
     var get = sandbox.stub(serverRequestToScraper, "get");
-   
     get.yieldsOn(this, null, {statusCode: 200}, "{}");
-    console.log("%%%%%%%%%%%%%%%");
-    // console.log(Student);
-    var save = sandbox.stub(Student.prototype, "save");
     
-    save.callsFake(function fakeFn() {
-      console.log("************");
-      console.log("Inside save fake");
-      return 'bar';
+    var save = sandbox.stub(Student.prototype, "save");
+    save.callsFake(function fakeFn(callback) {
+      callback(); 
     });
 
     request(app)
       .post('/add_student')
-      .send({ name: 'fccStudent', email: 'user@freecodecamp.com', username: 'invalidUsername' })
+      .send({ name: 'fccStudent', email: 'user@freecodecamp.com', username: 'anyusername' })
       .expect(200)
       .end(function(_err, res){
         console.log(res.text);
-        expect(JSON.parse(res.text).errors).to.include('freeCodeCamp username is invalid.');
+        expect(save.calledOnce);
         done();
       });
   });
