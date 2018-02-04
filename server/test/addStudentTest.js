@@ -79,6 +79,31 @@ describe('POST /add_student', () => {
         done();
       });
   });
+  
+  
+    
+  it('should not call the mongoose save method username is invalid', (done) => {
+ 
+    var get = sandbox.stub(serverRequestToScraper, "get");
+    get.yieldsOn(this, null, {statusCode: 404}, "{}");
+    
+    var save = sandbox.stub(Student.prototype, "save");
+    save.callsFake(function fakeFn(callback) {
+      callback(); 
+    });
+
+    request(app)
+      .post('/add_student')
+      .send({ name: 'fccStudent', email: 'user@freecodecamp.com', username: 'invalidusername' })
+      .expect(422)
+      .end(function(_err, res){
+        console.log("text: ", res.text);
+        console.log("json: ", res.json);
+        expect(JSON.parse(res.text).errors).to.include("freeCodeCamp username is invalid.");
+        expect(save.notCalled);
+        done();
+      });
+  });
 });
 
 
