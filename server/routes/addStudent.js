@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 var databaseModule = require('./helpers/database_singleton');
 var Student = require('./helpers/studentSchema');
-var validateGithubUsername = require('./helpers/validateGithub');
+var validateGithubUsername = require('./helpers/validateGithub').validateGithubUsername;
 
 router.post('/', function(req, res) {
+    console.log('in actual code');
     var errors = []; 
     
     if (!req.body.name) {
@@ -16,11 +17,10 @@ router.post('/', function(req, res) {
     }
     
     let email = req.body.email;
-    let re = /\S+@\S+\.\S+/;
-    if (email && !re.test(email)) {
-        errors.push("Email is invalid.");
-    } else if (!email) {
-        errors.push('Email is required.');
+    let emailValidationError = validateEmail(email); 
+    
+    if (emailValidationError) {
+        errors.push(emailValidationError); 
     }
     
     if (errors.length > 0) {
@@ -31,7 +31,7 @@ router.post('/', function(req, res) {
     var student = new Student({
         name: req.body.name,
         username: req.body.username,
-        email: req.body.email,
+        email: email,
         notes: req.body.notes
     });
     
@@ -48,5 +48,15 @@ router.post('/', function(req, res) {
       }
     });
 });
+
+
+function validateEmail(email) {
+    let re = /\S+@\S+\.\S+/;
+    if (email && !re.test(email)) {
+        return "Email is invalid.";
+    } else if (!email) {
+        return "Email is required.";
+    }
+}
 
 module.exports = router;
