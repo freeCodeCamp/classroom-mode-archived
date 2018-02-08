@@ -1,3 +1,18 @@
+var expect = require('chai').expect;
+var sinon = require('sinon');
+var app = require('../app');
+var request = require('supertest');
+
+describe('GET /students', () => {
+  it('should return 200', (done) => {
+    request(app)
+      .get('/students')
+      .end(function(_err, res) {
+        expect(res.status).to.equal(200);
+        done();
+      });
+  });
+});
 // 1. it should make the appropriate request
 // to the server on page load
 // 2 GET request to /students endpoint should 
