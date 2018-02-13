@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class ClassTable extends Component {
   componentDidMount() {
-    fetch();
+    fetch('/students');
   }
 
   render() {

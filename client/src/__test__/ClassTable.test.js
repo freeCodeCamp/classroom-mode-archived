@@ -28,6 +28,7 @@ describe("ClassTable", () => {
 
   it("fetches GET /students", () => {
     const fetchSpy = jest.spyOn(window, 'fetch');
-    expect(fetchSpy).toHaveBeenCalled();
-  })
+    expect(fetchSpy).toHaveBeenCalledWith('/students');
+  });
+  
 })
