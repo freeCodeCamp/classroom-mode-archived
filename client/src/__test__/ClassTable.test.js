@@ -7,9 +7,8 @@ import mockResponse from './mock/response';
 
 describe("ClassTable", () => {
   window.fetch = jest.fn().mockImplementation(function() {
-    return Promise.resolve(mockResponse(200, null, '{}'));
-  });
-
+    return Promise.resolve(mockResponse(200, null, JSON.stringify([])));
+  })
   let props;
   let mountedClassTable;
   const classTable = () => {
@@ -30,5 +29,13 @@ describe("ClassTable", () => {
     const fetchSpy = jest.spyOn(window, 'fetch');
     expect(fetchSpy).toHaveBeenCalledWith('/students');
   });
-  
-})
+
+  it("displays a special message if the student list is empty", () => {
+
+    expect(classTable().instance().state.errors).toContain('classroom is empty');
+  });
+
+});
+
+
+
