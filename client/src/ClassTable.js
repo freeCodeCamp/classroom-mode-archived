@@ -22,6 +22,9 @@ class ClassTable extends Component {
   render() {
     return (
       <div className="ClassTable">
+        <div className="error-class">
+
+        </div>
       </div>
     );
   }

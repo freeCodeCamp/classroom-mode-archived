@@ -35,6 +35,11 @@ describe("ClassTable", () => {
     expect(classTable().instance().state.errors).toContain('classroom is empty');
   });
 
+  it("display error state", () => {
+
+
+    console.log(classTable().find(".error-class"))
+  })
 });
 
 
