@@ -22,8 +22,10 @@ class ClassTable extends Component {
   render() {
     return (
       <div className="ClassTable">
-        <div className="error-class">
-
+        <div className="errors">
+          {this.state.errors.map(function(error, i) {
+            return <div key={i}>{error}</div>;
+          })}
         </div>
       </div>
     );
