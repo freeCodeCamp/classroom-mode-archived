@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import AddStudentForm from './AddStudentForm';
-
+import ClassTable from './ClassTable';
 
 
 function DisplayUserInfo(props) {
@@ -47,6 +47,7 @@ class App extends Component {
           <button onClick={this.handleSearch.bind(this)}>Search</button>
           <DisplayUserInfo user_info={this.state.user_info}/>
           <AddStudentForm/>
+          <ClassTable/>
       </div>
     );
   }

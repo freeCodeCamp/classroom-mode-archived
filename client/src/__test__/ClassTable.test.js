@@ -31,16 +31,6 @@ describe("ClassTable", () => {
   });
 
   it("displays a special message if the student list is empty", () => {
-
-    expect(classTable().instance().state.errors).toContain('classroom is empty');
+    expect(classTable().find(".errors").text()).toEqual("classroom is empty");
   });
-
-  it("display error state", () => {
-
-
-    console.log(classTable().find(".error-class"))
-  })
 });
-
-
-
