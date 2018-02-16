@@ -6,9 +6,16 @@ import ClassTable from './../ClassTable';
 import mockResponse from './mock/response';
 
 describe("ClassTable", () => {
-  window.fetch = jest.fn().mockImplementation(function() {
-    return Promise.resolve(mockResponse(200, null, JSON.stringify([])));
-  })
+  beforeAll(() =>{
+    window.fetch = jest.fn().mockImplementation(function() {
+      return Promise.resolve(mockResponse(200, null, JSON.stringify([])));
+    })
+  });
+
+  afterAll(() =>{
+    window.fetch.mockRestore();
+  });
+
   let props;
   let mountedClassTable;
   const classTable = () => {
