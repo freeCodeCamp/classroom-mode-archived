@@ -4,7 +4,8 @@ class ClassTable extends Component {
   constructor(props){
     super(props);
     this.state = {
-      errors: []
+      errors: [],
+      students: []
     }
   }
 
@@ -14,6 +15,10 @@ class ClassTable extends Component {
         res.json().then(function(data){
           if(data.length === 0){
             this.setState({ errors: ["classroom is empty"] });
+          } else {
+            console.log("In Code");
+            console.log(data);
+            this.setState({ students: data });
           }
         }.bind(this));
       }.bind(this));

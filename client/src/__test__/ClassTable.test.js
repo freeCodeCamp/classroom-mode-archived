@@ -5,7 +5,7 @@ Enzyme.configure({ adapter: new Adapter() });
 import ClassTable from './../ClassTable';
 import mockResponse from './mock/response';
 
-describe("ClassTable", () => {
+describe("ClassTable When Student List Is Empty", () => {
   beforeAll(() =>{
     window.fetch = jest.fn().mockImplementation(function() {
       return Promise.resolve(mockResponse(200, null, JSON.stringify([])));
@@ -39,5 +39,33 @@ describe("ClassTable", () => {
 
   it("displays a special message if the student list is empty", () => {
     expect(classTable().find(".errors").text()).toEqual("classroom is empty");
+  });
+});
+
+describe("ClassTable When Student List Is Not Empty", () => {
+  beforeAll(() =>{
+    window.fetch = jest.fn().mockImplementation(function() {
+      return Promise.resolve(mockResponse(200, null, JSON.stringify([{"_id":"5a87b0f78706f6070dea47c7","name":"Bob","username":"utsab","email":"a@b.com","notes":"","__v":0}])));
+    })
+  });
+
+  afterAll(() =>{
+    window.fetch.mockReset();
+  });
+
+  let props;
+  let mountedClassTable;
+  const classTable = () => {
+    if (!mountedClassTable) {
+      mountedClassTable = mount(
+        <ClassTable {...props} />
+      );
+    }
+    return mountedClassTable;
+  }
+  it("sets the react state with the student list returned from the server", () => {
+    console.log("In Test");
+    console.log(classTable().instance().state.students);
+    expect(classTable().instance().state.students).toEqual("");
   });
 });
