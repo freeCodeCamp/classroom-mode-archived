@@ -13,7 +13,7 @@ describe("ClassTable", () => {
   });
 
   afterAll(() =>{
-    window.fetch.mockRestore();
+    window.fetch.mockReset();
   });
 
   let props;
