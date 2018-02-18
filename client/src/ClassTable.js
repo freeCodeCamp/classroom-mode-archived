@@ -10,14 +10,12 @@ class ClassTable extends Component {
   }
 
   componentDidMount() {
-    fetch('/students')
+    return fetch('/students')
       .then(function(res) {
         res.json().then(function(data){
           if(data.length === 0){
             this.setState({ errors: ["classroom is empty"] });
           } else {
-            console.log("In Code");
-            console.log(data);
             this.setState({ students: data });
           }
         }.bind(this));

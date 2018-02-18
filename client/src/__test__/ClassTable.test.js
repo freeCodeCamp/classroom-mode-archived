@@ -62,10 +62,11 @@ describe("ClassTable When Student List Is Not Empty", () => {
       );
     }
     return mountedClassTable;
-  }
+  };
+
   it("sets the react state with the student list returned from the server", () => {
-    console.log("In Test");
-    console.log(classTable().instance().state.students);
-    expect(classTable().instance().state.students).toEqual("");
+    return classTable().instance().componentDidMount().then().then(data => {
+      expect(classTable().instance().state.students[0].username).toEqual('utsab')
+    });
   });
 });
