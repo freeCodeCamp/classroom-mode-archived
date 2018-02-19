@@ -22,6 +22,22 @@ class ClassTable extends Component {
       }.bind(this));
   }
 
+  populateStudents() {
+    let rows = [];
+    this.state.students.forEach((student, index) => {
+      rows.push((
+        <tr>
+          <td>{student.name}</td>
+          <td>{student.username}</td>
+          <td>{student.email}</td>
+          <td>{student.notes}</td>
+        </tr>
+      ))
+    })
+
+    return rows;
+  }
+
   render() {
     return (
       <div className="ClassTable">
@@ -30,6 +46,15 @@ class ClassTable extends Component {
             return <div key={i}>{error}</div>;
           })}
         </div>
+        <table className="students table text-center">
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Notes</th>
+          </tr>
+          {this.populateStudents()}
+        </table>
       </div>
     );
   }
