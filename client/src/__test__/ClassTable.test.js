@@ -69,4 +69,13 @@ describe("ClassTable When Student List Is Not Empty", () => {
       expect(classTable().instance().state.students[0].username).toEqual('utsab')
     });
   });
+
+  it("populates student data as a table", () => {
+    classTable()
+      .setState({ students: [{name: "Utsab", username: "utsab", email: "kdj@dfj", notes: "kdlfj"}]})
+    expect(classTable().find('.students').length).toEqual(1);
+    expect(classTable().find('table').length).toEqual(1);
+    expect(classTable().find('th').length).toEqual(4);
+    expect(classTable().find('td').length).toEqual(4);
+  });
 });
