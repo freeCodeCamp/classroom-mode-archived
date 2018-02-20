@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import StudentRow from './StudentRow';
 
 class ClassTable extends Component {
   constructor(props){
@@ -26,14 +27,13 @@ class ClassTable extends Component {
     let rows = [];
     this.state.students.forEach((student, index) => {
       rows.push((
-        <tr>
-          <td>{student.name}</td>
-          <td>{student.username}</td>
-          <td>{student.email}</td>
-          <td>{student.notes}</td>
-        </tr>
-      ))
-    })
+        <StudentRow name={student.name}
+             username={student.username}
+             email={student.email}
+             notes={student.notes}
+        />
+      ));
+    });
 
     return rows;
   }
