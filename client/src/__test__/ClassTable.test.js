@@ -77,5 +77,9 @@ describe("ClassTable When Student List Is Not Empty", () => {
     expect(classTable().find('table').length).toEqual(1);
     expect(classTable().find('th').length).toEqual(4);
     expect(classTable().find('td').length).toEqual(4);
+    expect(classTable().find('tr').last().childAt(0).text()).toEqual('Utsab');
+    expect(classTable().find('tr').last().childAt(1).text()).toEqual('utsab');
+    expect(classTable().find('tr').last().childAt(2).text()).toEqual('kdj@dfj');
+    expect(classTable().find('tr').last().childAt(3).text()).toEqual('kdlfj');
   });
 });
