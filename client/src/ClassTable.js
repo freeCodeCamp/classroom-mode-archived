@@ -27,10 +27,11 @@ class ClassTable extends Component {
     let rows = [];
     this.state.students.forEach((student, index) => {
       rows.push((
-        <StudentRow name={student.name}
-             username={student.username}
-             email={student.email}
-             notes={student.notes}
+        <StudentRow key={index}
+            name={student.name}
+            username={student.username}
+            email={student.email}
+            notes={student.notes}
         />
       ));
     });
@@ -47,13 +48,17 @@ class ClassTable extends Component {
           })}
         </div>
         <table className="students table text-center">
-          <tr>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Notes</th>
-          </tr>
-          {this.populateStudents()}
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.populateStudents()}
+          </tbody>
         </table>
       </div>
     );
