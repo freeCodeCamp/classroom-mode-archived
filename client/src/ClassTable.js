@@ -39,15 +39,19 @@ class ClassTable extends Component {
     return rows;
   }
 
-  render() {
-    return (
-      <div className="ClassTable">
+  showErrorMessage() {
+    return(
         <div className="errors">
           {this.state.errors.map(function(error, i) {
             return <div key={i}>{error}</div>;
           })}
         </div>
-        <table className="students table text-center">
+      );
+  }
+
+  showTable() {
+    return (
+      <table className="students table text-center">
           <thead>
             <tr>
               <th>Name</th>
@@ -60,6 +64,15 @@ class ClassTable extends Component {
             {this.populateStudents()}
           </tbody>
         </table>
+      );
+  }
+
+  render() {
+    const isStudentListEmpty = this.state.students.length === 0;
+    return (
+      <div className="ClassTable">
+      // TODO: error message component
+        {isStudentListEmpty ? this.showErrorMessage() : this.showTable() }
       </div>
     );
   }

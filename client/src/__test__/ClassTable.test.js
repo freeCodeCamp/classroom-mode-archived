@@ -40,6 +40,10 @@ describe("ClassTable When Student List Is Empty", () => {
   it("displays a special message if the student list is empty", () => {
     expect(classTable().find(".errors").text()).toEqual("classroom is empty");
   });
+
+  it("do not display table if student list is empty", () => {
+    expect(classTable().find("table").length).toEqual(0);
+  });
 });
 
 describe("ClassTable When Student List Is Not Empty", () => {
