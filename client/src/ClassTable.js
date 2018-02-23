@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import StudentRow from './StudentRow';
+import Errors from './Errors';
 
 class ClassTable extends Component {
   constructor(props){
@@ -39,16 +40,6 @@ class ClassTable extends Component {
     return rows;
   }
 
-  showErrorMessage() {
-    return(
-        <div className="errors">
-          {this.state.errors.map(function(error, i) {
-            return <div key={i}>{error}</div>;
-          })}
-        </div>
-      );
-  }
-
   showTable() {
     return (
       <table className="students table text-center">
@@ -71,8 +62,7 @@ class ClassTable extends Component {
     const isStudentListEmpty = this.state.students.length === 0;
     return (
       <div className="ClassTable">
-      // TODO: error message component
-        {isStudentListEmpty ? this.showErrorMessage() : this.showTable() }
+        {isStudentListEmpty ? <Errors errors={this.state.errors} /> : this.showTable() }
       </div>
     );
   }
