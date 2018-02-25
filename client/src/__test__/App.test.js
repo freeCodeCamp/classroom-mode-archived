@@ -31,4 +31,12 @@ describe("App", () => {
     expect(divs.length).toBeGreaterThan(0);
   });
 
+  it("always render AddStudentForm", () => {
+    expect(app().find(".AddStudentForm")).toHaveLength(1);
+  });
+
+  it("always render ClassTable", () => {
+    expect(app().find(".ClassTable")).toHaveLength(1);
+  });
+
 });
