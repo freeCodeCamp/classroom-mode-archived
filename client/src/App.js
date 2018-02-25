@@ -22,10 +22,18 @@ function DisplayUserInfo(props) {
 }
 
 class App extends Component {
-  state = {user_info: {}};
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      students: [],
+      errors: [],
+      user_info: {}
+    };
+  }
 
   componentDidMount() {
-    fetchStudentList();
+    this.fetchStudentList();
   }
 
   fetchStudentList(){

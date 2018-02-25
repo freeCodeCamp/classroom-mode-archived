@@ -3,7 +3,6 @@ import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({ adapter: new Adapter() });
 import ClassTable from './../ClassTable';
-import mockResponse from './mock/response';
 
 describe("ClassTable When Student List Is Empty", () => {
   let mountedClassTable;
