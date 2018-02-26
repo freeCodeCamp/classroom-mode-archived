@@ -16,9 +16,25 @@ describe("App", () => {
     return mountedApp;
   };
 
+  let studentObjects = [
+              {
+               "_id":"5a87b0f78706f6070dea47c7",
+               "name":"Bob",
+               "username":"utsab",
+               "email":"a@b.com",
+               "notes":"","__v":0
+              }
+            ]
+
   beforeAll(() =>{
     window.fetch = jest.fn().mockImplementation(function() {
-      return Promise.resolve(mockResponse(200, null, JSON.stringify([])));
+      return Promise.resolve(
+        mockResponse(
+          200,
+          null,
+          JSON.stringify(studentObjects)
+          )
+        );
     });
   });
 
@@ -39,4 +55,17 @@ describe("App", () => {
     expect(app().find(".ClassTable")).toHaveLength(1);
   });
 
+  it("fetches GET /students", () => {
+    const fetchSpy = jest.spyOn(window, 'fetch');
+    expect(fetchSpy).toHaveBeenCalledWith('/students');
+  });
+
+  it("passes students props to ClassTable", () => {
+    return app().instance().fetchStudentList().then().then(() => {
+      expect(app().instance().state.students).toEqual(studentObjects);
+    });
+    // return app().instance().componentDidMount().then(() => {
+    //   expect(app().find('ClassTable').props().students).toEqual(studentObjects)
+    // });
+  });
 });

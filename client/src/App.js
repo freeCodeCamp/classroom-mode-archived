@@ -33,7 +33,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.fetchStudentList();
+    return this.fetchStudentList();
   }
 
   fetchStudentList(){
