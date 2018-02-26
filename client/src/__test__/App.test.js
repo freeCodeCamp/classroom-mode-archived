@@ -61,11 +61,7 @@ describe("App", () => {
   });
 
   it("passes students props to ClassTable", () => {
-    return app().instance().fetchStudentList().then().then(() => {
-      expect(app().instance().state.students).toEqual(studentObjects);
-    });
-    // return app().instance().componentDidMount().then(() => {
-    //   expect(app().find('ClassTable').props().students).toEqual(studentObjects)
-    // });
+    expect(app().update().find('ClassTable').prop('students')).
+      toEqual(studentObjects)
   });
 });
