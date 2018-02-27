@@ -45,6 +45,7 @@ class AddStudentForm extends Component {
     .then(function(res){
       if (res.status === 200) {
         this.close();
+        this.fetchStudentsFromParent();
       } else {
         res.json().then(function(data){
           this.setState({ errors: data.errors });
@@ -61,9 +62,13 @@ class AddStudentForm extends Component {
     });
   }
 
+  fetchStudentsFromParent() {
+
+  }
+
   render() {
-  
-    
+
+
     return (
         <div className="AddStudentForm">
 
