@@ -92,4 +92,15 @@ describe("AddStudentForm", () => {
     addStudentFormComponentWrapperInstance.handleChange(event);
     expect(addStudentFormComponentWrapperInstance.state.username).toEqual('newValue');
   });
+
+  it("triggers the fetchStudentsFromParent upon form submission", async () => {
+    window.fetch = jest.fn().mockImplementation(function() {
+        return Promise.resolve(mockResponse(200, null, '{}'));
+      }
+    );
+    const fetchStudentsSpy = jest.spyOn(AddStudentForm.prototype, "fetchStudentsFromParent");
+    addStudentForm().find("button.open-modal").simulate('click');
+    await addStudentForm().find('button.submit').simulate('click');
+    expect(fetchStudentsSpy).toHaveBeenCalled();
+  });
 });
