@@ -63,7 +63,7 @@ class AddStudentForm extends Component {
   }
 
   fetchStudentsFromParent() {
-
+    this.props.fetchStudentList();
   }
 
   render() {
