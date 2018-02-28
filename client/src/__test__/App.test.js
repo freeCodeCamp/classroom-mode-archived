@@ -62,6 +62,13 @@ describe("App", () => {
 
   it("passes students props to ClassTable", () => {
     expect(app().update().find('ClassTable').prop('students')).
-      toEqual(studentObjects)
+      toEqual(studentObjects);
+  });
+
+  it("it passes fetchStudentList function to AddStudentForm ", () => {
+    expect(app().find('AddStudentForm').prop('fetchStudentList')).
+      toBeInstanceOf(Function);
+    expect(app().find('AddStudentForm').prop('fetchStudentList').name).
+      toEqual("fetchStudentList");
   });
 });
