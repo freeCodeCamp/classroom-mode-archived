@@ -69,7 +69,7 @@ class App extends Component {
           <input type="text" id="github-name-input"></input>
           <button onClick={this.handleSearch.bind(this)}>Search</button>
           <DisplayUserInfo user_info={this.state.user_info}/>
-          <AddStudentForm/>
+          <AddStudentForm fetchStudentList={this.fetchStudentList}/>
           <ClassTable students={this.state.students} errors={this.state.errors}/>
       </div>
     );
