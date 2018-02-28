@@ -11,7 +11,7 @@ describe("AddStudentForm", () => {
   const addStudentForm = () => {
     if (!mountedAddStudentForm) {
       mountedAddStudentForm = mount(
-        <AddStudentForm {...props} />
+        <AddStudentForm fetchStudentsFromParent={ () => {} }/>
       );
     }
     return mountedAddStudentForm;
@@ -98,7 +98,7 @@ describe("AddStudentForm", () => {
         return Promise.resolve(mockResponse(200, null, '{}'));
       }
     );
-    const fetchStudentsSpy = jest.spyOn(AddStudentForm.prototype, "bound fetchStudentsFromParent");
+    const fetchStudentsSpy = jest.spyOn(AddStudentForm.prototype, "_fetchStudentsFromParent");
     addStudentForm().find("button.open-modal").simulate('click');
     await addStudentForm().find('button.submit').simulate('click');
     expect(fetchStudentsSpy).toHaveBeenCalled();
