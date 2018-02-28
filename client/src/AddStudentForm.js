@@ -45,13 +45,17 @@ class AddStudentForm extends Component {
     .then(function(res){
       if (res.status === 200) {
         this.close();
-        this.props.fetchStudentsFromParent();
+        this._fetchStudentsFromParent();
       } else {
         res.json().then(function(data){
           this.setState({ errors: data.errors });
         }.bind(this));
       }
     }.bind(this));
+  }
+
+  _fetchStudentsFromParent() {
+    this.props.fetchStudentsFromParent();
   }
 
   handleChange(e) {

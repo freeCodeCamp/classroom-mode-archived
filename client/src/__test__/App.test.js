@@ -66,9 +66,9 @@ describe("App", () => {
   });
 
   it("it passes fetchStudentList function to AddStudentForm ", () => {
-    expect(app().find('AddStudentForm').prop('fetchStudentList')).
+    expect(app().find('AddStudentForm').prop('fetchStudentsFromParent')).
       toBeInstanceOf(Function);
-    expect(app().find('AddStudentForm').prop('fetchStudentList').name).
-      toEqual("fetchStudentList");
+    expect(app().find('AddStudentForm').prop('fetchStudentsFromParent').name).
+      toEqual("bound fetchStudentList");
   });
 });
