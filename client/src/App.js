@@ -36,17 +36,17 @@ class App extends Component {
     return this.fetchStudentList();
   }
 
-  fetchStudentList(){
+  fetchStudentList() {
     return fetch('/students')
-      .then(function(res) {
-        res.json().then(function(data){
+      .then((res) => {
+        res.json().then((data) => {
           if(data.length === 0){
             this.setState({ errors: ["classroom is empty"] });
           } else {
             this.setState({ students: data });
           }
-        }.bind(this));
-      }.bind(this));
+        });
+      });
   }
 
   handleSearch(e) {
@@ -57,9 +57,9 @@ class App extends Component {
 
     fetch('/users/' + githubName)
       .then(res => res.json())
-      .then(function(user_info) {
+      .then((user_info) => {
         this.setState({ user_info });
-      }.bind(this));
+      });
   };
 
   render() {
