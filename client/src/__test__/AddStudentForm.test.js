@@ -11,18 +11,13 @@ describe("AddStudentForm", () => {
   const addStudentForm = () => {
     if (!mountedAddStudentForm) {
       mountedAddStudentForm = mount(
-        <AddStudentForm {...props} />
+        <AddStudentForm fetchStudentsFromParent={ () => {} }/>
       );
     }
     return mountedAddStudentForm;
   }
 
   beforeEach(() => {
-    props = {
-      wallpaperPath: undefined,
-      userInfoMessage: undefined,
-      onUnlocked: undefined,
-    };
     mountedAddStudentForm = undefined;
   });
 
@@ -42,14 +37,14 @@ describe("AddStudentForm", () => {
     expect(addStudentForm().instance().state.showModal).toBe(false)
   });
 
-    
+
   it("should invoke submit() when submit button is clicked", () => {
-    
+
     window.fetch = jest.fn().mockImplementation(function() {
         return Promise.resolve(mockResponse(200, null, '{}'));
       }
     );
-    
+
     const submitSpy = jest.spyOn(AddStudentForm.prototype, 'submit');
 
     addStudentForm().find('button.open-modal').simulate('click');
@@ -66,12 +61,12 @@ describe("AddStudentForm", () => {
 
     addStudentForm().find('button.open-modal').simulate('click');
     await addStudentForm().find('button.submit').simulate('click');
-    
+
     expect(addStudentForm().instance().state.showModal).toBe(false);
   });
-  
-  
-  
+
+
+
   it("should show errors when submitting returns a 400 response", () => {
     window.fetch = jest.fn().mockImplementation(function() {
         return Promise.resolve(mockResponse(422, null, JSON.stringify({errors: ["Name is wrong", "Email is wrong"]})));
@@ -96,5 +91,16 @@ describe("AddStudentForm", () => {
     let addStudentFormComponentWrapperInstance = addStudentForm().instance();
     addStudentFormComponentWrapperInstance.handleChange(event);
     expect(addStudentFormComponentWrapperInstance.state.username).toEqual('newValue');
+  });
+
+  it("triggers the fetchStudentsFromParent upon form submission", async () => {
+    window.fetch = jest.fn().mockImplementation(function() {
+        return Promise.resolve(mockResponse(200, null, '{}'));
+      }
+    );
+    const fetchStudentsSpy = jest.spyOn(AddStudentForm.prototype, "_fetchStudentsFromParent");
+    addStudentForm().find("button.open-modal").simulate('click');
+    await addStudentForm().find('button.submit').simulate('click');
+    expect(fetchStudentsSpy).toHaveBeenCalled();
   });
 });

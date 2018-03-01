@@ -45,12 +45,17 @@ class AddStudentForm extends Component {
     .then(function(res){
       if (res.status === 200) {
         this.close();
+        this._fetchStudentsFromParent();
       } else {
         res.json().then(function(data){
           this.setState({ errors: data.errors });
         }.bind(this));
       }
     }.bind(this));
+  }
+
+  _fetchStudentsFromParent() {
+    this.props.fetchStudentsFromParent();
   }
 
   handleChange(e) {
@@ -62,11 +67,8 @@ class AddStudentForm extends Component {
   }
 
   render() {
-  
-    
     return (
         <div className="AddStudentForm">
-
             <Button className='open-modal'  bsSize="large" active onClick={this.open}>Add Student</Button>
             <Modal className='add-student-modal' show={this.state.showModal} onHide={this.close}>
               <Modal.Header closeButton>
