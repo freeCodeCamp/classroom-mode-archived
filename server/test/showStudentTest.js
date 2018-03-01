@@ -68,4 +68,8 @@ describe('GET /students', () => {
     })
   });
 
+  it('should fetch data from freecodecamp scraper', (done) => {
+
+  });
+
 });
