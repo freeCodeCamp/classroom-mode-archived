@@ -3,30 +3,10 @@ import StudentRow from './StudentRow';
 import Errors from './Errors';
 
 class ClassTable extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      errors: [],
-      students: []
-    }
-  }
-
-  componentDidMount() {
-    return fetch('/students')
-      .then(function(res) {
-        res.json().then(function(data){
-          if(data.length === 0){
-            this.setState({ errors: ["classroom is empty"] });
-          } else {
-            this.setState({ students: data });
-          }
-        }.bind(this));
-      }.bind(this));
-  }
 
   populateStudents() {
     let rows = [];
-    this.state.students.forEach((student, index) => {
+    this.props.students.forEach((student, index) => {
       rows.push((
         <StudentRow key={index}
             name={student.name}
@@ -59,10 +39,10 @@ class ClassTable extends Component {
   }
 
   render() {
-    const isStudentListEmpty = this.state.students.length === 0;
+    const isStudentListEmpty = this.props.students.length === 0;
     return (
       <div className="ClassTable">
-        {isStudentListEmpty ? <Errors errors={this.state.errors} /> : this.showTable() }
+        {isStudentListEmpty ? <Errors errors={this.props.errors} /> : this.showTable() }
       </div>
     );
   }
