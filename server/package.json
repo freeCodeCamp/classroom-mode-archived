@@ -8,17 +8,18 @@
   },
   "dependencies": {
     "body-parser": "~1.18.2",
+    "chai": "^4.1.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "hjs": "~0.0.6",
+    "mocha": "^4.0.1",
     "mongoose": "^4.13.4",
     "morgan": "~1.9.0",
     "request": "^2.83.0",
     "serve-favicon": "~2.4.5",
-    "chai": "^4.1.2",
-    "mocha": "^4.0.1",
-    "sinon": "^4.1.2"
+    "sinon": "^4.1.2",
+    "sinon-chai": "^2.14.0"
   },
   "devDependencies": {
     "supertest": "^3.0.0"
