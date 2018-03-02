@@ -3,6 +3,7 @@ var sinon = require('sinon');
 var app = require('../app');
 var request = require('supertest');
 var db = require('../routes/helpers/database_singleton').getDbInstance();
+var scraper = require('../routes/helpers/scraper');
 
 var sandbox = sinon.sandbox.create();
 
@@ -69,7 +70,11 @@ describe('GET /students', () => {
   });
 
   it('should fetch data from freecodecamp scraper', (done) => {
-
+    var sandbox = sinon.sandbox.create();
+    var get = sandbox.stub(request, "get");
+    get.yieldsOn(this, null, {statusCode:400}, "{}");
+    var spy = sinon.spy(scraper, "fetchUserInfoFromFCC");
+    console.log(scraper.fetchUserInfoFromFCC);
   });
 
 });
