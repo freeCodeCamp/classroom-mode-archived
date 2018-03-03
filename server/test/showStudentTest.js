@@ -71,11 +71,20 @@ describe('GET /students', () => {
     })
   });
 
-  it('should fetch data from freecodecamp scraper', (done) => {
-    var fetchUserSpy = sinon.spy(scraper, "fetchUserInfoFromFCC");
+
+  it('should look up student github username', (done) => {
+    var fetchUserSpy = sandbox.spy(scraper, "fetchUserInfoFromFCC");
+    var dummyStudentResults = [{ _id: "5a28cd1b1805592081cd31ea",
+      name: 'studentName',
+      username: 'studentUserName',
+      email: 'studentEmail',
+      notes: 'studentNote',
+      __v: 0 }];
+    stubDB(dummyStudentResults);
     request(app).get("/students").end(function(_err, res) {
-      expect(fetchUserSpy).to.have.been.called;
+      expect(fetchUserSpy).to.have.been.calledWith("studentUserName");
+      expect(JSON.parse(res.text)[0].daysInactive).to.equal(1);
       done();
-    });
+    })
   });
 });
