@@ -73,7 +73,9 @@ describe('GET /students', () => {
 
 
   it('should look up student github username', (done) => {
-    var fetchUserSpy = sandbox.spy(scraper, "fetchUserInfoFromFCC");
+    var fetchUserSpy = sandbox.
+      stub(scraper, "fetchUserInfoFromFCC").
+      yields(false, {daysInactive: 1});
     var dummyStudentResults = [{ _id: "5a28cd1b1805592081cd31ea",
       name: 'studentName',
       username: 'studentUserName',
@@ -85,6 +87,6 @@ describe('GET /students', () => {
       expect(fetchUserSpy).to.have.been.calledWith("studentUserName");
       expect(JSON.parse(res.text)[0].daysInactive).to.equal(1);
       done();
-    })
+    });
   });
 });
