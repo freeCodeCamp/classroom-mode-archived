@@ -27,6 +27,13 @@ describe('GET /students', () => {
     });
   }
 
+  function stubScraper(studentObject) {
+
+    sandbox.stub(scraper, "fetchUserInfoFromFCC").
+    yields(false, {daysInactive: 1})
+
+  }
+
 
   it('should return 200', (done) => {
     var dummyStudentResults = [{ _id: "5a28cd1b1805592081cd31ea",
@@ -36,6 +43,7 @@ describe('GET /students', () => {
       notes: 'studentNote',
       __v: 0 }];
     stubDB(dummyStudentResults);
+    stubScraper(dummyStudentResults);
     request(app)
       .get('/students')
       .end(function(_err, res) {
