@@ -14,7 +14,6 @@ afterEach(function(){
 });
 
 describe('GET /students', () => {
-
   function stubDB(dummyStudentResults) {
     sandbox.stub(db, "collection").returns({
       find: function() {
@@ -28,10 +27,11 @@ describe('GET /students', () => {
   }
 
   function stubScraper(error, scraperResponse) {
-    sandbox.stub(scraper, "fetchUserInfoFromFCC").
-    yields(error, scraperResponse);
+    var stubFunction = sandbox.stub(scraper, "fetchUserInfoFromFCC");
+    setTimeout(function(){
+      stubFunction.yields(error, scraperResponse)
+    }, 500);
   }
-
 
   it('should return 200', (done) => {
     var dummyStudentResults = [{ _id: "5a28cd1b1805592081cd31ea",
@@ -77,7 +77,6 @@ describe('GET /students', () => {
       done();
     });
   });
-
 
   it('should look up student github username', (done) => {
     stubScraper(false, {daysInactive: 1});
