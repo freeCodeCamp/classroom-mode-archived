@@ -27,10 +27,7 @@ describe('GET /students', () => {
   }
 
   function stubScraper(error, scraperResponse) {
-    var stubFunction = sandbox.stub(scraper, "fetchUserInfoFromFCC");
-    setTimeout(function(){
-      stubFunction.yields(error, scraperResponse)
-    }, 500);
+    sandbox.stub(scraper, "fetchUserInfoFromFCC").yieldsAsync(error, scraperResponse);
   }
 
   it('should return 200', (done) => {
