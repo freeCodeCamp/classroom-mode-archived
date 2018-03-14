@@ -13,6 +13,7 @@ class ClassTable extends Component {
             username={student.username}
             email={student.email}
             notes={student.notes}
+            daysInactive={student.daysInactive}
         />
       ));
     });
@@ -29,6 +30,7 @@ class ClassTable extends Component {
               <th>Username</th>
               <th>Email</th>
               <th>Notes</th>
+              <th>Days Inactive</th>
             </tr>
           </thead>
           <tbody>
