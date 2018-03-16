@@ -22,7 +22,9 @@ describe("App", () => {
                "name":"Bob",
                "username":"utsab",
                "email":"a@b.com",
-               "notes":"","__v":0
+               "notes":"",
+               "__v":0,
+               "daysInactive": 1
               }
             ]
 
@@ -63,6 +65,8 @@ describe("App", () => {
   it("passes students props to ClassTable", () => {
     expect(app().update().find('ClassTable').prop('students')).
       toEqual(studentObjects);
+    expect(app().update().find('ClassTable').prop('students')[0].daysInactive).
+      toEqual(1);
   });
 
   it("it passes fetchStudentList function to AddStudentForm ", () => {
