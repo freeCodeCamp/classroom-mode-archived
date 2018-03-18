@@ -90,6 +90,8 @@ describe('POST /add_student', () => {
       });
   });
 
+  // FIXME: Intended to test if we were able to save completedChallengesCount and completedChallengesTitle
+  // to db but unit test might not serve the purpose
   it('should save completedChallengesCount and completedChallengesTitle when saving students', (done) => {
     let student = {
       "_id": "5a9f752384675412f4cac45b",
