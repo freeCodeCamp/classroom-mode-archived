@@ -3,17 +3,14 @@ var sinon = require('sinon');
 var app = require('../app');
 var request = require('supertest');
 var serverRequestToScraper = require('request');
-var validateHelper = require('../routes/helpers/validateGithub');
+var scraper = require('../routes/helpers/scraper');
 var Student = require('../routes/helpers/studentSchema');
 
 var sandbox = sinon.sandbox.create();
 
 afterEach(function(){
-   sandbox.restore(); 
+   sandbox.restore();
 });
-  
-  
-  
 
 describe('POST /add_student', () => {
   it('should return an error if student name is absent', (done) => {
@@ -40,13 +37,9 @@ describe('POST /add_student', () => {
       });
   });
 
-  it('should receive an error message if scraper returns a non-200 response,', (done) => {
- 
-    var get = sandbox.stub(serverRequestToScraper, "get");
-   
-    get.yieldsOn(this, null, {statusCode:404}, "{}");
-   
-    
+  it('should receive an error message if scraper returns error,', (done) => {
+    var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
+    fetchUserInfoFromFCC.yieldsOn(true, "{}");
 
     request(app)
       .post('/add_student')
@@ -58,15 +51,13 @@ describe('POST /add_student', () => {
         done();
       });
   });
-  
+
   it('should call the mongoose save method when all fields are valid', (done) => {
- 
-    var get = sandbox.stub(serverRequestToScraper, "get");
-    get.yieldsOn(this, null, {statusCode: 200}, "{}");
-    
-    var save = sandbox.stub(Student.prototype, "save");
+    var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
+    fetchUserInfoFromFCC.yieldsOn(false, "{}");
+    let save = sandbox.stub(Student.prototype, "save");
     save.callsFake(function fakeFn(callback) {
-      callback(); 
+      callback();
     });
 
     request(app)
@@ -79,17 +70,13 @@ describe('POST /add_student', () => {
         done();
       });
   });
-  
-  
-    
+
   it('should not call the mongoose save method username is invalid', (done) => {
- 
-    var get = sandbox.stub(serverRequestToScraper, "get");
-    get.yieldsOn(this, null, {statusCode: 404}, "{}");
-    
-    var save = sandbox.stub(Student.prototype, "save");
+    var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
+    fetchUserInfoFromFCC.yieldsOn(true, "{}");
+    let save = sandbox.stub(Student.prototype, "save");
     save.callsFake(function fakeFn(callback) {
-      callback(); 
+      callback();
     });
 
     request(app)
@@ -99,6 +86,50 @@ describe('POST /add_student', () => {
       .end(function(_err, res){
         expect(JSON.parse(res.text).errors).to.include("freeCodeCamp username is invalid.");
         expect(save.notCalled);
+        done();
+      });
+  });
+
+  it('should save completedChallengesCount and completedChallengesTitle when saving students', (done) => {
+    let student = {
+      "_id": "5a9f752384675412f4cac45b",
+      "name": "tom",
+      "username": "user512",
+      "email": "user@freecodecamp.com",
+      "notes": "",
+      "__v": 0,
+      "daysInactive": 3,
+      "completedChallengesCount": 2,
+      "completedChallenges": [
+        {
+          "title": "Build a Tribute Page",
+          "completed_at": "Apr 02, 2017",
+          "updated_at": "",
+          "url": "https://www.freecodecamp.com/challenges/Build a Tribute Page"
+        },
+        {
+          "title": "Reverse a String",
+          "completed_at": "May 13, 2017",
+          "updated_at": "",
+          "url": "https://www.freecodecamp.comundefined"
+        }
+      ]
+    };
+
+    let save = sandbox.stub(Student.prototype, "save");
+    save.callsFake(function fakeFn(callback) {
+      callback();
+    });
+
+    var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
+    fetchUserInfoFromFCC.yieldsOn(false, student);
+
+    request(app)
+      .post('/add_student')
+      .send({ name: 'tom', email: 'user@freecodecamp.com', username: 'user512' })
+      .expect(200)
+      .end(function(_err, res){
+        expect(save.calledOnce);
         done();
       });
   });
