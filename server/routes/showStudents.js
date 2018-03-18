@@ -15,8 +15,10 @@ router.get('/', function(req, res) {
       scraper.fetchUserInfoFromFCC(student.username, function(_err, fccResults){
         student.daysInactive = fccResults.daysInactive;
         if (fccResults.completedChallenges) {
-          student.completedChallengesCount = fccResults.completedChallenges.length;
-          student.completedChallenges = fccResults.completedChallenges;
+          let completedChallengesCount =
+            student.completedChallengesCount ? student.completedChallengesCount : 0;
+          student.newSubmissionsCount =
+            fccResults.completedChallenges.length - completedChallengesCount;
         }
         numResponsesReceived++;
         if (numResponsesReceived >= numStudents) {

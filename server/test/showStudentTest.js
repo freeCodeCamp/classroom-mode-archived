@@ -90,7 +90,7 @@ describe('GET /students', () => {
     });
   });
 
-  it('should returns completedChallenges count and titles', (done) => {
+  it('should returns new submissions count and titles', (done) => {
     stubScraper(
       false,
       {
@@ -104,12 +104,35 @@ describe('GET /students', () => {
       username: 'studentUserName',
       email: 'studentEmail',
       notes: 'studentNote',
-      __v: 0 }];
+      completedChallengesCount: 1,
+      __v: 0
+    }];
     stubDB(dummyStudentResults);
     request(app).get("/students").end(function(_err, res) {
-      expect(JSON.parse(res.text)[0].completedChallengesCount).to.equal(2);
-      expect(JSON.parse(res.text)[0].completedChallenges[0].title).to.equal('Reverse a String');
-      expect(JSON.parse(res.text)[0].completedChallenges[1].title).to.equal('Say Hello to HTML Elements');
+      expect(JSON.parse(res.text)[0].newSubmissionsCount).to.equal(1);
+      done();
+    });
+  });
+
+  it('should returns new submissions count and titles when student completedChallengesCount is undefined', (done) => {
+    stubScraper(
+      false,
+      {
+        completedChallenges: [
+          { title: 'Reverse a String' },
+          { title: 'Say Hello to HTML Elements' }
+          ]
+      });
+    var dummyStudentResults = [{ _id: "5a28cd1b1805592081cd31ea",
+      name: 'studentName',
+      username: 'studentUserName',
+      email: 'studentEmail',
+      notes: 'studentNote',
+      __v: 0
+    }];
+    stubDB(dummyStudentResults);
+    request(app).get("/students").end(function(_err, res) {
+      expect(JSON.parse(res.text)[0].newSubmissionsCount).to.equal(2);
       done();
     });
   });
