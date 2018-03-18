@@ -9,6 +9,7 @@ class StudentRow extends Component {
         <td>{this.props.email}</td>
         <td>{this.props.notes}</td>
         <td>{this.props.daysInactive}</td>
+        <td>{this.props.newSubmissionsCount}</td>
       </tr>
     );
   }
