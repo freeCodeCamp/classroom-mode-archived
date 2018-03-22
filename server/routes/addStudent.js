@@ -6,35 +6,35 @@ var validateGithubUsername = require('./helpers/validateGithub').validateGithubU
 
 router.post('/', function(req, res) {
     console.log('in actual code');
-    var errors = []; 
-    
+    var errors = [];
+
     if (!req.body.name) {
-        errors.push("Name is required."); 
+        errors.push("Name is required.");
     }
-    
+
     if (!req.body.username) {
-        errors.push("Username is required."); 
+        errors.push("Username is required.");
     }
-    
+
     let email = req.body.email;
-    let emailValidationError = validateEmail(email); 
-    
+    let emailValidationError = validateEmail(email);
+
     if (emailValidationError) {
-        errors.push(emailValidationError); 
+        errors.push(emailValidationError);
     }
-    
+
     if (errors.length > 0) {
         res.status(422).json({'errors': errors});
-        return; 
+        return;
     }
-    
+
     var student = new Student({
         name: req.body.name,
         username: req.body.username,
         email: email,
         notes: req.body.notes
     });
-    
+
     validateGithubUsername(req.body.username, function(isValid) {
       if (isValid === true) {
         student.save(function(err, fluffy) {
@@ -49,6 +49,24 @@ router.post('/', function(req, res) {
     });
 });
 
+router.post('/check', function(req, res) {
+  var username = req.body.username;
+  var email = req.body.email;
+
+  Student.findOne({$or: [{'username': username}, {'email':email}]},
+    function(err, Student) {
+      if (err)
+        return console.error(err);
+      if (Student) {
+        return res
+                .status(401)
+                .json({'errors': ['This student is already added']});
+      } else {
+        res.sendStatus(200);
+      }
+    }
+  );
+});
 
 function validateEmail(email) {
     let re = /\S+@\S+\.\S+/;

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import AddStudentForm from './AddStudentForm';
 import ClassTable from './ClassTable';
-
+import NavbarComponent from './components/Navbar';
 
 function DisplayUserInfo(props) {
      if (props.user_info.name) {
@@ -20,6 +19,8 @@ function DisplayUserInfo(props) {
         );
      }
 }
+
+const NotFound = () => (<h1>404.. This page is not found!</h1>);
 
 class App extends Component {
 
@@ -65,6 +66,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <NavbarComponent/>
         <h1>User Info</h1>
           <input type="text" id="github-name-input"></input>
           <button onClick={this.handleSearch.bind(this)}>Search</button>

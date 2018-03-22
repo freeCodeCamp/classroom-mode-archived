@@ -19,6 +19,7 @@ class AddStudentForm extends Component {
     };
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
+    this.isAlreadyAdded = this.isAlreadyAdded.bind(this);
     this.submit = this.submit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -29,6 +30,28 @@ class AddStudentForm extends Component {
 
   open() {
     this.setState({showModal: true});
+  }
+
+  isAlreadyAdded() {
+    return fetch('/add_student/check', {
+      method: 'post',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        username: this.state.username,
+        email: this.state.email,
+      })
+    })
+    .then(function(res) {
+      if (res.status === 200) {
+        this.close();
+        this._fetchStudentsFromParent();
+      } else {
+        res.json().then(function(data) {
+          this.setState({ errors: data.errors });
+
+        }.bind(this));
+      }
+    }.bind(this));
   }
 
   submit() {
@@ -93,14 +116,16 @@ class AddStudentForm extends Component {
                     <FormControl type="text"
                                  name="username"
                                  value={this.state.username}
-                                 onChange={this.handleChange}/>
+                                 onChange={this.handleChange}
+                                 onBlur={this.isAlreadyAdded}/>
                   </FormGroup>
                   <FormGroup controlId="email">
                     <ControlLabel>Email: </ControlLabel>
                     <FormControl type="text"
                                  name="email"
                                  value={this.state.email}
-                                 onChange={this.handleChange}/>
+                                 onChange={this.handleChange}
+                                 onBlur={this.isAlreadyAdded}/>
                   </FormGroup>
                   <FormGroup controlId="Notes">
                     <ControlLabel>Notes: </ControlLabel>
