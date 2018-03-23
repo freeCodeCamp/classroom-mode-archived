@@ -126,12 +126,20 @@ describe('POST /add_student', () => {
     var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
     fetchUserInfoFromFCC.yieldsOn(false, student);
 
+    // var studentConstructor = sinon.createStubInstance(Student);
+
+    var StudentClass = exports.Student = Student;
+
+    var studentConstructor = sinon.spy(exports, 'Student');
+
+
     request(app)
       .post('/add_student')
       .send({ name: 'tom', email: 'user@freecodecamp.com', username: 'user512' })
       .expect(200)
       .end(function(_err, res){
         expect(save.calledOnce);
+        expect(studentConstructor.calledOnce);
         done();
       });
   });
