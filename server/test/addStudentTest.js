@@ -38,7 +38,7 @@ describe('POST /add_student', () => {
 
   it('should receive an error message if scraper returns error,', (done) => {
     var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
-    fetchUserInfoFromFCC.yieldsOn(true, "{}");
+    fetchUserInfoFromFCC.yields(true, "{}");
 
     request(app)
       .post('/add_student')
@@ -52,7 +52,7 @@ describe('POST /add_student', () => {
 
   it('should call the mongoose save method when all fields are valid', (done) => {
     var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
-    fetchUserInfoFromFCC.yieldsOn(false, "{}");
+    fetchUserInfoFromFCC.yields(false, "{}");
     let save = sandbox.stub(Student.prototype, "save");
     save.callsFake(function fakeFn(callback) {
       callback();
@@ -70,7 +70,7 @@ describe('POST /add_student', () => {
 
   it('should not call the mongoose save method username is invalid', (done) => {
     var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
-    fetchUserInfoFromFCC.yieldsOn(true, "{}");
+    fetchUserInfoFromFCC.yields(true, "{}");
     let save = sandbox.stub(Student.prototype, "save");
     save.callsFake(function fakeFn(callback) {
       callback();
@@ -121,14 +121,13 @@ describe('POST /add_student', () => {
     });
 
     var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
-    fetchUserInfoFromFCC.yieldsOn(false, student);
+    fetchUserInfoFromFCC.yields(false, student);
 
     // var studentConstructor = sinon.createStubInstance(Student);
 
     var StudentClass = exports.Student = Student;
 
     var studentConstructor = sinon.spy(exports, 'Student');
-
 
     request(app)
       .post('/add_student')
