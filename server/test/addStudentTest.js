@@ -16,8 +16,8 @@ describe('POST /add_student', () => {
   it('should return an error if student name is absent', (done) => {
     request(app)
       .post('/add_student')
-      .expect(422)
       .end(function(_err, res){
+        expect(res.statusCode).to.equal(422)
         expect(JSON.parse(res.text).errors).to.include('Name is required.');
         expect(JSON.parse(res.text).errors).to.include('Email is required.');
         expect(JSON.parse(res.text).errors).to.include('Username is required.');
@@ -29,9 +29,8 @@ describe('POST /add_student', () => {
     request(app)
       .post('/add_student')
       .send({ email: 'userfreecodecampcom' })
-      .expect(422)
       .end(function(_err, res){
-        console.log(res.text);
+        expect(res.statusCode).to.equal(422);
         expect(JSON.parse(res.text).errors).to.include('Email is invalid.');
         done();
       });
@@ -44,9 +43,8 @@ describe('POST /add_student', () => {
     request(app)
       .post('/add_student')
       .send({ name: 'fccStudent', email: 'user@freecodecamp.com', username: 'invalidUsername' })
-      .expect(422)
       .end(function(_err, res){
-        console.log(res.text);
+        expect(res.statusCode).to.equal(422);
         expect(JSON.parse(res.text).errors).to.include('freeCodeCamp username is invalid.');
         done();
       });
@@ -63,9 +61,8 @@ describe('POST /add_student', () => {
     request(app)
       .post('/add_student')
       .send({ name: 'fccStudent', email: 'user@freecodecamp.com', username: 'anyusername' })
-      .expect(200)
       .end(function(_err, res){
-        console.log(res.text);
+        expect(res.statusCode).to.equal(200);
         expect(save.calledOnce);
         done();
       });
@@ -82,8 +79,8 @@ describe('POST /add_student', () => {
     request(app)
       .post('/add_student')
       .send({ name: 'fccStudent', email: 'user@freecodecamp.com', username: 'invalidusername' })
-      .expect(422)
       .end(function(_err, res){
+        expect(res.statusCode).to.equal(422);
         expect(JSON.parse(res.text).errors).to.include("freeCodeCamp username is invalid.");
         expect(save.notCalled);
         done();
@@ -136,9 +133,8 @@ describe('POST /add_student', () => {
     request(app)
       .post('/add_student')
       .send({ name: 'tom', email: 'user@freecodecamp.com', username: 'user512' })
-      .expect(200)
       .end(function(_err, res){
-        expect(save.calledOnce);
+        expect(res.statusCode).to.equal(200);
         expect(studentConstructor.calledOnce);
         done();
       });
