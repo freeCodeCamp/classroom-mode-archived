@@ -35,7 +35,8 @@ router.post('/', function(req, res) {
           username: req.body.username,
           email: email,
           notes: req.body.notes,
-          completedChallengesCount: fccResults.completedChallenges.length,
+          completedChallengesCount:
+            fccResults.completedChallenges && fccResults.completedChallenges.length,
           completedChallenges: fccResults.completedChallenges
         });
         student.save(function(err, fluffy) {
