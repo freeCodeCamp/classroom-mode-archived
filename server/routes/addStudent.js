@@ -39,8 +39,11 @@ router.post('/', function(req, res) {
             fccResults.completedChallenges && fccResults.completedChallenges.length,
           completedChallenges: fccResults.completedChallenges
         });
-        student.save(function(err, fluffy) {
-          if (err) return console.error(err);
+        student.save(function(err) {
+          if (err) {
+            console.log('Student saved failed', student);
+            res.sendStatus(500);
+          }
           console.log(student);
           res.sendStatus(200);
         });
