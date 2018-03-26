@@ -54,27 +54,23 @@ describe('POST /add_student', () => {
     var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
     fetchUserInfoFromFCC.yields(false, "{}");
     let save = sandbox.stub(Student.prototype, "save");
-    save.callsFake(function fakeFn(callback) {
-      callback();
-    });
+    save.yields(false);
 
     request(app)
       .post('/add_student')
       .send({ name: 'fccStudent', email: 'user@freecodecamp.com', username: 'anyusername' })
       .end(function(_err, res){
         expect(res.statusCode).to.equal(200);
-        expect(save.calledOnce);
+        expect(save).to.have.been.calledOnce;
         done();
       });
   });
 
-  it('should not call the mongoose save method username is invalid', (done) => {
+  it('should not call the mongoose save method when username is invalid', (done) => {
     var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
     fetchUserInfoFromFCC.yields(true, "{}");
     let save = sandbox.stub(Student.prototype, "save");
-    save.callsFake(function fakeFn(callback) {
-      callback();
-    });
+    save.yields(false);
 
     request(app)
       .post('/add_student')
@@ -82,7 +78,7 @@ describe('POST /add_student', () => {
       .end(function(_err, res){
         expect(res.statusCode).to.equal(422);
         expect(JSON.parse(res.text).errors).to.include("freeCodeCamp username is invalid.");
-        expect(save.notCalled);
+        expect(save).to.not.have.been.called;
         done();
       });
   });
@@ -115,18 +111,12 @@ describe('POST /add_student', () => {
       ]
     };
 
-    let save = sandbox.stub(Student.prototype, "save");
-    save.callsFake(function fakeFn(callback) {
-      callback();
-    });
-
     var fetchUserInfoFromFCC = sandbox.stub(scraper, "fetchUserInfoFromFCC");
     fetchUserInfoFromFCC.yields(false, student);
-
-    // var studentConstructor = sinon.createStubInstance(Student);
+    let save = sandbox.stub(Student.prototype, "save");
+    save.yields(false);
 
     var StudentClass = exports.Student = Student;
-
     var studentConstructor = sinon.spy(exports, 'Student');
 
     request(app)
@@ -135,6 +125,7 @@ describe('POST /add_student', () => {
       .end(function(_err, res){
         expect(res.statusCode).to.equal(200);
         expect(studentConstructor.calledOnce);
+        expect(save).to.have.been.calledOnce;
         done();
       });
   });
