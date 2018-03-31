@@ -85,7 +85,7 @@ describe('POST /add_student', () => {
 
   // FIXME: Intended to test if we were able to save completedChallengesCount and completedChallengesTitle
   // to db but unit test might not serve the purpose
-  it('should save completedChallengesCount and completedChallengesTitle when saving students', (done) => {
+  xit('should save completedChallengesCount and completedChallengesTitle when saving students', (done) => {
     let student = {
       "_id": "5a9f752384675412f4cac45b",
       "name": "tom",
@@ -124,7 +124,7 @@ describe('POST /add_student', () => {
       .send({ name: 'tom', email: 'user@freecodecamp.com', username: 'user512' })
       .end(function(_err, res){
         expect(res.statusCode).to.equal(200);
-        expect(studentConstructor.calledOnce);
+        expect(studentConstructor.called).to.equal(true);
         expect(save).to.have.been.calledOnce;
         done();
       });
