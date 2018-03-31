@@ -2,43 +2,48 @@ var express = require('express');
 var router = express.Router();
 var databaseModule = require('./helpers/database_singleton');
 var Student = require('./helpers/studentSchema');
-var validateGithubUsername = require('./helpers/validateGithub').validateGithubUsername;
+var scraper = require('./helpers/scraper');
 
 router.post('/', function(req, res) {
     console.log('in actual code');
-    var errors = []; 
-    
+    var errors = [];
+
     if (!req.body.name) {
-        errors.push("Name is required."); 
+        errors.push("Name is required.");
     }
-    
+
     if (!req.body.username) {
-        errors.push("Username is required."); 
+        errors.push("Username is required.");
     }
-    
+
     let email = req.body.email;
-    let emailValidationError = validateEmail(email); 
-    
+    let emailValidationError = validateEmail(email);
+
     if (emailValidationError) {
-        errors.push(emailValidationError); 
+        errors.push(emailValidationError);
     }
-    
+
     if (errors.length > 0) {
         res.status(422).json({'errors': errors});
-        return; 
+        return;
     }
-    
-    var student = new Student({
-        name: req.body.name,
-        username: req.body.username,
-        email: email,
-        notes: req.body.notes
-    });
-    
-    validateGithubUsername(req.body.username, function(isValid) {
-      if (isValid === true) {
-        student.save(function(err, fluffy) {
-          if (err) return console.error(err);
+
+    scraper.fetchUserInfoFromFCC(req.body.username, function(error, fccResults) {
+      if (!error) {
+        let student = new Student({
+          name: req.body.name,
+          username: req.body.username,
+          email: email,
+          notes: req.body.notes,
+          completedChallengesCount:
+            fccResults.completedChallenges && fccResults.completedChallenges.length,
+          completedChallenges: fccResults.completedChallenges
+        });
+        student.save(function(err) {
+          if (err) {
+            console.log('Student saved failed', student);
+            res.sendStatus(500);
+          }
           console.log(student);
           res.sendStatus(200);
         });
