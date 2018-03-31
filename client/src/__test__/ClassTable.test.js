@@ -34,7 +34,18 @@ describe("ClassTable When Student List Is Not Empty", () => {
   const classTable = () => {
     if (!mountedClassTable) {
       mountedClassTable = mount(
-        <ClassTable students={[{name: "Utsab", username: "utsab", email: "kdj@dfj", notes: "kdlfj", daysInactive: 1}]} />
+        <ClassTable students={
+          [
+            {
+              name: "Utsab",
+              username: "utsab",
+              email: "kdj@dfj",
+              notes: "kdlfj",
+              daysInactive: 1,
+              newSubmissionsCount: 2
+            }
+          ]
+        } />
       );
     }
     return mountedClassTable;
@@ -43,13 +54,14 @@ describe("ClassTable When Student List Is Not Empty", () => {
   it("populates student data as a table", () => {
     expect(classTable().find('.students').length).toEqual(1);
     expect(classTable().find('table').length).toEqual(1);
-    expect(classTable().find('th').length).toEqual(5);
-    expect(classTable().find('td').length).toEqual(5);
+    expect(classTable().find('th').length).toEqual(6);
+    expect(classTable().find('td').length).toEqual(6);
     expect(classTable().find('tr').last().childAt(0).text()).toEqual('Utsab');
     expect(classTable().find('tr').last().childAt(1).text()).toEqual('utsab');
     expect(classTable().find('tr').last().childAt(2).text()).toEqual('kdj@dfj');
     expect(classTable().find('tr').last().childAt(3).text()).toEqual('kdlfj');
     expect(classTable().find('tr').last().childAt(4).text()).toEqual('1');
+    expect(classTable().find('tr').last().childAt(5).text()).toEqual('2');
   });
 
   it("does not render errors div", () => {

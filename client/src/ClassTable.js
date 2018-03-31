@@ -14,6 +14,7 @@ class ClassTable extends Component {
             email={student.email}
             notes={student.notes}
             daysInactive={student.daysInactive}
+            newSubmissionsCount ={student.newSubmissionsCount}
         />
       ));
     });
@@ -31,6 +32,7 @@ class ClassTable extends Component {
               <th>Email</th>
               <th>Notes</th>
               <th>Days Inactive</th>
+              <th>New Submissions</th>
             </tr>
           </thead>
           <tbody>
