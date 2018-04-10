@@ -49,6 +49,10 @@ describe("App", () => {
     expect(divs.length).toBeGreaterThan(0);
   });
 
+  it("always render NavBar", () => {
+    expect(app().find(".NavBar")).toHaveLength(1);
+  });
+
   it("always render AddStudentForm", () => {
     expect(app().find(".AddStudentForm")).toHaveLength(1);
   });
