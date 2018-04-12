@@ -4,6 +4,7 @@ import { Button,
          FormGroup,
          ControlLabel,
          FormControl } from 'react-bootstrap';
+import './AddStudentForm.css';
 
 
 class AddStudentForm extends Component {
@@ -66,10 +67,23 @@ class AddStudentForm extends Component {
     });
   }
 
+  renderStudentCount() {
+    let message;
+    if (this.props.studentLength > 1) {
+      message = `${this.props.studentLength} students`;
+    } else {
+      message = `${this.props.studentLength} student`;
+    }
+    return (<div id="student-count">{message}</div>);
+  }
+
   render() {
     return (
         <div className="AddStudentForm">
-            <Button className='open-modal'  bsSize="large" active onClick={this.open}>Add Student</Button>
+            <div className='class-table-button-container'>
+              <Button className='open-modal' bsStyle="success" bsSize="large" active onClick={this.open}>Add Student</Button>
+              {this.renderStudentCount()}
+            </div>
             <Modal className='add-student-modal' show={this.state.showModal} onHide={this.close}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Student</Modal.Title>

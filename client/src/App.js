@@ -38,7 +38,7 @@ class App extends Component {
     return (
       <div className="App">
         <NavBar />
-        <AddStudentForm fetchStudentsFromParent={this.fetchStudentList.bind(this)}/>
+        <AddStudentForm studentLength={this.state.students.length} fetchStudentsFromParent={this.fetchStudentList.bind(this)}/>
         <ClassTable students={this.state.students} errors={this.state.errors}/>
       </div>
     );
