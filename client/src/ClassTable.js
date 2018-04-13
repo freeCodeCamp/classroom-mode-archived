@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './ClassTable.css';
+import { Table } from 'react-bootstrap';
 import StudentRow from './StudentRow';
 import Errors from './Errors';
 
@@ -24,7 +26,7 @@ class ClassTable extends Component {
 
   showTable() {
     return (
-      <table className="students table text-center">
+      <Table striped bordered condensed responsive className="students table text-center">
           <thead>
             <tr>
               <th>Name</th>
@@ -38,7 +40,7 @@ class ClassTable extends Component {
           <tbody>
             {this.populateStudents()}
           </tbody>
-        </table>
+        </Table>
       );
   }
 
