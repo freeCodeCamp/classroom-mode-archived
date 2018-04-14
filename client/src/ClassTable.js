@@ -26,7 +26,7 @@ class ClassTable extends Component {
 
   showTable() {
     return (
-      <Table striped bordered condensed responsive className="students table text-center">
+      <Table condensed responsive className="students table">
           <thead>
             <tr>
               <th>Name</th>
