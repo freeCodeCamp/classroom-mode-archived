@@ -1,0 +1,15 @@
+.class-table-button-container {
+  background-color: #E0E0E0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.open-modal {
+  margin-left: 120px;
+}
+
+#student-count {
+  margin-left: auto;
+  margin-right: 120px;
+}

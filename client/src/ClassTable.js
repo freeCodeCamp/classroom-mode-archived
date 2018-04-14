@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './ClassTable.css';
 import StudentRow from './StudentRow';
 import Errors from './Errors';
 
@@ -24,7 +25,7 @@ class ClassTable extends Component {
 
   showTable() {
     return (
-      <table className="students table text-center">
+      <table className="students table">
           <thead>
             <tr>
               <th>Name</th>
