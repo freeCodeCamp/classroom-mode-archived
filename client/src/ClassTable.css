@@ -1,3 +1,6 @@
-.students th {
-  text-align: center;
+
+.students {
+  margin: 24px auto;
+  width: 80%;
 }
+
