@@ -9,7 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var addStudent = require('./routes/addStudent');
 var showStudents = require('./routes/showStudents');
-
+var passport = require('passport');
 var app = express();
 
 // view engine setup
@@ -31,6 +31,31 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 app.use('/users', users);
 app.use('/add_student', addStudent);
 app.use('/students', showStudents);
+
+var GitHubStrategy = require('passport-github').Strategy;
+
+passport.use(new GitHubStrategy({
+    clientID: 'GITHUB_CLIENT_ID',
+    clientSecret: 'GITHUB_CLIENT_SECRET',
+    callbackURL: "http://class-organization-cap-cullenm.c9users.io:8081/auth/github/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    console.log(profile);
+    // User.findOrCreate({ githubId: profile.id }, function (err, user) {
+    //   return cb(err, user);
+    // });
+  }
+));
+
+app.get('/auth/github',
+  passport.authenticate('github'));
+
+app.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
