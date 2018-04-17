@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var addStudent = require('./routes/addStudent');
 var showStudents = require('./routes/showStudents');
 var passport = require('passport');
+var keys = require('./config/keys')
 var app = express();
 
 // view engine setup
@@ -35,9 +36,9 @@ app.use('/students', showStudents);
 var GitHubStrategy = require('passport-github').Strategy;
 
 passport.use(new GitHubStrategy({
-    clientID: 'GITHUB_CLIENT_ID',
-    clientSecret: 'GITHUB_CLIENT_SECRET',
-    callbackURL: "http://class-organization-cap-cullenm.c9users.io:8081/auth/github/callback"
+    clientID: keys.githubClientID,
+    clientSecret: keys.githubClientSecret,
+    callbackURL: `${process.env.APP_URL}auth/github/callback` || "http://localhost:8081/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log(profile);

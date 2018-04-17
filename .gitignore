@@ -9,8 +9,8 @@ client/coverage
 # production
 client/build
 
-
-
+# oauth creds
+server/config/keys.js
 
 # misc
 client/.DS_Store
@@ -19,6 +19,7 @@ client/.env.development.local
 client/.env.development
 client/.env.test.local
 client/.env.production.local
+server/.env.development
 
 client/npm-debug.log*
 npm-debug.log*
