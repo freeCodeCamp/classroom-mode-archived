@@ -1,13 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
-var scraper = require('./helpers/scraper'); 
-var databaseModule = require('./helpers/database_singleton'); 
+var scraper = require('../helpers/scraper'); 
+var databaseModule = require('../helpers/database_singleton'); 
 var db = databaseModule.getDbInstance(); 
 // var schema = require('schema')
-
- 
-
 
 /* GET users listing. */
 router.get('/:userId', function(req, res, next) {

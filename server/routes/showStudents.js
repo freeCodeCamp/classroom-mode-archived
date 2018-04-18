@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var db = require('./helpers/database_singleton').getDbInstance();
-var scraper = require('./helpers/scraper');
+var db = require('../helpers/database_singleton').getDbInstance();
+var scraper = require('../helpers/scraper');
 
 router.get('/', function(req, res) {
   var numStudents = 0;
   var numResponsesReceived = 0;
+
   db.collection("students").find({}).toArray(function(err, students) {
     numStudents = students.length;
     if (numStudents === 0) {

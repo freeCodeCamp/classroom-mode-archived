@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var databaseModule = require('./helpers/database_singleton');
-var Student = require('./helpers/studentSchema');
-var scraper = require('./helpers/scraper');
+var databaseModule = require('../helpers/database_singleton');
+var Student = require('../helpers/studentSchema');
+var scraper = require('../helpers/scraper');
 
 router.post('/', function(req, res) {
     console.log('in actual code');
