@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon ./start.js",
     "test": "mocha"
   },
   "dependencies": {
@@ -11,15 +11,17 @@
     "chai": "^4.1.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "^5.0.1",
     "express": "~4.15.5",
     "hjs": "~0.0.6",
     "mocha": "^4.0.1",
     "mongoose": "^4.13.4",
+    "mongoose-mongodb-errors": "0.0.2",
     "morgan": "~1.9.0",
     "request": "^2.83.0",
-    "serve-favicon": "~2.4.5",
     "sinon": "^4.1.2",
-    "sinon-chai": "^2.14.0"
+    "sinon-chai": "^2.14.0",
+    "validator": "^9.4.1"
   },
   "devDependencies": {
     "supertest": "^3.0.0"

@@ -10,7 +10,7 @@ The react server proxies requests to the express server (see /client/package.jso
 
 `npm run setup` to install both server and client applications dependencies.
 
-If running on cloud9, you must rename the .env.development.cloud9 as .env.development.  Note that you should not commit this file to github.  It should be disabled when deploying to a productoin environment 
+If running on cloud9, you must rename the .env.development.cloud9 as .env.development. Note that you should not commit this file to github.  It should be disabled when deploying to a productoin environment 
 
 To run the application, you must start both the client and the server: 
 

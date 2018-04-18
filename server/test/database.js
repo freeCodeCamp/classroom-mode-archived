@@ -7,7 +7,7 @@
  * we created this file to close the database connection after all
  * the tests are finished running.
  */
-var databaseModule = require('../routes/helpers/database_singleton');
+var databaseModule = require('../helpers/database_singleton');
 
 after(function(){
   databaseModule.closeConnection();

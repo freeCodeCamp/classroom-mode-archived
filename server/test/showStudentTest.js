@@ -4,8 +4,8 @@ var sinon = require('sinon');
 chai.use(require('sinon-chai'));
 var app = require('../app');
 var request = require('supertest');
-var db = require('../routes/helpers/database_singleton').getDbInstance();
-var scraper = require('../routes/helpers/scraper');
+var db = require('../helpers/database_singleton').getDbInstance();
+var scraper = require('../helpers/scraper');
 
 var sandbox = sinon.sandbox.create();
 
