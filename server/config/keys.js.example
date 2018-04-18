@@ -1,4 +1,0 @@
-module.exports = {
-  githubClientID: GITHUB_CLIENT_ID,
-  githubClientSecret: GITHUB_CLIENT_SECRET,
-};

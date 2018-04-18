@@ -10,7 +10,6 @@ var users = require('./routes/users');
 var addStudent = require('./routes/addStudent');
 var showStudents = require('./routes/showStudents');
 var passport = require('passport');
-var keys = require('./config/keys')
 var app = express();
 
 // view engine setup
@@ -35,10 +34,21 @@ app.use('/students', showStudents);
 
 var GitHubStrategy = require('passport-github').Strategy;
 
+if (process.env.CI === undefined) {
+  var APP_URL = process.env.githubOAuthCallback || require('./config/secret').githubOAuthCallback;
+  var clientID = process.env.githubClientID || require('./config/secret').githubClientID;
+  var clientSecret = process.env.githubClientSecret || require('./config/secret').githubClientSecret;
+} else {
+  var APP_URL = process.env.githubOAuthCallback;
+  var clientID = process.env.githubClientID;
+  var clientSecret = process.env.githubClientSecret;
+}
+
+console.log(APP_URL)
 passport.use(new GitHubStrategy({
-    clientID: keys.githubClientID,
-    clientSecret: keys.githubClientSecret,
-    callbackURL: `${process.env.APP_URL}auth/github/callback` || "http://localhost:8081/auth/github/callback"
+    clientID: clientID,
+    clientSecret: clientSecret,
+    callbackURL: APP_URL,
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log(profile);
