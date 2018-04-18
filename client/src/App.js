@@ -38,6 +38,7 @@ class App extends Component {
     return (
       <div className="App">
         <NavBar />
+        <a href='/auth/github'>Sign in with Github</a>
         <AddStudentForm studentLength={this.state.students.length} fetchStudentsFromParent={this.fetchStudentList.bind(this)}/>
         <ClassTable students={this.state.students} errors={this.state.errors}/>
       </div>
