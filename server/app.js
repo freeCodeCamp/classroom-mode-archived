@@ -19,16 +19,9 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-
 const index = require('./routes/index');
-// const users = require('./routes/users');
-// const addStudent = require('./routes/addStudent');
-// const showStudents = require('./routes/showStudents');
 
 app.use('/', index);
-// app.use('/users', users);
-// app.use('/add_student', addStudent);
-// app.use('/students', showStudents);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

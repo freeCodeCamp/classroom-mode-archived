@@ -47,6 +47,17 @@ exports.addStudent = (req, res) => {
     errors.push("Username is required.");
   }
 
+  function validateEmail(email) {
+    let re = /\S+@\S+\.\S+/;
+    if (email && !re.test(email)) {
+        console.log("Email is invalid.");
+        return "Email is invalid.";
+    } else if (!email) {
+        console.log("Email is required.");
+        return "Email is required.";
+    }
+  }
+
   let emailValidationError = validateEmail(email);
 
   if (emailValidationError) {
