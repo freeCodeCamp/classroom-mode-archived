@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').load();
+}
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -34,21 +37,10 @@ app.use('/students', showStudents);
 
 var GitHubStrategy = require('passport-github').Strategy;
 
-if (process.env.CI === undefined) {
-  var APP_URL = process.env.githubOAuthCallback || require('./config/secret').githubOAuthCallback;
-  var clientID = process.env.githubClientID || require('./config/secret').githubClientID;
-  var clientSecret = process.env.githubClientSecret || require('./config/secret').githubClientSecret;
-} else {
-  var APP_URL = process.env.githubOAuthCallback;
-  var clientID = process.env.githubClientID;
-  var clientSecret = process.env.githubClientSecret;
-}
-
-console.log(APP_URL)
 passport.use(new GitHubStrategy({
-    clientID: clientID,
-    clientSecret: clientSecret,
-    callbackURL: APP_URL,
+    clientID: process.env.githubClientID,
+    clientSecret: process.env.githubClientSecret,
+    callbackURL: `${process.env.APP_URL}auth/github/callback`,
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log(profile);

@@ -19,7 +19,7 @@ client/.env.development.local
 client/.env.development
 client/.env.test.local
 client/.env.production.local
-server/.env.development
+server/.env
 
 client/npm-debug.log*
 npm-debug.log*
