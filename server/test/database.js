@@ -7,11 +7,11 @@
  * we created this file to close the database connection after all
  * the tests are finished running.
  */
-var databaseModule = require('../helpers/database_singleton');
+const mongoose = require('mongoose');
 
 after(function(){
-  databaseModule.closeConnection();
-  console.log("Closing DB connection #############################");
+  mongoose.disconnect();
+  console.log("Closing DB connection >>");
 });
 
 
