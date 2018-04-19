@@ -73,7 +73,7 @@ exports.addStudent = (req, res) => {
     return;
   }
 
-  scraper.fetchUserInfoFromFCC(username, function(error, fccResults) {
+  scraper.fetchUserInfoFromFCC(username, (error, fccResults) => {
     if (!error) {
       let student = new Student({
         name,
@@ -85,7 +85,7 @@ exports.addStudent = (req, res) => {
           fccResults.completedChallenges.length,
         completedChallenges: fccResults.completedChallenges
       });
-      student.save(function(err) {
+      student.save(err => {
         if (err) {
           console.log("Student saved failed", student);
           res.sendStatus(500);
@@ -95,7 +95,7 @@ exports.addStudent = (req, res) => {
       });
     } else {
       errors.push("freeCodeCamp username is invalid.");
-      res.status(422).json({ errors: errors });
+      res.status(422).json({ errors });
     }
   });
 };
