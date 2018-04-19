@@ -10,25 +10,29 @@ exports.showStudent = (req, res) => {
     .find({})
     .then(students => {
         numStudents = students.length;
+
         if(numStudents === 0) {
             res.status(200).json(students);
         }
-        students.forEach(function(student, index) {
-            scraper.fetchUserInfoFromFCC(student.username, function(
-                _err,
-                fccResults
-            ) {
+
+        students.map(student => {
+            scraper.fetchUserInfoFromFCC(student.username, (_err, fccResults) => {
+
                 student.daysInactive = fccResults.daysInactive;
+
                 if (fccResults.completedChallenges) {
-                let completedChallengesCount = student.completedChallengesCount
-                    ? student.completedChallengesCount
-                    : 0;
-                student.newSubmissionsCount =
+                  let completedChallengesCount =
+                    student.completedChallengesCount ? student.completedChallengesCount : 0;
+                  student.newSubmissionsCount =
                     fccResults.completedChallenges.length - completedChallengesCount;
                 }
+
                 numResponsesReceived++;
+
                 if (numResponsesReceived >= numStudents) {
-                res.status(200).json(students);
+                  // console.log(students[0].daysInactive) This does return daysInactive
+                  // but http://localhost:8083/students doesn't show me. Why? Hm
+                  res.status(200).json(students);
                 }
             });
         });

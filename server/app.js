@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const app = express();
+const index = require('./routes/index');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,8 +20,7 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-const index = require('./routes/index');
-
+// @todo prefix with /api/
 app.use('/', index);
 
 // catch 404 and forward to error handler
