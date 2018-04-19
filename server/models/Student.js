@@ -6,10 +6,16 @@ const validator = require('validator');
 const studentSchema = new Schema({
   name: { 
     type: String,
-    trim: true
+    validate: {
+      validator: (name) => name.length > 2,
+      message: 'Name must be longer than 2 characters.'
+    },
+    trim: true,
+    required: [true, 'Name is required.']
   },
   username: { 
-    type: String 
+    type: String,
+    unique: true
   },
   email: { 
     type: String,
@@ -27,6 +33,12 @@ const studentSchema = new Schema({
   },
   completedChallenges: {
     type: Array 
+  },
+  daysInactive: {
+    type: Number
+  },
+  newSubmissionsCount: {
+    type: Number
   }
 });
 
