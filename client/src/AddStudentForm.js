@@ -30,6 +30,7 @@ export default class AddStudentForm extends Component {
 
   submit = () => {
     const { name, username, email, notes } = this.state;
+    console.log(this.state)
 
     return fetch("/add_student", {
       method: "post",

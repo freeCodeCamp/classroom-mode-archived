@@ -1,12 +1,14 @@
 require('../models/Student');
-
-
+require('dotenv').config({ path: 'variables.env' });
+const mongoose = require('mongoose');
+const chai = require('chai');
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const app = require('../app');
 const request = require('supertest');
 const serverRequestToScraper = require('request');
 const scraper = require('../helpers/scraper');
+const app = require('../app');
+
 const sandbox = sinon.sandbox.create();
 
 afterEach(function() {
@@ -14,6 +16,24 @@ afterEach(function() {
 });
 
 describe('POST /add_student', () => {
+
+  before(function (done) {
+    // Connect to the Database
+    mongoose.connect(process.env.DATABASE, {
+      useMongoClient: true
+    });
+
+    mongoose.Promise = global.Promise;
+    mongoose.connection.on('error', (err) => {
+      console.error(`🙅 🚫 → ${err.message}`);
+    });
+
+    mongoose.connection.once('open', function() {
+      console.log('We are connected to test database!');
+      done();
+    });
+  });
+
   it('should return an error if student name is absent', done => {
     request(app)
       .post('/add_student')
@@ -38,7 +58,7 @@ describe('POST /add_student', () => {
   });
 
   it('should receive an error message if scraper returns error,', done => {
-    var fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
+    let fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
     fetchUserInfoFromFCC.yields(true, '{}');
 
     request(app)
@@ -58,7 +78,7 @@ describe('POST /add_student', () => {
   });
 
   it('should call the mongoose save method when all fields are valid', done => {
-    var fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
+    let fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
     fetchUserInfoFromFCC.yields(false, '{}');
     let save = sandbox.stub(Student.prototype, 'save');
     save.yields(false);
@@ -78,7 +98,7 @@ describe('POST /add_student', () => {
   });
 
   it('should not call the mongoose save method when username is invalid', done => {
-    var fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
+    let fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
     fetchUserInfoFromFCC.yields(true, '{}');
     let save = sandbox.stub(Student.prototype, 'save');
     save.yields(false);

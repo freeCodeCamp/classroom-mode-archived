@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 const validator = require('validator');
-const mongodbErrorHandler = require('mongoose-mongodb-errors');
 
 const studentSchema = new Schema({
   name: { 
@@ -30,7 +29,5 @@ const studentSchema = new Schema({
     type: Array 
   }
 });
-
-studentSchema.plugin(mongodbErrorHandler);
 
 module.exports = mongoose.model('Student', studentSchema);

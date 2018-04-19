@@ -16,7 +16,6 @@
     "hjs": "~0.0.6",
     "mocha": "^4.0.1",
     "mongoose": "^4.13.4",
-    "mongoose-mongodb-errors": "0.0.2",
     "morgan": "~1.9.0",
     "request": "^2.83.0",
     "sinon": "^4.1.2",

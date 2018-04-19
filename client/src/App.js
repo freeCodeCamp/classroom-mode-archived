@@ -17,11 +17,11 @@ export default class App extends Component {
 
   fetchStudentList() {
     return fetch("/students").then(res => {
-      res.json().then(data => {
-        if (data.length === 0) {
+      res.json().then(students => {
+        if (students.length === 0) {
           this.setState({ errors: ["classroom is empty"] });
         } else {
-          this.setState({ students: data });
+          this.setState({ students });
         }
       });
     });

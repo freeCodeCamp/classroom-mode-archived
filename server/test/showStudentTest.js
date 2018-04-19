@@ -4,12 +4,11 @@ const mongoose = require('mongoose');
 const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
-chai.use(require('sinon-chai'));
-const app = require('../app');
 const request = require('supertest');
 const scraper = require('../helpers/scraper');
+const app = require('../app');
 
-
+chai.use(require('sinon-chai'));
 const sandbox = sinon.sandbox.create();
 
 afterEach(function() {
@@ -35,6 +34,17 @@ describe('GET /students', () => {
     });
   });
 
+  const dummyStudentResults  = [
+    {
+      _id: '5a28cd1b1805592081cd31ea',
+      name: 'studentName',
+      username: 'studentUserName',
+      email: 'studentEmail',
+      notes: 'studentNote',
+      __v: 0
+    }
+  ];
+
   function stubDB(dummyStudentResults) {
     sandbox.stub(db, 'collection').returns({
       find: function() {
@@ -54,16 +64,6 @@ describe('GET /students', () => {
   }
 
   it('should return 200', done => {
-    var dummyStudentResults = [
-      {
-        _id: '5a28cd1b1805592081cd31ea',
-        name: 'studentName',
-        username: 'studentUserName',
-        email: 'studentEmail',
-        notes: 'studentNote',
-        __v: 0
-      }
-    ];
     stubDB(dummyStudentResults);
     stubScraper(false, { daysInactive: 1 });
     request(app)
@@ -75,16 +75,6 @@ describe('GET /students', () => {
   });
 
   it('should fetch data from mongo DB', done => {
-    var dummyStudentResults = [
-      {
-        _id: '5a28cd1b1805592081cd31ea',
-        name: 'studentName',
-        username: 'studentUserName',
-        email: 'studentEmail',
-        notes: 'studentNote',
-        __v: 0
-      }
-    ];
     stubDB(dummyStudentResults);
     stubScraper(false, { daysInactive: 1 });
     request(app)
@@ -107,8 +97,8 @@ describe('GET /students', () => {
   });
 
   it('should return a 200 and an empty array if the database is empty', done => {
-    var dummyStudentResults = [];
-    stubDB(dummyStudentResults);
+    let noResults = [];
+    stubDB(noResults);
     request(app)
       .get('/students')
       .end(function(_err, res) {
@@ -120,16 +110,6 @@ describe('GET /students', () => {
 
   it('should look up student github username', done => {
     stubScraper(false, { daysInactive: 1 });
-    var dummyStudentResults = [
-      {
-        _id: '5a28cd1b1805592081cd31ea',
-        name: 'studentName',
-        username: 'studentUserName',
-        email: 'studentEmail',
-        notes: 'studentNote',
-        __v: 0
-      }
-    ];
     stubDB(dummyStudentResults);
     request(app)
       .get('/students')
@@ -146,17 +126,6 @@ describe('GET /students', () => {
         { title: 'Say Hello to HTML Elements' }
       ]
     });
-    let dummyStudentResults = [
-      {
-        _id: '5a28cd1b1805592081cd31ea',
-        name: 'studentName',
-        username: 'studentUserName',
-        email: 'studentEmail',
-        notes: 'studentNote',
-        completedChallengesCount: 1,
-        __v: 0
-      }
-    ];
     stubDB(dummyStudentResults);
     request(app)
       .get('/students')
@@ -173,16 +142,6 @@ describe('GET /students', () => {
         { title: 'Say Hello to HTML Elements' }
       ]
     });
-    var dummyStudentResults = [
-      {
-        _id: '5a28cd1b1805592081cd31ea',
-        name: 'studentName',
-        username: 'studentUserName',
-        email: 'studentEmail',
-        notes: 'studentNote',
-        __v: 0
-      }
-    ];
     stubDB(dummyStudentResults);
     request(app)
       .get('/students')
