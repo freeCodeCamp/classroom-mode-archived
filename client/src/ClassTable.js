@@ -2,25 +2,22 @@ import React, { Component } from "react";
 import "./ClassTable.css";
 import StudentRow from "./StudentRow";
 import Errors from "./Errors";
+const uuid = require('uuid/v1')
 
 export default class ClassTable extends Component {
-  populateStudents() {
-    let rows = [];
-    this.props.students.forEach((student, index) => {
-      rows.push(
-        <StudentRow
-          key={index}
-          name={student.name}
-          username={student.username}
-          email={student.email}
-          notes={student.notes}
-          daysInactive={student.daysInactive}
-          newSubmissionsCount={student.newSubmissionsCount}
-        />
-      );
-    });
 
-    return rows;
+  populateStudents = () => {
+    return this.props.students.map(student => (
+      <StudentRow
+        key={uuid()}
+        name={student.name}
+        username={student.username}
+        email={student.email}
+        notes={student.notes}
+        daysInactive={student.daysInactive}
+        newSubmissionsCount={student.newSubmissionsCount}
+      />
+    ))
   }
 
   showTable() {
