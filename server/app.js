@@ -7,6 +7,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cookieSession = require('cookie-session');
+var mongoose = require('mongoose');
+require('./models/User');
+var User = mongoose.model('user');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -35,18 +39,34 @@ app.use('/users', users);
 app.use('/add_student', addStudent);
 app.use('/students', showStudents);
 
+app.use(cookieSession({
+  name: 'session',
+  keys: [process.env.KEY],
+
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
+
 var GitHubStrategy = require('passport-github').Strategy;
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 passport.use(new GitHubStrategy({
     clientID: process.env.githubClientID,
     clientSecret: process.env.githubClientSecret,
     callbackURL: `${process.env.APP_URL}auth/github/callback`,
   },
-  function(accessToken, refreshToken, profile, cb) {
-    console.log(profile);
-    // User.findOrCreate({ githubId: profile.id }, function (err, user) {
-    //   return cb(err, user);
-    // });
+  async (accessToken, refreshToken, profile, done) => {
+    const existingUser = await User.findOne({ githubId: profile.id});
+
+    if (existingUser) {
+      done(null, existingUser)
+    }
+    else {
+      const user = await new User({ githubId: profile.id }).save();
+      done(null, user);
+    }
   }
 ));
 
