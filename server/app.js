@@ -51,7 +51,15 @@ var GitHubStrategy = require('passport-github').Strategy;
 
 app.use(passport.initialize());
 app.use(passport.session());
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
 
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+})
 passport.use(new GitHubStrategy({
     clientID: process.env.githubClientID,
     clientSecret: process.env.githubClientSecret,
@@ -79,7 +87,9 @@ app.get('/auth/github/callback',
     // Successful authentication, redirect home.
     res.redirect('/');
   });
-
+app.get('/current_user',(request,response) => {
+  response.send(request.session);
+})
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
