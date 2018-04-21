@@ -8,6 +8,7 @@ exports.showStudent = (req, res) => {
 
   Student
     .find({})
+    .lean()
     .then(students => {
         numStudents = students.length;
 

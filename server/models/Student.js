@@ -33,12 +33,6 @@ const studentSchema = new Schema({
   },
   completedChallenges: {
     type: Array 
-  },
-  daysInactive: {
-    type: Number
-  },
-  newSubmissionsCount: {
-    type: Number
   }
 });
 
