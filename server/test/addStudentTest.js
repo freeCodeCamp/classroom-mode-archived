@@ -18,7 +18,7 @@ afterEach(function() {
 
 describe('POST /add_student', () => {
 
-  before(function (done) {
+  beforeEach(function (done) {
     // Connect to the Database
     mongoose.connect(process.env.DATABASE, {
       useMongoClient: true
@@ -92,27 +92,7 @@ describe('POST /add_student', () => {
       })
   });
 
-  xit('should call the mongoose save method when all fields are valid', done => {
-    let fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
-    fetchUserInfoFromFCC.yields(false, '{}');
-    let save = sandbox.stub(Student.save());
-    save.yields(false);
-
-    request(app)
-      .post('/add_student')
-      .send({
-        name: 'fccStudent',
-        email: 'user@freecodecamp.com',
-        username: 'anyusername'
-      })
-      .end(function(_err, res) {
-        expect(res.statusCode).to.equal(200);
-        expect(save).to.have.been.calledOnce;
-        done();
-      });
-  });
-
-  xit('should not call the mongoose save method when username is invalid', done => {
+  it('should not call the mongoose save method when username is invalid', done => {
     let fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
     fetchUserInfoFromFCC.yields(true, '{}');
     let save = sandbox.stub(Student.prototype, 'save');
@@ -135,54 +115,4 @@ describe('POST /add_student', () => {
       });
   });
 
-  // FIXME: Intended to test if we were able to save completedChallengesCount and completedChallengesTitle
-  // to db but unit test might not serve the purpose
-  xit('should save completedChallengesCount and completedChallengesTitle when saving students', done => {
-    let student = {
-      _id: '5a9f752384675412f4cac45b',
-      name: 'tom',
-      username: 'user512',
-      email: 'user@freecodecamp.com',
-      notes: '',
-      __v: 0,
-      daysInactive: 3,
-      completedChallengesCount: 2,
-      completedChallenges: [
-        {
-          title: 'Build a Tribute Page',
-          completed_at: 'Apr 02, 2017',
-          updated_at: '',
-          url: 'https://www.freecodecamp.com/challenges/Build a Tribute Page'
-        },
-        {
-          title: 'Reverse a String',
-          completed_at: 'May 13, 2017',
-          updated_at: '',
-          url: 'https://www.freecodecamp.comundefined'
-        }
-      ]
-    };
-
-    var fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
-    fetchUserInfoFromFCC.yields(false, student);
-    let save = sandbox.stub(Student.prototype, 'save');
-    save.yields(false);
-
-    var StudentClass = (exports.Student = Student);
-    var studentConstructor = sinon.spy(exports, 'Student');
-
-    request(app)
-      .post('/add_student')
-      .send({
-        name: 'tom',
-        email: 'user@freecodecamp.com',
-        username: 'user512'
-      })
-      .end(function(_err, res) {
-        expect(res.statusCode).to.equal(200);
-        expect(studentConstructor.called).to.equal(true);
-        expect(save).to.have.been.calledOnce;
-        done();
-      });
-  });
 });
