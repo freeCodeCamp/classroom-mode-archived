@@ -1,6 +1,6 @@
-require('../models/Student');
 require('dotenv').config({ path: 'variables.env' });
 const mongoose = require('mongoose');
+const Student = require('../models/Student');
 const chai = require('chai');
 const expect = chai.expect;
 const sinon = require('sinon');
@@ -17,7 +17,7 @@ afterEach(function() {
 
 describe('GET /students', () => {
 
-  before(function (done) {
+  beforeEach(function (done) {
     // Connect to the Database
     mongoose.connect(process.env.DATABASE, {
       useMongoClient: true
@@ -46,7 +46,7 @@ describe('GET /students', () => {
   ];
 
   function stubDB(dummyStudentResults) {
-    sandbox.stub(db, 'collection').returns({
+    sandbox.stub(Student, 'collection').returns({
       find: function() {
         return {
           toArray: function(cb) {
@@ -63,13 +63,24 @@ describe('GET /students', () => {
       .yieldsAsync(error, scraperResponse);
   }
 
-  xit('should return 200', done => {
+  it('should return 200', done => {
     stubDB(dummyStudentResults);
     stubScraper(false, { daysInactive: 1 });
     request(app)
       .get('/students')
       .end(function(_err, res) {
         expect(res.status).to.equal(200);
+        done();
+      });
+  });
+
+  it('should look up student github username', done => {
+    stubScraper(false, { daysInactive: 1 });
+    stubDB(dummyStudentResults);
+    request(app)
+      .get('/students')
+      .end(function(_err, res) {
+        expect(JSON.parse(res.text)[0].daysInactive).to.equal(1);
         done();
       });
   });
@@ -104,17 +115,6 @@ describe('GET /students', () => {
       .end(function(_err, res) {
         expect(res.status).to.equal(200);
         expect(JSON.parse(res.text)).to.be.an('array').that.is.empty;
-        done();
-      });
-  });
-
-  xit('should look up student github username', done => {
-    stubScraper(false, { daysInactive: 1 });
-    stubDB(dummyStudentResults);
-    request(app)
-      .get('/students')
-      .end(function(_err, res) {
-        expect(JSON.parse(res.text)[0].daysInactive).to.equal(1);
         done();
       });
   });
