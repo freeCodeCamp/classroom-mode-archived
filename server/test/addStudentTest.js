@@ -1,12 +1,13 @@
-require('../models/Student');
 require('dotenv').config({ path: 'variables.env' });
 const mongoose = require('mongoose');
+const Student = require('../models/Student');
 const chai = require('chai');
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const request = require('supertest');
 const serverRequestToScraper = require('request');
 const scraper = require('../helpers/scraper');
+const assert = require('assert');
 const app = require('../app');
 
 const sandbox = sinon.sandbox.create();
@@ -21,6 +22,12 @@ describe('POST /add_student', () => {
     // Connect to the Database
     mongoose.connect(process.env.DATABASE, {
       useMongoClient: true
+    });
+
+    joseph = new Student({
+      name: 'Joseph',
+      email: 'user@freecodecamp.com',
+      username: 'imcodingideas'
     });
 
     mongoose.Promise = global.Promise;
@@ -77,10 +84,18 @@ describe('POST /add_student', () => {
       });
   });
 
+  it('should find a Student by username', done => {
+    Student.findOne({ username: 'imcodingideas' })
+      .then(foundStudent => {
+        assert(foundStudent.name === 'Joseph Chambers')
+        done()
+      })
+  });
+
   xit('should call the mongoose save method when all fields are valid', done => {
     let fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
     fetchUserInfoFromFCC.yields(false, '{}');
-    let save = sandbox.stub(Student.prototype, 'save');
+    let save = sandbox.stub(Student.save());
     save.yields(false);
 
     request(app)
