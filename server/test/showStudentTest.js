@@ -63,7 +63,7 @@ describe('GET /students', () => {
       .yieldsAsync(error, scraperResponse);
   }
 
-  it('should return 200', done => {
+  xit('should return 200', done => {
     stubDB(dummyStudentResults);
     stubScraper(false, { daysInactive: 1 });
     request(app)
@@ -74,7 +74,7 @@ describe('GET /students', () => {
       });
   });
 
-  it('should fetch data from mongo DB', done => {
+  xit('should fetch data from mongo DB', done => {
     stubDB(dummyStudentResults);
     stubScraper(false, { daysInactive: 1 });
     request(app)
@@ -96,7 +96,7 @@ describe('GET /students', () => {
       });
   });
 
-  it('should return a 200 and an empty array if the database is empty', done => {
+  xit('should return a 200 and an empty array if the database is empty', done => {
     let noResults = [];
     stubDB(noResults);
     request(app)
@@ -108,7 +108,7 @@ describe('GET /students', () => {
       });
   });
 
-  it('should look up student github username', done => {
+  xit('should look up student github username', done => {
     stubScraper(false, { daysInactive: 1 });
     stubDB(dummyStudentResults);
     request(app)
@@ -119,7 +119,7 @@ describe('GET /students', () => {
       });
   });
 
-  it('should returns new submissions count and titles', done => {
+  xit('should returns new submissions count and titles', done => {
     stubScraper(false, {
       completedChallenges: [
         { title: 'Reverse a String' },
@@ -135,7 +135,7 @@ describe('GET /students', () => {
       });
   });
 
-  it('should returns new submissions count and titles when student completedChallengesCount is undefined', done => {
+  xit('should returns new submissions count and titles when student completedChallengesCount is undefined', done => {
     stubScraper(false, {
       completedChallenges: [
         { title: 'Reverse a String' },

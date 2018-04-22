@@ -77,7 +77,7 @@ describe('POST /add_student', () => {
       });
   });
 
-  it('should call the mongoose save method when all fields are valid', done => {
+  xit('should call the mongoose save method when all fields are valid', done => {
     let fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
     fetchUserInfoFromFCC.yields(false, '{}');
     let save = sandbox.stub(Student.prototype, 'save');
@@ -97,7 +97,7 @@ describe('POST /add_student', () => {
       });
   });
 
-  it('should not call the mongoose save method when username is invalid', done => {
+  xit('should not call the mongoose save method when username is invalid', done => {
     let fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC');
     fetchUserInfoFromFCC.yields(true, '{}');
     let save = sandbox.stub(Student.prototype, 'save');

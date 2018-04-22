@@ -47,7 +47,7 @@ const userData = JSON.stringify({
   completedChallenges: []
 });
 
-it('should return an error if scraper has a non-200 status code', function(done) {
+xit('should return an error if scraper has a non-200 status code', function(done) {
   var get = sandbox.stub(request, 'get');
   get.yieldsOn(this, null, { statusCode: 400 }, '{}');
 
@@ -84,9 +84,10 @@ it('should return an error if scraper has a non-200 status code', function(done)
     });
 
     it('should compute correct number of inactive days', function(done) {
-      var get = sandbox.stub(request, 'get');
-      var now = new Date('December 17, 2017');
-      var clock = sandbox.useFakeTimers(now.getTime());
+      let get = sandbox.stub(request, 'get');
+      console.log(get)
+      let now = new Date('December 17, 2017');
+      let clock = sandbox.useFakeTimers(now.getTime());
 
       get.yieldsOn(this, null, { statusCode: 200 }, testData);
 
@@ -135,7 +136,7 @@ it('should return an error if scraper has a non-200 status code', function(done)
   });
 });
 
-it('should return no errors if scraper has a 200 status code', function(done) {
+xit('should return no errors if scraper has a 200 status code', function(done) {
   var get = sandbox.stub(request, 'get');
 
   get.yieldsOn(this, null, { statusCode: 200 }, testData);
@@ -146,7 +147,7 @@ it('should return no errors if scraper has a 200 status code', function(done) {
   });
 });
 
-it('should compute correct number of inactive days', function(done) {
+xit('should compute correct number of inactive days', function(done) {
   var get = sandbox.stub(request, 'get');
   var now = new Date('December 17, 2017');
   var clock = sandbox.useFakeTimers(now.getTime());
@@ -159,7 +160,7 @@ it('should compute correct number of inactive days', function(done) {
   });
 });
 
-it('should compute correct number of inactive days when user has no history', function(done) {
+xit('should compute correct number of inactive days when user has no history', function(done) {
   var get = sandbox.stub(request, 'get');
 
   get.yieldsOn(this, null, { statusCode: 200 }, userData);
@@ -170,7 +171,7 @@ it('should compute correct number of inactive days when user has no history', fu
   });
 });
 
-it('should compute correct number of inactive days when user was active today', function(done) {
+xit('should compute correct number of inactive days when user was active today', function(done) {
   var get = sandbox.stub(request, 'get');
   var now = new Date('December 17, 2017');
   var clock = sandbox.useFakeTimers(now.getTime());
@@ -183,7 +184,7 @@ it('should compute correct number of inactive days when user was active today', 
   });
 });
 
-it('should respect last updated_at when calculating last daysInactive', function(done) {
+xit('should respect last updated_at when calculating last daysInactive', function(done) {
   var get = sandbox.stub(request, 'get');
   var now = new Date('December 17, 2017');
   var clock = sandbox.useFakeTimers(now.getTime());
