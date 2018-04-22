@@ -6,7 +6,7 @@ _Proudly built by:_
 
 ## Architecture
 
-The application currently has a react frontend and an express backend.  The frontend is located inside of the the '/client' folder, while the backend is located inside of the '/server' folder.   Both the client and the server run as seperate web applications, which means that they each have a separate server. The react server is runs on port 8080, while the express server runs on port 8081. 
+The application currently has a react frontend and an express backend.  The frontend is located inside of the the '/client' folder, while the backend is located inside of the '/server' folder.   Both the client and the server run as seperate web applications, which means that they each have a separate server. The react server is runs on port 8080, while the express server runs on port 8083. 
 
 The react server proxies requests to the express server (see /client/package.json to see how the proxy is defined). 
 
