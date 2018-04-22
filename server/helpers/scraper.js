@@ -8,7 +8,6 @@ const request = require("request");
 // @todo convert to promise
 function fetchUserInfoFromFCC (githubName, callback) {
   request.get(`https://fcc-profile-scraper.herokuapp.com/user/${githubName}`, function(error, response, body) {
-    // console.log(`Received scraper response ${JSON.stringify(response)}`);
 
     if (error) {
       console.log(`Error: ${error}`);
