@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./start.js",
-    "test": "node --exec 'mocha -R min'"
+    "test": "mocha"
   },
   "dependencies": {
     "assert": "^1.4.1",
