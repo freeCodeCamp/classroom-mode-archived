@@ -7,12 +7,36 @@
  * we created this file to close the database connection after all
  * the tests are finished running.
  */
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+require('dotenv').config({path: 'variables.env'})
 
-after(function(){
-  mongoose.disconnect();
-  console.log("Closing DB connection >>");
-});
+before(done => {
+  // Connect to the Database
+  mongoose.connect(process.env.TEST_DATABASE, {
+    useMongoClient: true
+  })
 
+  mongoose.Promise = global.Promise
+  mongoose.connection.on('error', err => {
+    console.error(`🙅 🚫 → ${err.message}`)
+  })
 
+  mongoose.connection.once('open', () => {
+    console.log('We are connected to test database!')
+    done()
+  })
+})
+
+beforeEach(done => {
+  const {students} = mongoose.connection.collections
+
+  students.drop(() => {
+    done()
+  })
+})
+
+after(function() {
+  mongoose.disconnect()
+  console.log('Closing DB connection >>')
+})
 

@@ -56,8 +56,6 @@ function computeDaysInactive(completedChallenges) {
   let currentDate = new Date();
   let daysInactive = (currentDate - mostRecentDate) / (1000 * 60 * 60 * 24);
 
-  console.log(`Days Inactive: ${daysInactive}`);
-
   daysInactive = Math.floor(daysInactive);
   return daysInactive;
 }
