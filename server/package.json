@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./start.js",
-    "test": "nodemon --exec 'mocha -R min'"
+    "start": "node ./start.js",
+    "test": "node --exec 'mocha -R min'"
   },
   "dependencies": {
     "assert": "^1.4.1",
