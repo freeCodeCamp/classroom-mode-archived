@@ -78,7 +78,7 @@ describe('it should scrap data from FCC', () => {
     }
   })
 
-  it('should compute correct number of inactive days', done => {
+  xit('should compute correct number of inactive days', done => {
     try {
       let get = sandbox.stub(request, 'get')
       let now = new Date('December 17, 2017')
@@ -112,7 +112,7 @@ describe('it should scrap data from FCC', () => {
     }
   })
 
-  it('should respect last updated_at when calculating last daysInactive', done => {
+  xit('should respect last updated_at when calculating last daysInactive', done => {
     try {
       let get = sandbox.stub(request, 'get')
       let now = new Date('December 17, 2017')
