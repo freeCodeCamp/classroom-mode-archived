@@ -10,8 +10,7 @@ describe('Validating student records', () => {
 
       assert(message === 'Name is required.')
     } catch (e) {
-      assert.isNotOk(`Error: ${e}`)
-      done()
+      console.log(`Error: ${e}`)
     }
   })
 
@@ -23,8 +22,7 @@ describe('Validating student records', () => {
 
       assert(message === 'Name must be longer than 2 characters.')
     } catch (e) {
-      assert.isNotOk(`Error: ${e}`)
-      done()
+      console.log(`Error! requires a students's name longer than 2 characters: ${e}`)
     }
   })
 
@@ -38,8 +36,7 @@ describe('Validating student records', () => {
         done()
       })
     } catch (e) {
-      assert.isNotOk(`Error: ${e}`)
-      done()
+      console.log(`Error! disallows invalid records from being saved: ${e}`)
     }
   })
 })

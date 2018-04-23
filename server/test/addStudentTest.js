@@ -39,8 +39,7 @@ describe('POST /add_student', () => {
           done()
         })
     } catch (e) {
-      assert.isNotOk(`Error: ${e}`)
-      done()
+      console.log(`Error! should return an error if student name is absent: ${e}`)
     }
   })
 
@@ -55,12 +54,11 @@ describe('POST /add_student', () => {
           done()
         })
     } catch (e) {
-      assert.isNotOk(`Error: ${e}`)
-      done()
+      console.log(`Error! should return an error if email in invalid ${e}`)
     }
   })
 
-  it('should receive an error message if scraper returns error,', done => {
+  it('should receive an error message if scraper returns error', done => {
     try {
       let fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
       fetchUserInfoFromFCC.yields(true, '{}')
@@ -80,8 +78,7 @@ describe('POST /add_student', () => {
           done()
         })
     } catch (e) {
-      assert.isNotOk(`Error: ${e}`)
-      done()
+      console.log(`Error! should receive an error message if scraper returns error: ${e}`)
     }
   })
 
@@ -92,8 +89,7 @@ describe('POST /add_student', () => {
         done()
       })
     } catch (e) {
-      assert.isNotOk(`Error: ${e}`)
-      done()
+      console.log(`Error! should find a Student by username: ${e}`)
     }
   })
 
@@ -120,8 +116,7 @@ describe('POST /add_student', () => {
           done()
         })
     } catch (e) {
-      assert.isNotOk(`Error: ${e}`)
-      done()
+      console.log(`Error! should not call the mongoose save method when username is invalid: ${e}`)
     }
   })
 })
