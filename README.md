@@ -31,7 +31,7 @@ npm run client
 
 Setup Database Configuration
 ```bash
-cp server/config/secret.js.example server/config/secret.js
+cp server/variables.env.sample server/variables.env
 ```
 
 Run Test
