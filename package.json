@@ -4,7 +4,7 @@
   "license": "(BSD-3-Clause AND CC-BY-SA-4.0)",
   "private": true,
   "scripts": {
-    "start": "cd server && npm install && node ./bin/www",
+    "start": "cd server && npm install && node start.js",
     "server": "PORT=8081 npm start --prefix server",
     "client": "npm start --prefix client",
     "dev": "npm run server & npm run client",

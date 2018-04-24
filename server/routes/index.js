@@ -1,10 +1,12 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const indexController = require('../controllers/indexController');
+const studentController = require('../controllers/studentController');
+const userController = require('../controllers/userController');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    console.log('index.js');
-  res.render('index', { title: 'Express' });
-});
+router.get('/', indexController.getHome);
+router.get('/students', studentController.showStudent);
+router.post('/add_student', studentController.addStudent);
+router.get('/users/:userId', userController.getUserById);
 
 module.exports = router;

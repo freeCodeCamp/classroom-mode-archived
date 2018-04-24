@@ -16,17 +16,15 @@ describe("App", () => {
     return mountedApp;
   };
 
-  let studentObjects = [
-              {
-               "_id":"5a87b0f78706f6070dea47c7",
-               "name":"Bob",
-               "username":"utsab",
-               "email":"a@b.com",
-               "notes":"",
-               "__v":0,
-               "daysInactive": 1
-              }
-            ]
+  let studentObjects = [{
+      "_id":"5a87b0f78706f6070dea47c7",
+      "name":"Bob",
+      "username":"utsab",
+      "email":"a@b.com",
+      "notes":"",
+      "__v":0,
+      "daysInactive": 1
+  }]
 
   beforeAll(() =>{
     window.fetch = jest.fn().mockImplementation(function() {

@@ -9,8 +9,7 @@ client/coverage
 # production
 client/build
 
-
-
+server/variables.env
 
 # misc
 client/.DS_Store
