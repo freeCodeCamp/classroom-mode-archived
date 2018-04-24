@@ -8,6 +8,8 @@ import {
 } from 'react-bootstrap'
 import './AddStudentForm.css'
 
+const uuidv4 = require('uuid/v4')
+
 const DEFAULT_STATE = {
   showModal: false,
   name: '',
@@ -58,8 +60,7 @@ export default class AddStudentForm extends Component {
   }
 
   handleChange = e => {
-    const name = e.target.name
-    const value = e.target.value
+    const { name, value } = e.target
     this.setState({
       [name]: value,
     })
@@ -100,9 +101,7 @@ export default class AddStudentForm extends Component {
           </Modal.Header>
           <Modal.Body>
             <ul>
-              {this.state.errors.map((error, index) => (
-                <li key={index}>{error}</li>
-              ))}
+              {this.state.errors.map(error => <li key={uuidv4()}>{error}</li>)}
             </ul>
             <form>
               <FormGroup controlId="name">

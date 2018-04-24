@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import './ClassTable.css'
 import StudentRow from './StudentRow'
 import Errors from './Errors'
 
-const uuid = require('uuid/v1')
+const uuidv4 = require('uuid/v4')
 
 export default class ClassTable extends Component {
+  static propTypes = {
+    students: PropTypes.array,
+  }
+
   populateStudents = () =>
     this.props.students.map(student => (
       <StudentRow
-        key={uuid()}
+        key={uuidv4()}
         name={student.name}
         username={student.username}
         email={student.email}

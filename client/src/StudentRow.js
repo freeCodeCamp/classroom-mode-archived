@@ -1,6 +1,16 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class StudentRow extends Component {
+  static propTypes = {
+    name: PropTypes.string,
+    username: PropTypes.string,
+    email: PropTypes.string,
+    notes: PropTypes.string,
+    daysInactive: PropTypes.number,
+    newSubmissionsCount: PropTypes.number,
+  }
+
   render() {
     const {
       name,

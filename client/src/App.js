@@ -4,12 +4,14 @@ import AddStudentForm from './AddStudentForm'
 import ClassTable from './ClassTable'
 import NavBar from './NavBar'
 
+const DEFAULT_STATE = {
+  students: [],
+  errors: [],
+  user_info: {},
+}
+
 export default class App extends Component {
-  state = {
-    students: [],
-    errors: [],
-    user_info: {},
-  }
+  state = DEFAULT_STATE
 
   componentDidMount() {
     return this.fetchStudentList()
