@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import './App.css'
-import AddStudentForm from './AddStudentForm'
-import ClassTable from './ClassTable'
-import NavBar from './NavBar'
+import AddStudentForm from '../components/AddStudentForm'
+import ClassTable from '../components/ClassTable'
+import NavBar from '../components/NavBar'
 
 const DEFAULT_STATE = {
   students: [],

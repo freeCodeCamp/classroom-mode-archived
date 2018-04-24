@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import './ClassTable.css'
 import StudentRow from './StudentRow'
 import Errors from './Errors'
+
+import './ClassTable.css'
 
 const uuidv4 = require('uuid/v4')
 
