@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import "./ClassTable.css";
-import StudentRow from "./StudentRow";
-import Errors from "./Errors";
+import React, { Component } from 'react'
+import './ClassTable.css'
+import StudentRow from './StudentRow'
+import Errors from './Errors'
+
 const uuid = require('uuid/v1')
 
 export default class ClassTable extends Component {
-
-  populateStudents = () => {
-    return this.props.students.map(student => (
+  populateStudents = () =>
+    this.props.students.map(student => (
       <StudentRow
         key={uuid()}
         name={student.name}
@@ -18,7 +18,6 @@ export default class ClassTable extends Component {
         newSubmissionsCount={student.newSubmissionsCount}
       />
     ))
-  }
 
   showTable() {
     return (
@@ -35,11 +34,11 @@ export default class ClassTable extends Component {
         </thead>
         <tbody>{this.populateStudents()}</tbody>
       </table>
-    );
+    )
   }
 
   render() {
-    const isStudentListEmpty = this.props.students.length === 0;
+    const isStudentListEmpty = this.props.students.length === 0
     return (
       <div className="ClassTable">
         {isStudentListEmpty ? (
@@ -48,7 +47,6 @@ export default class ClassTable extends Component {
           this.showTable()
         )}
       </div>
-    );
+    )
   }
 }
-

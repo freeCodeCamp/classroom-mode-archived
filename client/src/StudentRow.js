@@ -1,9 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 export default class StudentRow extends Component {
-
   render() {
-    let { name, username, email, notes, daysInactive, newSubmissionsCount } = this.props;
+    const {
+      name,
+      username,
+      email,
+      notes,
+      daysInactive,
+      newSubmissionsCount,
+    } = this.props
 
     return (
       <tr>

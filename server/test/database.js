@@ -8,12 +8,12 @@
  * the tests are finished running.
  */
 const mongoose = require('mongoose')
-require('dotenv').config({path: 'variables.env'})
+require('dotenv').config({ path: 'variables.env' })
 
 before(done => {
   // Connect to the Database
   mongoose.connect(process.env.TEST_DATABASE, {
-    useMongoClient: true
+    useMongoClient: true,
   })
 
   mongoose.Promise = global.Promise
@@ -28,15 +28,14 @@ before(done => {
 })
 
 beforeEach(done => {
-  const {students} = mongoose.connection.collections
+  const { students } = mongoose.connection.collections
 
   students.drop(() => {
     done()
   })
 })
 
-after(function() {
+after(() => {
   mongoose.disconnect()
   console.log('Closing DB connection >>')
 })
-

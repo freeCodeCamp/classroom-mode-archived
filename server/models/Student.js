@@ -1,39 +1,40 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-mongoose.Promise = global.Promise;
-const validator = require('validator');
+const mongoose = require('mongoose')
+
+const Schema = mongoose.Schema
+mongoose.Promise = global.Promise
+const validator = require('validator')
 
 const studentSchema = new Schema({
-  name: { 
+  name: {
     type: String,
     validate: {
-      validator: (name) => name.length > 2,
-      message: 'Name must be longer than 2 characters.'
+      validator: name => name.length > 2,
+      message: 'Name must be longer than 2 characters.',
     },
     trim: true,
-    required: [true, 'Name is required.']
+    required: [true, 'Name is required.'],
   },
-  username: { 
+  username: {
     type: String,
-    unique: true
+    unique: true,
   },
-  email: { 
+  email: {
     type: String,
     unique: true,
     lowercase: true,
     trim: true,
     validate: [validator.isEmail, 'Invalid Email Address'],
-    required: 'Please Supply an email address'
+    required: 'Please Supply an email address',
   },
-  notes: { 
-    type: String 
+  notes: {
+    type: String,
   },
-  completedChallengesCount: { 
-    type: Number 
+  completedChallengesCount: {
+    type: Number,
   },
   completedChallenges: {
-    type: Array 
-  }
-});
+    type: Array,
+  },
+})
 
-module.exports = mongoose.model('Student', studentSchema);
+module.exports = mongoose.model('Student', studentSchema)
