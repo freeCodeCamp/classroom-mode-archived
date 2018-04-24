@@ -4,10 +4,10 @@ import './index.css';
 import App from './containers/App'
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'mobx-react'
-import UiStore from './stores/UiStore'
+import StudentStore from './stores/StudentStore'
 
 const Root = (
-  <Provider UiStore={UiStore}>
+  <Provider StudentStore={StudentStore}>
     <App />
   </Provider>
 );
