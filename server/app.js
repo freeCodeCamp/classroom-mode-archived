@@ -1,5 +1,4 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const path = require('path')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')

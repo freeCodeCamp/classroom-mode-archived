@@ -1,7 +1,7 @@
-const scraper = require('../helpers/scraper')
 const mongoose = require('mongoose')
 
 const Student = mongoose.model('Student')
+const scraper = require('../helpers/scraper')
 
 exports.showStudent = (req, res) => {
   let numStudents = 0
