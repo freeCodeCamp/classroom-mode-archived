@@ -24,4 +24,6 @@ client/.env.production.local
 client/npm-debug.log*
 npm-debug.log*
 package-lock.json
+server/package-lock.json*
+client/package-lock.json*
 server/config/secret.js

@@ -5,9 +5,10 @@ mongoose.Promise = global.Promise
 const validator = require('validator')
 
 const studentSchema = new Schema({
-  name: {
+  name: { 
     type: String,
     validate: {
+      isAsync: true,
       validator: name => name.length > 2,
       message: 'Name must be longer than 2 characters.',
     },
