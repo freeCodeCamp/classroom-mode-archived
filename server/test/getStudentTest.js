@@ -1,7 +1,8 @@
-require('dotenv').config({path: 'variables.env'})
+require('dotenv').config({ path: 'variables.env' })
 const mongoose = require('mongoose')
 const Student = require('../models/Student')
 const chai = require('chai')
+
 const expect = chai.expect
 const sinon = require('sinon')
 const request = require('supertest')
@@ -9,9 +10,10 @@ const scraper = require('../helpers/scraper')
 const app = require('../app')
 
 chai.use(require('sinon-chai'))
+
 const sandbox = sinon.sandbox.create()
 
-afterEach(function() {
+afterEach(() => {
   sandbox.restore()
 })
 
@@ -23,19 +25,19 @@ describe('GET /students', () => {
       username: 'studentUserName',
       email: 'studentEmail',
       notes: 'studentNote',
-      __v: 0
-    }
+      __v: 0,
+    },
   ]
 
   function stubDB(dummyStudentResults) {
     sandbox.stub(Student, 'collection').returns({
-      find: function() {
+      find() {
         return {
-          toArray: function(cb) {
+          toArray(cb) {
             cb(null, dummyStudentResults)
-          }
+          },
         }
-      }
+      },
     })
   }
 
@@ -47,21 +49,21 @@ describe('GET /students', () => {
 
   xit('should return 200', done => {
     stubDB(dummyStudentResults)
-    stubScraper(false, {daysInactive: 1})
+    stubScraper(false, { daysInactive: 1 })
     request(app)
       .get('/students')
-      .end(function(_err, res) {
+      .end((_err, res) => {
         expect(res.status).to.equal(200)
         done()
       })
   })
 
   xit('should look up student github username', done => {
-    stubScraper(false, {daysInactive: 1})
+    stubScraper(false, { daysInactive: 1 })
     stubDB(dummyStudentResults)
     request(app)
       .get('/students')
-      .end(function(_err, res) {
+      .end((_err, res) => {
         expect(JSON.parse(res.text)[0].daysInactive).to.equal(1)
         done()
       })
@@ -69,10 +71,10 @@ describe('GET /students', () => {
 
   xit('should fetch data from mongo DB', done => {
     stubDB(dummyStudentResults)
-    stubScraper(false, {daysInactive: 1})
+    stubScraper(false, { daysInactive: 1 })
     request(app)
       .get('/students')
-      .end(function(_err, res) {
+      .end((_err, res) => {
         expect(JSON.parse(res.text)[0].name).to.equal(
           dummyStudentResults[0].name
         )
@@ -90,11 +92,11 @@ describe('GET /students', () => {
   })
 
   xit('should return a 200 and an empty array if the database is empty', done => {
-    let noResults = []
+    const noResults = []
     stubDB(noResults)
     request(app)
       .get('/students')
-      .end(function(_err, res) {
+      .end((_err, res) => {
         expect(res.status).to.equal(200)
         expect(JSON.parse(res.text)).to.be.an('array').that.is.empty
         done()
@@ -104,14 +106,14 @@ describe('GET /students', () => {
   xit('should returns new submissions count and titles', done => {
     stubScraper(false, {
       completedChallenges: [
-        {title: 'Reverse a String'},
-        {title: 'Say Hello to HTML Elements'}
-      ]
+        { title: 'Reverse a String' },
+        { title: 'Say Hello to HTML Elements' },
+      ],
     })
     stubDB(dummyStudentResults)
     request(app)
       .get('/students')
-      .end(function(_err, res) {
+      .end((_err, res) => {
         expect(JSON.parse(res.text)[0].newSubmissionsCount).to.equal(1)
         done()
       })
@@ -120,17 +122,16 @@ describe('GET /students', () => {
   xit('should returns new submissions count and titles when student completedChallengesCount is undefined', done => {
     stubScraper(false, {
       completedChallenges: [
-        {title: 'Reverse a String'},
-        {title: 'Say Hello to HTML Elements'}
-      ]
+        { title: 'Reverse a String' },
+        { title: 'Say Hello to HTML Elements' },
+      ],
     })
     stubDB(dummyStudentResults)
     request(app)
       .get('/students')
-      .end(function(_err, res) {
+      .end((_err, res) => {
         expect(JSON.parse(res.text)[0].newSubmissionsCount).to.equal(2)
         done()
       })
   })
 })
-

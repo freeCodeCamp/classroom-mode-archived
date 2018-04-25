@@ -1,4 +1,4 @@
-require('dotenv').config({path: 'variables.env'})
+require('dotenv').config({ path: 'variables.env' })
 const mongoose = require('mongoose')
 const Student = require('../models/Student')
 const chai = require('chai')
@@ -12,7 +12,7 @@ const app = require('../app')
 
 const sandbox = sinon.sandbox.create()
 
-afterEach(function() {
+afterEach(() => {
   sandbox.restore()
 })
 
@@ -21,7 +21,7 @@ describe('POST /add_student', () => {
     Student.create({
       name: 'Quincy Larson',
       email: 'whoknows@freecodecamp.com',
-      username: 'quincylarson'
+      username: 'quincylarson',
     })
   })
 
@@ -29,7 +29,7 @@ describe('POST /add_student', () => {
     try {
       request(app)
         .post('/add_student')
-        .end(function(_err, res) {
+        .end((_err, res) => {
           expect(res.statusCode).to.equal(422)
           expect(JSON.parse(res.text).errors).to.include('Name is required.')
           expect(JSON.parse(res.text).errors).to.include('Email is required.')
@@ -39,7 +39,9 @@ describe('POST /add_student', () => {
           done()
         })
     } catch (e) {
-      console.log(`Error! should return an error if student name is absent: ${e}`)
+      console.log(
+        `Error! should return an error if student name is absent: ${e}`
+      )
     }
   })
 
@@ -47,8 +49,8 @@ describe('POST /add_student', () => {
     try {
       request(app)
         .post('/add_student')
-        .send({email: 'userfreecodecampcom'})
-        .end(function(_err, res) {
+        .send({ email: 'userfreecodecampcom' })
+        .end((_err, res) => {
           expect(res.statusCode).to.equal(422)
           expect(JSON.parse(res.text).errors).to.include('Email is invalid.')
           done()
@@ -60,7 +62,7 @@ describe('POST /add_student', () => {
 
   it('should receive an error message if scraper returns error', done => {
     try {
-      let fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
+      const fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
       fetchUserInfoFromFCC.yields(true, '{}')
 
       request(app)
@@ -68,9 +70,9 @@ describe('POST /add_student', () => {
         .send({
           name: 'fccStudent',
           email: 'user@freecodecamp.com',
-          username: 'invalidUsername'
+          username: 'invalidUsername',
         })
-        .end(function(_err, res) {
+        .end((_err, res) => {
           expect(res.statusCode).to.equal(422)
           expect(JSON.parse(res.text).errors).to.include(
             'freeCodeCamp username is invalid.'
@@ -78,13 +80,15 @@ describe('POST /add_student', () => {
           done()
         })
     } catch (e) {
-      console.log(`Error! should receive an error message if scraper returns error: ${e}`)
+      console.log(
+        `Error! should receive an error message if scraper returns error: ${e}`
+      )
     }
   })
 
   it('should find a Student by username', done => {
     try {
-      Student.findOne({username: 'quincylarson'}).then(foundStudent => {
+      Student.findOne({ username: 'quincylarson' }).then(foundStudent => {
         assert(foundStudent.email === 'whoknows@freecodecamp.com')
         done()
       })
@@ -95,9 +99,9 @@ describe('POST /add_student', () => {
 
   it('should not call the mongoose save method when username is invalid', done => {
     try {
-      let fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
+      const fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
       fetchUserInfoFromFCC.yields(true, '{}')
-      let save = sandbox.stub(Student.prototype, 'save')
+      const save = sandbox.stub(Student.prototype, 'save')
       save.yields(false)
 
       request(app)
@@ -105,9 +109,9 @@ describe('POST /add_student', () => {
         .send({
           name: 'fccStudent',
           email: 'user@freecodecamp.com',
-          username: 'invalidusername'
+          username: 'invalidusername',
         })
-        .end(function(_err, res) {
+        .end((_err, res) => {
           expect(res.statusCode).to.equal(422)
           expect(JSON.parse(res.text).errors).to.include(
             'freeCodeCamp username is invalid.'
@@ -116,8 +120,9 @@ describe('POST /add_student', () => {
           done()
         })
     } catch (e) {
-      console.log(`Error! should not call the mongoose save method when username is invalid: ${e}`)
+      console.log(
+        `Error! should not call the mongoose save method when username is invalid: ${e}`
+      )
     }
   })
 })
-

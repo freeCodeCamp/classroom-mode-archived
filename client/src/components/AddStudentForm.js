@@ -1,82 +1,80 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 import {
   Button,
   Modal,
   FormGroup,
   ControlLabel,
-  FormControl
-} from "react-bootstrap";
-import "./AddStudentForm.css";
+  FormControl,
+} from 'react-bootstrap'
+
+import './AddStudentForm.css'
+
+const uuidv4 = require('uuid/v4')
 
 const DEFAULT_STATE = {
   showModal: false,
-  name: "",
-  username: "",
-  email: "",
-  notes: "",
-  errors: []
+  name: '',
+  username: '',
+  email: '',
+  notes: '',
+  errors: [],
 }
 
 export default class AddStudentForm extends Component {
-  state = DEFAULT_STATE;
+  state = DEFAULT_STATE
 
   close = () => {
-    this.setState({ showModal: false });
+    this.setState({ showModal: false })
   }
 
   open = () => {
-    this.setState({ showModal: true });
+    this.setState({ showModal: true })
   }
 
   submit = () => {
-    const { name, username, email, notes } = this.state;
+    const { name, username, email, notes } = this.state
     console.log(this.state)
 
-    return fetch("/add_student", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
+    return fetch('/add_student', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name,
         username,
         email,
-        notes
-      })
-    }).then(
-      function(res) {
-        if (res.status === 200) {
-          this.close();
-          this._fetchStudentsFromParent();
-        } else {
-          res.json().then(
-            function(data) {
-              this.setState({ errors: data.errors });
-            }.bind(this)
-          );
-        }
-      }.bind(this)
-    );
+        notes,
+      }),
+    }).then(res => {
+      if (res.status === 200) {
+        this.close()
+        this._fetchStudentsFromParent()
+      } else {
+        res.json().then(data => {
+          this.setState({ errors: data.errors })
+        })
+      }
+    })
   }
 
   _fetchStudentsFromParent() {
-    this.props.fetchStudentsFromParent();
+    this.props.fetchStudentsFromParent()
   }
 
-  handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+  handleChange = e => {
+    const { name, value } = e.target
     this.setState({
-      [name]: value
-    });
+      [name]: value,
+    })
   }
 
   renderStudentCount() {
-    let message;
+    let message
     if (this.props.studentLength > 1) {
-      message = `${this.props.studentLength} students`;
+      message = `${this.props.studentLength} students`
     } else {
-      message = `${this.props.studentLength} student`;
+      message = `${this.props.studentLength} student`
     }
-    return <div id="student-count">{message}</div>;
+    return <div id="student-count">{message}</div>
   }
 
   render() {
@@ -104,9 +102,7 @@ export default class AddStudentForm extends Component {
           </Modal.Header>
           <Modal.Body>
             <ul>
-              {this.state.errors.map(function(error, index) {
-                return <li key={index}>{error}</li>;
-              })}
+              {this.state.errors.map(error => <li key={uuidv4()}>{error}</li>)}
             </ul>
             <form>
               <FormGroup controlId="name">
@@ -153,7 +149,6 @@ export default class AddStudentForm extends Component {
           </Modal.Body>
         </Modal>
       </div>
-    );
+    )
   }
 }
-
