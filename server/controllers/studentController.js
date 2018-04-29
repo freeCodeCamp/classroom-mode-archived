@@ -78,7 +78,7 @@ exports.addStudent = (req, res) => {
     if (!error) {
       Student.find({ username: username })
         .then(user => {
-          if (user) {
+          if (user.length) {
             errors.push('freeCodeCamp username already exist.')
             res.status(422).json({ errors })
           } else {
@@ -88,7 +88,11 @@ exports.addStudent = (req, res) => {
               email: email,
               completedChallengesCount: fccResults.completedChallenges && fccResults.completedChallenges.length,
               completedChallenges: fccResults.completedChallenges
+            }).catch((error) => {
+              res.status(422).json({ error })
             })
+            console.log("entro");
+            res.status(200).json({})
           }
         })
     } else {
