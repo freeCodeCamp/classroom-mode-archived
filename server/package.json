@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "if [$NODE_ENV=='production']; then node ./start.js; else nodemon ./start.js; fi",
+    "start": "node ./start.js",
+    "dev": "nodemon --watch ./start.js",
     "test": "mocha"
   },
   "dependencies": {
