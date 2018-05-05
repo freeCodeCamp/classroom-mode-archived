@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./start.js",
+    "dev": "nodemon --watch ./start.js",
     "test": "mocha"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "validator": "^9.4.1"
   },
   "devDependencies": {
+    "nodemon": "^1.17.3",
     "supertest": "^3.0.0"
   }
 }
