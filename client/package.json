@@ -17,10 +17,10 @@
     "uuid": "^3.2.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "react-scripts start",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-app-rewired eject"
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:8083"
 }
