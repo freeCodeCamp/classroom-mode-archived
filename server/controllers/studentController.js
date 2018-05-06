@@ -91,7 +91,6 @@ exports.addStudent = (req, res) => {
             }).catch((error) => {
               res.status(422).json({ error })
             })
-            console.log("entro");
             res.status(200).json({})
           }
         })
