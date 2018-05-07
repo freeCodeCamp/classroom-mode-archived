@@ -16,11 +16,9 @@ const studentSchema = new Schema({
   },
   username: {
     type: String,
-    unique: true,
   },
   email: {
     type: String,
-    unique: true,
     lowercase: true,
     trim: true,
     validate: [validator.isEmail, 'Invalid Email Address'],
