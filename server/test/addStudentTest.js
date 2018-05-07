@@ -86,18 +86,13 @@ describe('POST /add_student', () => {
     }
   })
 
-  // FIXME: non-deterministic test
-  xit('should find a Student by username', done => {
-    try {
-      const fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
-      fetchUserInfoFromFCC.yields(true, '{}')
-      Student.findOne({ username: 'quincylarson' }).then(foundStudent => {
-        assert(foundStudent.email === 'whoknows@freecodecamp.com')
-        done()
-      })
-    } catch (e) {
-      console.log(`Error! should find a Student by username: ${e}`)
-    }
+  it('should find a Student by username', done => {
+    const fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
+    fetchUserInfoFromFCC.yields(true, '{}')
+    Student.findOne({ username: 'quincylarson' }).then(foundStudent => {
+      assert(foundStudent.email === 'whoknows@freecodecamp.com')
+      done()
+    })
   })
 
   it('should not call the mongoose save method when username is invalid', done => {
