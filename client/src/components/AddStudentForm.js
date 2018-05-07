@@ -18,6 +18,7 @@ const DEFAULT_STATE = {
   email: '',
   notes: '',
   errors: [],
+  stage: 'initial',
 }
 
 export default class AddStudentForm extends Component {
@@ -33,7 +34,6 @@ export default class AddStudentForm extends Component {
 
   submit = () => {
     const { name, username, email, notes } = this.state
-    console.log(this.state)
 
     return fetch('/add_student', {
       method: 'post',
@@ -46,11 +46,11 @@ export default class AddStudentForm extends Component {
       }),
     }).then(res => {
       if (res.status === 200) {
-        this.close()
         this._fetchStudentsFromParent()
+        this.setState({ showModal: false, stage: 'completed' })
       } else {
         res.json().then(data => {
-          this.setState({ errors: data.errors })
+          this.setState({ errors: data.errors, stage: 'error' })
         })
       }
     })

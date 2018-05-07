@@ -87,14 +87,12 @@ describe('POST /add_student', () => {
   })
 
   it('should find a Student by username', done => {
-    try {
-      Student.findOne({ username: 'quincylarson' }).then(foundStudent => {
-        assert(foundStudent.email === 'whoknows@freecodecamp.com')
-        done()
-      })
-    } catch (e) {
-      console.log(`Error! should find a Student by username: ${e}`)
-    }
+    const fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
+    fetchUserInfoFromFCC.yields(true, '{}')
+    Student.findOne({ username: 'quincylarson' }).then(foundStudent => {
+      assert(foundStudent.email === 'whoknows@freecodecamp.com')
+      done()
+    })
   })
 
   it('should not call the mongoose save method when username is invalid', done => {

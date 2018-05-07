@@ -27,12 +27,9 @@ before(done => {
   })
 })
 
-beforeEach(done => {
-  const { students } = mongoose.connection.collections
-
-  students.drop(() => {
-    done()
-  })
+afterEach(done => {
+  const db = mongoose.connection
+  db.dropDatabase(() => done())
 })
 
 after(() => {

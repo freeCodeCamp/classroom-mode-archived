@@ -44,23 +44,7 @@ describe('AddStudentForm', () => {
     expect(addStudentForm().instance().state.showModal).toBe(false)
   })
 
-  it('should invoke submit() when submit button is clicked', () => {
-    window.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve(mockResponse(200, null, '{}')))
-
-    const submitSpy = jest.spyOn(AddStudentForm.prototype, 'submit')
-
-    addStudentForm()
-      .find('button.open-modal')
-      .simulate('click')
-    addStudentForm()
-      .find('button.submit')
-      .simulate('click')
-    expect(submitSpy).toHaveBeenCalled()
-  })
-
-  it('should close the modal when submitting returns a 200 response', async () => {
+  it('should close the modal and set stage to completed when submitting returns a 200 response', async () => {
     window.fetch = jest
       .fn()
       .mockImplementation(() => Promise.resolve(mockResponse(200, null, '{}')))
@@ -73,6 +57,7 @@ describe('AddStudentForm', () => {
       .simulate('click')
 
     expect(addStudentForm().instance().state.showModal).toBe(false)
+    expect(addStudentForm().instance().state.stage).toEqual('completed')
   })
 
   it('should show errors when submitting returns a 400 response', () => {
@@ -102,6 +87,7 @@ describe('AddStudentForm', () => {
         expect(addStudentForm().instance().state.errors[1]).toEqual(
           'Email is wrong'
         )
+        expect(addStudentForm().instance().state.stage).toEqual('error')
       })
   })
 

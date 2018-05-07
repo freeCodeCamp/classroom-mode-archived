@@ -18,28 +18,25 @@ afterEach(() => {
 })
 
 describe('GET /students', () => {
-  const dummyStudentResults = [
-    {
-      _id: '5a28cd1b1805592081cd31ea',
+  beforeEach(done => {
+    const student = new Student({
       name: 'studentName',
-      username: 'studentUserName',
-      email: 'studentEmail',
+      username: 'user512',
+      email: 'test@example.com',
       notes: 'studentNote',
-      __v: 0,
-    },
-  ]
-
-  function stubDB(dummyStudentResults) {
-    sandbox.stub(Student, 'collection').returns({
-      find() {
-        return {
-          toArray(cb) {
-            cb(null, dummyStudentResults)
-          },
-        }
-      },
+      completedChallengesCount: 1,
+      completedChallenges: [{}],
     })
-  }
+
+    student.save(() => done())
+  })
+
+  afterEach(async () => {
+    const db = mongoose.connection
+    db.dropDatabase()
+  })
+
+  // server/test/database.js drops students after each test
 
   function stubScraper(error, scraperResponse) {
     sandbox
@@ -47,8 +44,7 @@ describe('GET /students', () => {
       .yieldsAsync(error, scraperResponse)
   }
 
-  xit('should return 200', done => {
-    stubDB(dummyStudentResults)
+  it('should return 200', done => {
     stubScraper(false, { daysInactive: 1 })
     request(app)
       .get('/students')
@@ -58,80 +54,77 @@ describe('GET /students', () => {
       })
   })
 
-  xit('should look up student github username', done => {
+  it('should returns student info', done => {
     stubScraper(false, { daysInactive: 1 })
-    stubDB(dummyStudentResults)
     request(app)
       .get('/students')
       .end((_err, res) => {
+        expect(JSON.parse(res.text)[0].name).to.equal('studentName')
+        expect(JSON.parse(res.text)[0].username).to.equal('user512')
+        expect(JSON.parse(res.text)[0].email).to.equal('test@example.com')
+        expect(JSON.parse(res.text)[0].notes).to.equal('studentNote')
         expect(JSON.parse(res.text)[0].daysInactive).to.equal(1)
         done()
       })
   })
 
-  xit('should fetch data from mongo DB', done => {
-    stubDB(dummyStudentResults)
-    stubScraper(false, { daysInactive: 1 })
-    request(app)
-      .get('/students')
-      .end((_err, res) => {
-        expect(JSON.parse(res.text)[0].name).to.equal(
-          dummyStudentResults[0].name
-        )
-        expect(JSON.parse(res.text)[0].username).to.equal(
-          dummyStudentResults[0].username
-        )
-        expect(JSON.parse(res.text)[0].email).to.equal(
-          dummyStudentResults[0].email
-        )
-        expect(JSON.parse(res.text)[0].notes).to.equal(
-          dummyStudentResults[0].notes
-        )
-        done()
-      })
+  it('should return a 200 and an empty array if the database is empty', done => {
+    const db = mongoose.connection
+    db.dropDatabase(() => {
+      request(app)
+        .get('/students')
+        .end((_err, res) => {
+          expect(res.status).to.equal(200)
+          expect(JSON.parse(res.text)).to.be.an('array').that.is.empty
+          done()
+        })
+    })
   })
 
-  xit('should return a 200 and an empty array if the database is empty', done => {
-    const noResults = []
-    stubDB(noResults)
-    request(app)
-      .get('/students')
-      .end((_err, res) => {
-        expect(res.status).to.equal(200)
-        expect(JSON.parse(res.text)).to.be.an('array').that.is.empty
-        done()
-      })
-  })
-
-  xit('should returns new submissions count and titles', done => {
+  it('should returns new submissions count and titles', done => {
     stubScraper(false, {
       completedChallenges: [
         { title: 'Reverse a String' },
         { title: 'Say Hello to HTML Elements' },
       ],
     })
-    stubDB(dummyStudentResults)
     request(app)
       .get('/students')
       .end((_err, res) => {
         expect(JSON.parse(res.text)[0].newSubmissionsCount).to.equal(1)
         done()
-      })
+    })
   })
 
-  xit('should returns new submissions count and titles when student completedChallengesCount is undefined', done => {
-    stubScraper(false, {
-      completedChallenges: [
-        { title: 'Reverse a String' },
-        { title: 'Say Hello to HTML Elements' },
-      ],
-    })
-    stubDB(dummyStudentResults)
-    request(app)
-      .get('/students')
-      .end((_err, res) => {
-        expect(JSON.parse(res.text)[0].newSubmissionsCount).to.equal(2)
-        done()
+  describe('when student completedChallengeCount is undefinded', () => {
+    it('should returns new submissions count', done => {
+      const student = new Student({
+        name: 'studentName',
+        username: 'user512',
+        email: 'test@example.com',
+        notes: 'studentNote',
+        completedChallengesCount: 0,
+        completedChallenges: [],
       })
+
+      stubScraper(false, {
+        completedChallenges: [
+          { title: 'Reverse a String' },
+          { title: 'Say Hello to HTML Elements' },
+        ],
+      })
+
+      const db = mongoose.connection
+      db.dropDatabase(() => {
+        student.save(() => {
+          request(app)
+            .get('/students')
+            .end((_err, res) => {
+              expect(JSON.parse(res.text)[0].newSubmissionsCount).to.equal(2)
+              done()
+          })
+        })
+      })
+    })
   })
 })
