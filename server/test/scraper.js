@@ -68,90 +68,77 @@ describe('it should scrap data from FCC', () => {
   })
 
   it('should return no errors if scraper has a 200 status code', done => {
-    try {
-      const get = sandbox.stub(request, 'get')
-      get.yieldsOn(this, null, { statusCode: 200 }, testData)
+    const get = sandbox.stub(request, 'get')
+    get.yieldsOn(this, null, { statusCode: 200 }, testData)
 
-      scraper.fetchUserInfoFromFCC('testUser', (err, results) => {
-        expect(err).to.equal(false)
-        done()
-      })
-    } catch (e) {
-      console.log(
-        `Error! should return no errors if scraper has a 200 status code: ${e}`
-      )
-    }
+    scraper.fetchUserInfoFromFCC('testUser', (err, results) => {
+      expect(err).to.equal(false)
+      done()
+    })
   })
 
-  xit('should compute correct number of inactive days', done => {
-    try {
-      const get = sandbox.stub(request, 'get')
-      const now = new Date('December 17, 2017')
-      const clock = sandbox.useFakeTimers(now.getTime())
+  it('should compute correct number of inactive days', done => {
+    const get = sandbox.stub(request, 'get')
+    const now = new Date('December 19, 2017')
+    const clock = sandbox.useFakeTimers(now.getTime())
 
-      get.yieldsOn(this, null, { statusCode: 200 }, testData)
+    get.yieldsOn(this, null, { statusCode: 200 }, testData)
 
-      scraper.fetchUserInfoFromFCC('testUser', (err, results) => {
-        expect(results.daysInactive).to.equal(2)
-        done()
-      })
-    } catch (e) {
-      console.log(`Error! should compute correct number of inactive days: ${e}`)
-    }
+    scraper.fetchUserInfoFromFCC('testUser', (err, results) => {
+      expect(results.daysInactive).to.equal(2)
+      done()
+    })
   })
 
   it('should compute correct number of inactive days when user was active today', done => {
-    try {
-      const get = sandbox.stub(request, 'get')
-      const now = new Date('December 17, 2017')
-      const clock = sandbox.useFakeTimers(now.getTime())
+    const get = sandbox.stub(request, 'get')
+    const now = new Date('December 17, 2017')
+    const clock = sandbox.useFakeTimers(now.getTime())
 
-      get.yieldsOn(this, null, { statusCode: 200 }, testData)
+    get.yieldsOn(this, null, { statusCode: 200 }, testData)
 
-      scraper.fetchUserInfoFromFCC('testUser', (err, results) => {
-        expect(results.daysInactive).to.equal(0)
-        done()
-      })
-    } catch (e) {
-      console.log(
-        `Error! should compute correct number of inactive days when user was active today: ${e}`
-      )
-    }
+    scraper.fetchUserInfoFromFCC('testUser', (err, results) => {
+      expect(results.daysInactive).to.equal(0)
+      done()
+    })
   })
 
-  xit('should respect last updated_at when calculating last daysInactive', done => {
-    try {
-      const get = sandbox.stub(request, 'get')
-      const now = new Date('December 17, 2017')
-      const clock = sandbox.useFakeTimers(now.getTime())
+  it('should respect last updated_at when calculating last daysInactive', done => {
+    const get = sandbox.stub(request, 'get')
+    const now = new Date('December 19, 2017')
+    const clock = sandbox.useFakeTimers(now.getTime())
 
-      get.yieldsOn(this, null, { statusCode: 200 }, testData)
+    const testData = JSON.stringify({
+      name: 'Utsab Saha',
+      profileImage: 'https://avatars3.githubusercontent.com/u/6780322?v=4',
+      location: 'San Francisco',
+      completedChallenges: [
+        {
+          title: 'Configure your Code Portfolio',
+          completed_at: 'Dec 16, 2017',
+          updated_at: 'Dec 17, 2017',
+          url:
+            'https://www.freecodecamp.com/challenges/Configure your Code Portfolio',
+        },
+      ],
+    })
 
-      scraper.fetchUserInfoFromFCC('testUser', (err, results) => {
-        expect(results.daysInactive).to.equal(1)
-        done()
-      })
-    } catch (e) {
-      console.log(
-        `Error! should respect last updated_at when calculating last daysInactive: ${e}`
-      )
-    }
+    get.yieldsOn(this, null, { statusCode: 200 }, testData)
+
+    scraper.fetchUserInfoFromFCC('testUser', (err, results) => {
+      expect(results.daysInactive).to.equal(2)
+      done()
+    })
   })
 
   it('should compute correct number of inactive days when user has no history', done => {
-    try {
-      const get = sandbox.stub(request, 'get')
+    const get = sandbox.stub(request, 'get')
 
-      get.yieldsOn(this, null, { statusCode: 200 }, userData)
+    get.yieldsOn(this, null, { statusCode: 200 }, userData)
 
-      scraper.fetchUserInfoFromFCC('testUser', (err, results) => {
-        expect(results.daysInactive).to.equal('N/A')
-        done()
-      })
-    } catch (e) {
-      console.log(
-        `Error! should compute correct number of inactive days when user has no history: ${e}`
-      )
-    }
+    scraper.fetchUserInfoFromFCC('testUser', (err, results) => {
+      expect(results.daysInactive).to.equal('N/A')
+      done()
+    })
   })
 })
