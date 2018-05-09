@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { ButtonToolbar, Button } from 'react-bootstrap'
 
 export default class StudentRow extends Component {
   static propTypes = {
@@ -9,6 +10,8 @@ export default class StudentRow extends Component {
     notes: PropTypes.string,
     daysInactive: PropTypes.number,
     newSubmissionsCount: PropTypes.number,
+    studentId: PropTypes.string,
+    handleDelete: PropTypes.func.isRequired,
   }
 
   render() {
@@ -19,6 +22,7 @@ export default class StudentRow extends Component {
       notes,
       daysInactive,
       newSubmissionsCount,
+      studentId,
     } = this.props
 
     return (
@@ -29,6 +33,18 @@ export default class StudentRow extends Component {
         <td>{notes}</td>
         <td>{daysInactive}</td>
         <td>{newSubmissionsCount}</td>
+        <td>
+          <ButtonToolbar>
+            <form method="POST">
+              <Button
+                bsStyle="danger"
+                onClick={() => this.props.handleDelete(studentId)}
+              >
+                Delete
+              </Button>
+            </form>
+          </ButtonToolbar>
+        </td>
       </tr>
     )
   }

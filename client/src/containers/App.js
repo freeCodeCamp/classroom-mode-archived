@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import './App.css'
 import AddStudentForm from '../components/AddStudentForm'
 import ClassTable from '../components/ClassTable'
@@ -17,16 +18,27 @@ export default class App extends Component {
     return this.fetchStudentList()
   }
 
-  fetchStudentList() {
-    return fetch('/students').then(res => {
-      res.json().then(students => {
-        if (students.length === 0) {
-          this.setState({ errors: ['classroom is empty'] })
-        } else {
-          this.setState({ students })
-        }
-      })
+  fetchStudentList = () => {
+    axios.get('/students').then(students => {
+      if (students.data.length === 0) {
+        this.setState({ errors: ['classroom is empty'] })
+      } else {
+        this.setState({ students: students.data })
+      }
     })
+  }
+
+  handleDelete = studentId => {
+    try {
+      axios.delete(`/students/${studentId}`)
+      this.setState(prevState => ({
+        students: prevState.students.filter(
+          student => student._id !== studentId
+        ),
+      }))
+    } catch (e) {
+      console.log(`Error: ${e}`)
+    }
   }
 
   render() {
@@ -35,9 +47,13 @@ export default class App extends Component {
         <NavBar />
         <AddStudentForm
           studentLength={this.state.students.length}
-          fetchStudentsFromParent={this.fetchStudentList.bind(this)}
+          fetchStudentsFromParent={this.fetchStudentList}
         />
-        <ClassTable students={this.state.students} errors={this.state.errors} />
+        <ClassTable
+          handleDelete={this.handleDelete}
+          students={this.state.students}
+          errors={this.state.errors}
+        />
       </div>
     )
   }

@@ -10,17 +10,20 @@ const uuidv4 = require('uuid/v4')
 export default class ClassTable extends Component {
   static propTypes = {
     students: PropTypes.array,
+    handleDelete: PropTypes.func.isRequired,
   }
 
   populateStudents = () =>
     this.props.students.map(student => (
       <StudentRow
+        studentId={student._id}
         key={uuidv4()}
         name={student.name}
         username={student.username}
         email={student.email}
         notes={student.notes}
         daysInactive={student.daysInactive}
+        handleDelete={this.props.handleDelete}
         newSubmissionsCount={student.newSubmissionsCount}
       />
     ))
@@ -36,6 +39,7 @@ export default class ClassTable extends Component {
             <th>Notes</th>
             <th>Days Inactive</th>
             <th>New Submissions</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>{this.populateStudents()}</tbody>
