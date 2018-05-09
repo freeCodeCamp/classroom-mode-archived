@@ -3,9 +3,9 @@ const mongoose = require('mongoose')
 const Student = mongoose.model('Student')
 const scraper = require('../helpers/scraper')
 
-exports.deleteStudent = (req, res) => {
+exports.deleteStudent = async (req, res) => {
   try {
-    Student.findByIdAndRemove(req.params.studentId)
+    await Student.findByIdAndRemove(req.params.studentId)
     return res.status(204)
   } catch (e) {
     console.log(`Error: ${e}`)
