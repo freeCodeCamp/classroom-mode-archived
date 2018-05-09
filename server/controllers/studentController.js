@@ -3,6 +3,15 @@ const mongoose = require('mongoose')
 const Student = mongoose.model('Student')
 const scraper = require('../helpers/scraper')
 
+exports.deleteStudent = (req, res) => {
+  try {
+    Student.findByIdAndRemove(req.params.studentId)
+    return res.status(204)
+  } catch (e) {
+    console.log(`Error: ${e}`)
+  }
+}
+
 exports.showStudent = (req, res) => {
   let numStudents = 0
   let numResponsesReceived = 0
@@ -31,8 +40,6 @@ exports.showStudent = (req, res) => {
           numResponsesReceived++
 
           if (numResponsesReceived >= numStudents) {
-            // console.log(students[0].daysInactive) This does return daysInactive
-            // but http://localhost:8083/students doesn't show me. Why? Hm
             res.status(200).json(students)
           }
         })
