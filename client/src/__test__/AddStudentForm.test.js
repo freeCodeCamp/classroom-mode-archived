@@ -3,7 +3,7 @@ import Enzyme, { mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import AddStudentForm from '../components/AddStudentForm'
 import mockResponse from './mock/response'
-import mockAxios from 'axios';
+import mockAxios from 'axios'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -47,10 +47,8 @@ describe('AddStudentForm', () => {
 
   it('should close the modal and set stage to completed when submitting returns a 200 response', async () => {
     mockAxios.post.mockImplementationOnce(() =>
-      Promise.resolve(
-        {data: "OK", status: 200}
-      )
-    );
+      Promise.resolve({ data: 'OK', status: 200 })
+    )
 
     addStudentForm()
       .find('button.open-modal')
@@ -60,18 +58,16 @@ describe('AddStudentForm', () => {
       .simulate('click')
 
     expect(addStudentForm().instance().state.showModal).toBe(false)
-    expect(mockAxios.post).toHaveBeenCalledTimes(1);
+    expect(mockAxios.post).toHaveBeenCalledTimes(1)
   })
 
   it('should show errors when submitting returns a 400 response', done => {
     mockAxios.post.mockImplementationOnce(() =>
-      Promise.resolve(
-        {
-          data: { errors: ['Name is wrong', 'Email is wrong'] },
-          status: 422
-        }
-      )
-    );
+      Promise.resolve({
+        data: { errors: ['Name is wrong', 'Email is wrong'] },
+        status: 422,
+      })
+    )
 
     addStudentForm()
       .find('button.open-modal')
@@ -80,8 +76,7 @@ describe('AddStudentForm', () => {
       .find('button.submit')
       .simulate('click')
 
-
-    setImmediate( () => {
+    setImmediate(() => {
       expect(addStudentForm().instance().state.showModal).toBe(true)
       expect(addStudentForm().instance().state.errors[0]).toEqual(
         'Name is wrong'
@@ -89,7 +84,7 @@ describe('AddStudentForm', () => {
       expect(addStudentForm().instance().state.errors[1]).toEqual(
         'Email is wrong'
       )
-      done();
+      done()
     })
   })
 
@@ -110,10 +105,8 @@ describe('AddStudentForm', () => {
 
   it('triggers the fetchStudentsFromParent upon form submission', async () => {
     mockAxios.post.mockImplementationOnce(() =>
-      Promise.resolve(
-        {data: "OK", status: 200}
-      )
-    );
+      Promise.resolve({ data: 'OK', status: 200 })
+    )
 
     const fetchStudentsSpy = jest.spyOn(
       AddStudentForm.prototype,

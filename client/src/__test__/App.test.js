@@ -1,9 +1,9 @@
 import Enzyme, { mount } from 'enzyme'
 import React from 'react'
+import mockAxios from 'axios'
 import Adapter from 'enzyme-adapter-react-16'
 import App from '../containers/App'
 import mockResponse from './mock/response'
-import mockAxios from 'axios'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -30,10 +30,8 @@ describe('App', () => {
 
   beforeAll(() => {
     mockAxios.get.mockImplementationOnce(() =>
-      Promise.resolve(
-        {data: studentObjects, status: 200}
-      )
-    );
+      Promise.resolve({ data: studentObjects, status: 200 })
+    )
   })
 
   afterAll(() => {
