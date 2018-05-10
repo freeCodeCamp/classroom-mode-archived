@@ -6,7 +6,7 @@ import {
   ControlLabel,
   FormControl,
 } from 'react-bootstrap'
-
+import axios from 'axios'
 import './AddStudentForm.css'
 
 const uuidv4 = require('uuid/v4')
@@ -18,7 +18,6 @@ const DEFAULT_STATE = {
   email: '',
   notes: '',
   errors: [],
-  stage: 'initial',
 }
 
 export default class AddStudentForm extends Component {
@@ -35,25 +34,21 @@ export default class AddStudentForm extends Component {
   submit = () => {
     const { name, username, email, notes } = this.state
 
-    return fetch('/add_student', {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+    axios
+      .post('/add_student', {
         name,
         username,
         email,
         notes,
-      }),
-    }).then(res => {
-      if (res.status === 200) {
+      })
+      .then(() => {
         this._fetchStudentsFromParent()
-        this.setState({ showModal: false, stage: 'completed' })
-      } else {
-        res.json().then(data => {
-          this.setState({ errors: data.errors, stage: 'error' })
-        })
-      }
-    })
+        this.setState({ showModal: !this.state.showModal })
+      })
+      .catch(e => {
+        const { errors } = e.response.data
+        this.setState({ errors })
+      })
   }
 
   _fetchStudentsFromParent() {

@@ -6,6 +6,7 @@ const studentController = require('../controllers/studentController')
 const userController = require('../controllers/userController')
 
 router.get('/', indexController.getHome)
+router.delete('/students/:studentId', studentController.deleteStudent)
 router.get('/students', studentController.showStudent)
 router.post('/add_student', studentController.addStudent)
 router.get('/users/:userId', userController.getUserById)
