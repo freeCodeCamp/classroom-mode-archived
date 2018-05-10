@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./start.js",
     "dev": "nodemon --watch ./start.js",
-    "test": "mocha"
+    "test": "mocha $(find test -name '*.js')"
   },
   "dependencies": {
     "assert": "^1.4.1",
