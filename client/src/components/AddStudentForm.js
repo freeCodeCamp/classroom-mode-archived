@@ -46,7 +46,7 @@ export default class AddStudentForm extends Component {
         email,
         notes,
       })
-      .then((res) => {
+      .then(res => {
         this._fetchStudentsFromParent()
         this.setState({ showModal: !this.state.showModal })
       })
