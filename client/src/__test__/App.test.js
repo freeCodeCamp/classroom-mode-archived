@@ -3,6 +3,7 @@ import React from 'react'
 import Adapter from 'enzyme-adapter-react-16'
 import App from '../containers/App'
 import mockResponse from './mock/response'
+import mockAxios from 'axios'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -28,11 +29,11 @@ describe('App', () => {
   ]
 
   beforeAll(() => {
-    window.fetch = jest
-      .fn()
-      .mockImplementation(() =>
-        Promise.resolve(mockResponse(200, null, JSON.stringify(studentObjects)))
+    mockAxios.get.mockImplementationOnce(() =>
+      Promise.resolve(
+        {data: studentObjects, status: 200}
       )
+    );
   })
 
   afterAll(() => {
@@ -57,8 +58,8 @@ describe('App', () => {
   })
 
   it('fetches GET /students', () => {
-    const fetchSpy = jest.spyOn(window, 'fetch')
-    expect(fetchSpy).toHaveBeenCalledWith('/students')
+    expect(mockAxios.get).toHaveBeenCalledTimes(1)
+    expect(mockAxios.get).toHaveBeenCalledWith('/students')
   })
 
   it('passes students props to ClassTable', () => {
@@ -74,18 +75,5 @@ describe('App', () => {
         .find('ClassTable')
         .prop('students')[0].daysInactive
     ).toEqual(1)
-  })
-
-  it('it passes fetchStudentList function to AddStudentForm ', () => {
-    expect(
-      app()
-        .find('AddStudentForm')
-        .prop('fetchStudentsFromParent')
-    ).toBeInstanceOf(Function)
-    expect(
-      app()
-        .find('AddStudentForm')
-        .prop('fetchStudentsFromParent').name
-    ).toEqual('bound fetchStudentList')
   })
 })

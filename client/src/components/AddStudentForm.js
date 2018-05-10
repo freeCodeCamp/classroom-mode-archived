@@ -34,18 +34,24 @@ export default class AddStudentForm extends Component {
   submit = () => {
     const { name, username, email, notes } = this.state
 
+<<<<<<< HEAD
     axios
       .post('/students', {
+=======
+    return axios
+      .post('/add_student', {
+>>>>>>> WIP - Mock Axio to fix tests
         name,
         username,
         email,
         notes,
       })
-      .then(() => {
+      .then((res) => {
         this._fetchStudentsFromParent()
         this.setState({ showModal: !this.state.showModal })
       })
       .catch(e => {
+        debugger
         const { errors } = e.response.data
         this.setState({ errors })
       })
@@ -96,7 +102,7 @@ export default class AddStudentForm extends Component {
             <Modal.Title>Add Student</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <ul>
+            <ul id="errors">
               {this.state.errors.map(error => <li key={uuidv4()}>{error}</li>)}
             </ul>
             <form>
