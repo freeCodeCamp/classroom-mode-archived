@@ -41,9 +41,9 @@ export default class AddStudentForm extends Component {
         email,
         notes,
       })
-      .then(response => {
+      .then(() => {
         this._fetchStudentsFromParent()
-        this.setState({ showModal: false })
+        this.setState({ showModal: !this.state.showModal })
       })
       .catch(e => {
         const { errors } = e.response.data
