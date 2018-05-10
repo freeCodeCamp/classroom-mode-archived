@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import StudentRow from './StudentRow'
-import Errors from './Errors'
 
 import './ClassTable.css'
 
