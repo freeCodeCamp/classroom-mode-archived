@@ -48,11 +48,11 @@ export default class ClassTable extends Component {
   }
 
   render() {
-    const isStudentListEmpty = this.props.students.length === 0
+    const isStudentListEmpty = !this.props.students.length
     return (
       <div className="ClassTable">
         {isStudentListEmpty ? (
-          <Errors errors={this.props.errors} />
+          <div className="errors">Classroom is empty</div>
         ) : (
           this.showTable()
         )}

@@ -20,11 +20,7 @@ export default class App extends Component {
 
   fetchStudentList = () => {
     axios.get('/students').then(students => {
-      if (students.data.length === 0) {
-        this.setState({ errors: ['classroom is empty'] })
-      } else {
-        this.setState({ students: students.data })
-      }
+      this.setState({ students: students.data })
     })
   }
 
