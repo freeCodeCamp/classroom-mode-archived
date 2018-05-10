@@ -52,7 +52,9 @@ export default class ClassTable extends Component {
     return (
       <div className="ClassTable">
         {isStudentListEmpty ? (
-          <div className="errors">Classroom is empty</div>
+          <div className="container has-no-students">
+            <h1>This classroom is empty</h1>
+          </div>
         ) : (
           this.showTable()
         )}

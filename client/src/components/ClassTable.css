@@ -4,3 +4,6 @@
   width: 80%;
 }
 
+.container.has-no-students {
+  padding-top: 15px;
+}
