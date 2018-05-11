@@ -1,8 +1,8 @@
 require('dotenv').config({ path: 'variables.env' })
-const Student = require('../models/Student')
+const Student = require('../../../models/Student')
 const expect = require('chai').expect
 const request = require('supertest')
-const app = require('../app')
+const app = require('../../../app')
 
 describe('DELETE /students', () => {
   it('should return an error if student name is absent', async () => {

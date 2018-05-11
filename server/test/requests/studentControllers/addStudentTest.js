@@ -1,14 +1,14 @@
 require('dotenv').config({ path: 'variables.env' })
 const mongoose = require('mongoose')
-const Student = require('../models/Student')
+const Student = require('../../../models/Student')
 const chai = require('chai')
 const expect = require('chai').expect
 const sinon = require('sinon')
 const request = require('supertest')
 const serverRequestToScraper = require('request')
-const scraper = require('../helpers/scraper')
+const scraper = require('../../../helpers/scraper')
 const assert = require('assert')
-const app = require('../app')
+const app = require('../../../app')
 
 const sandbox = sinon.sandbox.create()
 

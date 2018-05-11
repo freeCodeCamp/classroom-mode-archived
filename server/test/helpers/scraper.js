@@ -2,7 +2,7 @@ const chai = require('chai')
 
 const expect = chai.expect
 const should = require('chai').should()
-const scraper = require('../helpers/scraper')
+const scraper = require('../../helpers/scraper')
 const sinon = require('sinon')
 const assert = require('assert')
 const request = require('request')
