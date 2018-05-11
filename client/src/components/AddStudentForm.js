@@ -35,7 +35,7 @@ export default class AddStudentForm extends Component {
     const { name, username, email, notes } = this.state
 
     axios
-      .post('/add_student', {
+      .post('/students', {
         name,
         username,
         email,
