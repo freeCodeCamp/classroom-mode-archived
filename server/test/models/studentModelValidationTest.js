@@ -1,5 +1,5 @@
 const assert = require('assert')
-const Student = require('../models/Student')
+const Student = require('../../models/Student')
 
 describe('Validating student records', () => {
   it('requires a name', () => {

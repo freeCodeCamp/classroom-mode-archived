@@ -6,7 +6,7 @@ const scraper = require('../helpers/scraper')
 exports.deleteStudent = async (req, res) => {
   try {
     await Student.findByIdAndRemove(req.params.studentId)
-    return res.status(204)
+    res.sendStatus(204)
   } catch (e) {
     console.log(`Error: ${e}`)
   }
