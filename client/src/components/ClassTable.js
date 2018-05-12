@@ -12,6 +12,10 @@ export default class ClassTable extends Component {
     handleDelete: PropTypes.func.isRequired,
   }
 
+  static defaultProps = {
+    handleDelete: () => {},
+  }
+
   populateStudents = () =>
     this.props.students.map(student => (
       <StudentRow
