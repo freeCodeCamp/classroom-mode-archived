@@ -24,9 +24,9 @@ describe('ClassTable When Student List Is Empty', () => {
   it('displays a special message if the student list is empty', () => {
     expect(
       classTable()
-        .find('.errors')
+        .find('.has-no-students')
         .text()
-    ).toEqual('classroom is empty')
+    ).toEqual('This classroom is empty')
   })
 
   it('do not display table if student list is empty', () => {
@@ -59,8 +59,8 @@ describe('ClassTable When Student List Is Not Empty', () => {
   it('populates student data as a table', () => {
     expect(classTable().find('.students').length).toEqual(1)
     expect(classTable().find('table').length).toEqual(1)
-    expect(classTable().find('th').length).toEqual(6)
-    expect(classTable().find('td').length).toEqual(6)
+    expect(classTable().find('th').length).toEqual(7)
+    expect(classTable().find('td').length).toEqual(7)
     expect(
       classTable()
         .find('tr')
