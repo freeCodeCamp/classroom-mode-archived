@@ -34,13 +34,8 @@ export default class AddStudentForm extends Component {
   submit = () => {
     const { name, username, email, notes } = this.state
 
-<<<<<<< HEAD
-    axios
-      .post('/students', {
-=======
     return axios
-      .post('/add_student', {
->>>>>>> WIP - Mock Axio to fix tests
+      .post('/students', {
         name,
         username,
         email,
@@ -51,7 +46,6 @@ export default class AddStudentForm extends Component {
         this.setState({ showModal: !this.state.showModal })
       })
       .catch(e => {
-        debugger
         const { errors } = e.response.data
         this.setState({ errors })
       })
