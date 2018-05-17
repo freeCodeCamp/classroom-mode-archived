@@ -93,7 +93,7 @@ describe('GET /students', () => {
       .end((_err, res) => {
         expect(JSON.parse(res.text)[0].newSubmissionsCount).to.equal(1)
         done()
-    })
+      })
   })
 
   describe('when student completedChallengeCount is undefinded', () => {
@@ -122,7 +122,7 @@ describe('GET /students', () => {
             .end((_err, res) => {
               expect(JSON.parse(res.text)[0].newSubmissionsCount).to.equal(2)
               done()
-          })
+            })
         })
       })
     })

@@ -1,9 +1,8 @@
 import React from 'react'
 import Enzyme, { mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import AddStudentForm from '../components/AddStudentForm'
-import mockResponse from './mock/response'
 import mockAxios from 'axios'
+import AddStudentForm from '../components/AddStudentForm'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -79,7 +78,9 @@ describe('AddStudentForm', () => {
 
     expect(addStudentForm().instance().state.showModal).toBe(true)
 
-    expect(addStudentForm().instance().state.errors[0]).toEqual('Name is required.')
+    expect(addStudentForm().instance().state.errors[0]).toEqual(
+      'Name is required.'
+    )
     expect(addStudentForm().instance().state.errors[1]).toEqual(
       'Email is required.'
     )

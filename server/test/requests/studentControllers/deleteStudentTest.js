@@ -16,9 +16,11 @@ describe('DELETE /students', () => {
       .delete(`/students/${student._id}`)
       .end((_err, res) => {
         expect(res.status).to.equal(204)
-        Student.find({ id: student._id }).lean().then(result => {
-          expect(result).to.equal([])
-        })
+        Student.find({ id: student._id })
+          .lean()
+          .then(result => {
+            expect(result).to.equal([])
+          })
       })
   })
 })
