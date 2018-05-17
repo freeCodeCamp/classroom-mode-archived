@@ -5,10 +5,10 @@ mongoose.Promise = global.Promise
 const validator = require('validator')
 
 const studentSchema = new Schema({
-  name: {
+  name: { 
     type: String,
     validate: {
-      validator: name => name.length > 2,
+      validator: (name) => name.length > 2,
       message: 'Name must be longer than 2 characters.',
     },
     trim: true,
@@ -21,8 +21,8 @@ const studentSchema = new Schema({
     type: String,
     lowercase: true,
     trim: true,
-    validate: [validator.isEmail, 'Invalid Email Address'],
-    required: 'Please Supply an email address',
+    validate: [{ validator: value => validator.isEmail(value), msg: 'Invalid email.' }],
+    required: [true, 'Please Supply an email address'],
   },
   notes: {
     type: String,

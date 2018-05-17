@@ -83,24 +83,24 @@ exports.addStudent = (req, res) => {
 
   scraper.fetchUserInfoFromFCC(username, (error, fccResults) => {
     if (!error) {
-      const student = new Student({
-        name,
-        username,
-        email,
-        notes,
-        completedChallengesCount:
-          fccResults.completedChallenges &&
-          fccResults.completedChallenges.length,
-        completedChallenges: fccResults.completedChallenges,
-      })
-      student.save(err => {
-        if (err) {
-          console.log('Student saved failed', student)
-          res.sendStatus(500)
-        }
-        console.log(student)
-        res.sendStatus(200)
-      })
+      Student.find({ username: username })
+        .then(user => {
+          if (user.length) {
+            errors.push('freeCodeCamp username already exist.')
+            res.status(422).json({ errors })
+          } else {
+            Student.create({
+              name: name,
+              username: username,
+              email: email,
+              completedChallengesCount: fccResults.completedChallenges && fccResults.completedChallenges.length,
+              completedChallenges: fccResults.completedChallenges
+            }).catch((error) => {
+              res.status(422).json({ error })
+            })
+            res.status(200).json({})
+          }
+        })
     } else {
       errors.push('freeCodeCamp username is invalid.')
       res.status(422).json({ errors })
