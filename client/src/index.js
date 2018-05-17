@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import ErrorBoundary from './components/ErrorBoundary'
 import './index.css'
-import App from './containers/App'
+import RouterSetup from './components/RouterSetup'
 import registerServiceWorker from './registerServiceWorker'
 
 class Root extends Component {
@@ -11,7 +11,7 @@ class Root extends Component {
       <ErrorBoundary
         render={() => <div className="error">Error has occurred</div>}
       >
-        <App />
+        <RouterSetup />
       </ErrorBoundary>
     )
   }
