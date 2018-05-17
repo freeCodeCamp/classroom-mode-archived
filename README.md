@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/freeCodeCamp/classroom-mode.svg?branch=master)](https://travis-ci.org/freeCodeCamp/classroom-mode)
+
 # FCC Classroom Mode
 
 _Proudly built by:_
