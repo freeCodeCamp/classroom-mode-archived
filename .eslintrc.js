@@ -51,6 +51,7 @@ module.exports = {
       "react/prefer-stateless-function": 0,
       "react/forbid-prop-types": 0,
       "react/no-unescaped-entities": 0,
+      "react/require-default-props": 0,
       "jsx-a11y/accessible-emoji": 0,
       'jsx-a11y/label-has-for': 0,
       "react/jsx-filename-extension": [
