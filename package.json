@@ -1,9 +1,19 @@
 {
   "name": "fcc-classroom-mode",
-  "version": "0.0.1",
-  "license": "(BSD-3-Clause AND CC-BY-SA-4.0)",
-  "private": true,
+  "description": "A Classroom Mode for your Students",
+  "version": "0.0.2",
+  "license": "BSD-3-Clause",
+  "author": "freeCodeCamp <team@freecodecamp.org> (https://freecodecamp.org)",
+  "homepage": "https://github.com/freeCodeCamp/classroom-mode#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freeCodeCamp/classroom-mode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/freeCodeCamp/classroom-mode/issues"
+  },
   "scripts": {
+    "precommit": "npm run test",
     "start": "cd server && npm install && node start.js",
     "server": "PORT=8083 npm run dev --prefix server",
     "client": "npm start --prefix client",
@@ -24,5 +34,8 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
     "prettier": "^1.12.1"
-  }
+  },
+  "keywords": [
+    "classroom-mode"
+  ]
 }
