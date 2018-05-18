@@ -22,10 +22,10 @@
     "request": "^2.83.0",
     "sinon": "^4.1.2",
     "sinon-chai": "^2.14.0",
+    "supertest": "^3.1.0",
     "validator": "^9.4.1"
   },
   "devDependencies": {
-    "nodemon": "^1.17.3",
-    "supertest": "^3.0.0"
+    "nodemon": "^1.17.3"
   }
 }

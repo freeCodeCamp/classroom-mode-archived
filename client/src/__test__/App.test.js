@@ -3,7 +3,6 @@ import React from 'react'
 import mockAxios from 'axios'
 import Adapter from 'enzyme-adapter-react-16'
 import App from '../containers/App'
-import mockResponse from './mock/response'
 
 Enzyme.configure({ adapter: new Adapter() })
 
