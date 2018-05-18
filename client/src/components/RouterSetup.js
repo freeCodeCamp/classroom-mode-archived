@@ -7,9 +7,7 @@ import App from '../containers/App'
 const RouterSetup = () => (
   <Router history={history}>
     <Fragment>
-      <App>
-        <Route exact path="/" component={App} />
-      </App>
+      <Route exact path="/" component={App} />
     </Fragment>
   </Router>
 )
