@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import StudentRow from './StudentRow'
+import { ButtonToolbar, Button } from 'react-bootstrap'
 
-import './ClassTable.css'
+import './Home.css'
 
 const uuidv4 = require('uuid/v4')
 
-export default class ClassTable extends Component {
+export default class Home extends Component {
   static propTypes = {
     students: PropTypes.array,
     handleDelete: PropTypes.func.isRequired,
@@ -18,17 +18,23 @@ export default class ClassTable extends Component {
 
   populateStudents = () =>
     this.props.students.map(student => (
-      <StudentRow
-        studentId={student._id}
-        key={uuidv4()}
-        name={student.name}
-        username={student.username}
-        email={student.email}
-        notes={student.notes}
-        daysInactive={student.daysInactive}
-        handleDelete={this.props.handleDelete}
-        newSubmissionsCount={student.newSubmissionsCount}
-      />
+      <tr>
+        <td>{student.name}</td>
+        <td>{student.username}</td>
+        <td>{student.email}</td>
+        <td>{student.notes}</td>
+        <td>{student.daysInactive}</td>
+        <td>{student.newSubmissionsCount}</td>
+        <td>
+          <ButtonToolbar>
+            <form method="POST">
+              <Button bsStyle="danger" onClick={() => console.log('clicked')}>
+                Delete
+              </Button>
+            </form>
+          </ButtonToolbar>
+        </td>
+      </tr>
     ))
 
   showTable() {
@@ -51,16 +57,16 @@ export default class ClassTable extends Component {
   }
 
   render() {
-    const isStudentListEmpty = !this.props.students.length
+    // const isStudentListEmpty = !this.props.students.length
     return (
       <div className="ClassTable">
-        {isStudentListEmpty ? (
+        {/* {isStudentListEmpty ? (
           <div className="container has-no-students">
             <h1>This classroom is empty</h1>
           </div>
         ) : (
           this.showTable()
-        )}
+        )} */}
       </div>
     )
   }

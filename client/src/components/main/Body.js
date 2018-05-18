@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import './App.css'
-import AddStudentForm from '../components/AddStudentForm'
-import ClassTable from '../components/ClassTable'
-import NavBar from '../components/NavBar'
+import './Body.css'
+import AddStudentForm from './AddStudentForm'
+import NavBar from '../main/NavBar'
 
 const DEFAULT_STATE = {
   students: [],
@@ -11,7 +10,7 @@ const DEFAULT_STATE = {
   user_info: {},
 }
 
-export default class App extends Component {
+export default class Body extends Component {
   state = DEFAULT_STATE
 
   componentDidMount() {
@@ -46,11 +45,7 @@ export default class App extends Component {
           studentLength={this.state.students.length}
           fetchStudentsFromParent={this.fetchStudentList}
         />
-        <ClassTable
-          handleDelete={this.handleDelete}
-          students={this.state.students}
-          errors={this.state.errors}
-        />
+        {this.props.children}
       </div>
     )
   }
