@@ -18,7 +18,7 @@ export default class Home extends Component {
 
   populateStudents = () =>
     this.props.students.map(student => (
-      <tr>
+      <tr key={uuidv4()}>
         <td>{student.name}</td>
         <td>{student.username}</td>
         <td>{student.email}</td>
@@ -28,7 +28,10 @@ export default class Home extends Component {
         <td>
           <ButtonToolbar>
             <form method="POST">
-              <Button bsStyle="danger" onClick={() => console.log('clicked')}>
+              <Button
+                bsStyle="danger"
+                onClick={() => this.props.handleDelete(student._id)}
+              >
                 Delete
               </Button>
             </form>
@@ -57,16 +60,16 @@ export default class Home extends Component {
   }
 
   render() {
-    // const isStudentListEmpty = !this.props.students.length
+    const isStudentListEmpty = !this.props.studentLength
     return (
       <div className="ClassTable">
-        {/* {isStudentListEmpty ? (
+        {isStudentListEmpty ? (
           <div className="container has-no-students">
             <h1>This classroom is empty</h1>
           </div>
         ) : (
           this.showTable()
-        )} */}
+        )}
       </div>
     )
   }
