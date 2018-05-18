@@ -56,7 +56,7 @@ describe('Home When Student List Is Not Empty', () => {
     return mountedHome
   }
 
-  xit('populates student data as a table', () => {
+  it('populates student data as a table', () => {
     expect(homePage().find('.students').length).toEqual(1)
     expect(homePage().find('table').length).toEqual(1)
     expect(homePage().find('th').length).toEqual(7)

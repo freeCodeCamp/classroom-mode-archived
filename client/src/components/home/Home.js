@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { ButtonToolbar, Button } from 'react-bootstrap'
+import StudentRow from '../main/StudentRow'
 
 import './Home.css'
 
@@ -18,26 +18,17 @@ export default class Home extends Component {
 
   populateStudents = () =>
     this.props.students.map(student => (
-      <tr key={uuidv4()}>
-        <td>{student.name}</td>
-        <td>{student.username}</td>
-        <td>{student.email}</td>
-        <td>{student.notes}</td>
-        <td>{student.daysInactive}</td>
-        <td>{student.newSubmissionsCount}</td>
-        <td>
-          <ButtonToolbar>
-            <form method="POST">
-              <Button
-                bsStyle="danger"
-                onClick={() => this.props.handleDelete(student._id)}
-              >
-                Delete
-              </Button>
-            </form>
-          </ButtonToolbar>
-        </td>
-      </tr>
+      <StudentRow
+        studentId={student._id}
+        key={uuidv4()}
+        name={student.name}
+        username={student.username}
+        email={student.email}
+        notes={student.notes}
+        daysInactive={student.daysInactive}
+        handleDelete={this.props.handleDelete}
+        newSubmissionsCount={student.newSubmissionsCount}
+      />
     ))
 
   showTable() {

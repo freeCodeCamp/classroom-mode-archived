@@ -1,6 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import ErrorBoundary from '../components/ErrorBoundary'
+import ErrorBoundary from '../components/main/ErrorBoundary'
 
 const Child = () => {
   throw 'error'
