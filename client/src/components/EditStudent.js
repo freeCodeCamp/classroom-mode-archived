@@ -7,6 +7,7 @@ import {
   FormGroup,
   Modal,
   ButtonGroup,
+  Alert,
 } from 'react-bootstrap'
 import axios from 'axios'
 
@@ -28,6 +29,8 @@ export default class EditStudent extends Component {
   static getDerivedStateFromProps = nextProps =>
     nextProps.student ? { student: nextProps.student } : null
 
+  clearErrors = () => this.setState({ errors: [] })
+
   submit = () => {
     const { onSuccessfulSubmission } = this.props
 
@@ -35,6 +38,10 @@ export default class EditStudent extends Component {
     axios
       .put('/students', this.state.student)
       .then(res => onSuccessfulSubmission(res.data))
+      .catch(e => {
+        const { errors } = e.response.data
+        this.setState({ errors })
+      })
       .then(() => this.setState({ isSubmitting: false }))
   }
 
@@ -78,7 +85,7 @@ export default class EditStudent extends Component {
             <FormGroup controlId="email">
               <ControlLabel>Email: </ControlLabel>
               <FormControl
-                type="text"
+                type="email"
                 name="email"
                 defaultValue={student.email}
                 onChange={this.handleInputChange}
@@ -106,6 +113,12 @@ export default class EditStudent extends Component {
               </Button>
             </ButtonGroup>
           </form>
+          {this.state.errors &&
+            this.state.errors.map(error => (
+              <Alert bsStyle="danger" key={error} onDismiss={this.clearErrors}>
+                {error}
+              </Alert>
+            ))}
         </Modal.Body>
       </Modal>
     )
