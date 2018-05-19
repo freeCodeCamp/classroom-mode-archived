@@ -20,6 +20,7 @@ export default class EditStudent extends Component {
 
   static defaultProps = {
     isOpen: false,
+    student: {},
   }
 
   state = { isSubmitting: false, student: {} }
