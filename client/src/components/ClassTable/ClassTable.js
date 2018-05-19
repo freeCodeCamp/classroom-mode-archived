@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import StudentRow from './StudentRow'
+import uuidv4 from 'uuid/v4'
+import EditStudent from './EditStudent'
+import StudentRow from '../StudentRow'
 
 import './ClassTable.css'
-
-const uuidv4 = require('uuid/v4')
 
 export default class ClassTable extends Component {
   static propTypes = {
@@ -12,9 +12,16 @@ export default class ClassTable extends Component {
     handleDelete: PropTypes.func.isRequired,
   }
 
-  static defaultProps = {
-    handleDelete: () => {},
+  state = {
+    isEditMode: false,
   }
+
+  handleEditClick = studentInfo => {
+    this.setState({ isEditMode: true, editedStudent: studentInfo })
+  }
+
+  handleModalCloseClick = () =>
+    this.setState({ isEditMode: false, editedStudent: {} })
 
   populateStudents = () =>
     this.props.students.map(student => (
@@ -27,6 +34,7 @@ export default class ClassTable extends Component {
         notes={student.notes}
         daysInactive={student.daysInactive}
         handleDelete={this.props.handleDelete}
+        handleEdit={this.handleEditClick}
         newSubmissionsCount={student.newSubmissionsCount}
       />
     ))
@@ -53,14 +61,21 @@ export default class ClassTable extends Component {
   render() {
     const isStudentListEmpty = !this.props.students.length
     return (
-      <div className="ClassTable">
-        {isStudentListEmpty ? (
-          <div className="container has-no-students">
-            <h1>This classroom is empty</h1>
-          </div>
-        ) : (
-          this.showTable()
-        )}
+      <div>
+        <EditStudent
+          isOpen={this.state.isEditMode}
+          onClose={this.handleModalCloseClick}
+          student={this.state.editedStudent}
+        />
+        <div className="ClassTable">
+          {isStudentListEmpty ? (
+            <div className="container has-no-students">
+              <h1>This classroom is empty</h1>
+            </div>
+          ) : (
+            this.showTable()
+          )}
+        </div>
       </div>
     )
   }

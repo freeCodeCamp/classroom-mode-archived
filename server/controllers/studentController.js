@@ -3,6 +3,17 @@ const mongoose = require('mongoose')
 const Student = mongoose.model('Student')
 const scraper = require('../helpers/scraper')
 
+function validateEmail(email) {
+  const re = /\S+@\S+\.\S+/
+  if (email && !re.test(email)) {
+    console.log('Email is invalid.')
+    return 'Email is invalid.'
+  } else if (!email) {
+    console.log('Email is required.')
+    return 'Email is required.'
+  }
+}
+
 exports.deleteStudent = async (req, res) => {
   try {
     await Student.findByIdAndRemove(req.params.studentId)
@@ -59,17 +70,6 @@ exports.addStudent = (req, res) => {
     errors.push('Username is required.')
   }
 
-  function validateEmail(email) {
-    const re = /\S+@\S+\.\S+/
-    if (email && !re.test(email)) {
-      console.log('Email is invalid.')
-      return 'Email is invalid.'
-    } else if (!email) {
-      console.log('Email is required.')
-      return 'Email is required.'
-    }
-  }
-
   const emailValidationError = validateEmail(email)
 
   if (emailValidationError) {
@@ -105,5 +105,39 @@ exports.addStudent = (req, res) => {
       errors.push('freeCodeCamp username is invalid.')
       res.status(422).json({ errors })
     }
+  })
+}
+
+exports.updateStudent = (req, res) => {
+  const errors = []
+  console.log(req.body)
+  const { name, email, username } = req.body
+
+  if (!name) {
+    errors.push('Name is required.')
+  }
+
+  if (!username) {
+    errors.push('Username is required.')
+  }
+
+  const emailValidationError = validateEmail(email)
+
+  if (emailValidationError) {
+    errors.push(emailValidationError)
+  }
+
+  if (errors.length > 0) {
+    console.log(errors)
+    res.status(422).json({ errors })
+    return
+  }
+
+  Student.update({ _id: req.body.studentId }, req.body, err => {
+    if (err) {
+      console.log('Student update failed', req.body)
+      res.sendStatus(500)
+    }
+    res.json(req.body)
   })
 }
