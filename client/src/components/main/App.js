@@ -29,7 +29,6 @@ export default class App extends Component {
   handleDelete = studentId => {
     try {
       axios.delete(`/students/${studentId}`)
-      console.log(this.state)
       this.setState(prevState => ({
         students: prevState.students.filter(
           student => student._id !== studentId
