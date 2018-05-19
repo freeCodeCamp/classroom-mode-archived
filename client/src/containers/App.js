@@ -47,7 +47,6 @@ export default class App extends Component {
     this.setState({ isEditMode: false, editedStudent: {} })
 
   handleSuccessfulStudentEdit = newStudentInfo => {
-    console.log(newStudentInfo)
     const newStudents = this.state.students.map(student => {
       if (newStudentInfo._id === student._id) {
         return { ...student, ...newStudentInfo }
