@@ -110,7 +110,8 @@ exports.addStudent = (req, res) => {
 
 exports.updateStudent = (req, res) => {
   const errors = []
-  const { name, email, username } = req.body
+  const newStudent = req.body
+  const { name, email, studentId, username } = newStudent
 
   if (!name) {
     errors.push('Name is required.')
@@ -128,15 +129,41 @@ exports.updateStudent = (req, res) => {
 
   if (errors.length > 0) {
     console.error(errors)
-    res.status(422).json({ errors })
-    return
+    return res.status(422).json({ errors })
   }
 
-  Student.update({ _id: req.body.studentId }, req.body, err => {
-    if (err) {
-      console.log('Student update failed', req.body)
-      res.sendStatus(500)
-    }
-    res.json(req.body)
-  })
+  Student.findOne({ _id: studentId })
+    .then(document => document._doc)
+    .then(existingStudent => {
+      const mergedStudent = Object.assign({}, existingStudent, newStudent)
+      if (mergedStudent.username !== existingStudent.username) {
+        return new Promise((resolve, reject) => {
+          scraper.fetchUserInfoFromFCC(username, (error, fccResults) => {
+            if (error) {
+              reject(new Error('Error fetching user from FreeCodeCamp'))
+            }
+            Object.assign(mergedStudent, {
+              completedChallenges: fccResults.completedChallenges,
+              completedChallengesCount:
+                fccResults.completedChallenges &&
+                fccResults.completedChallenges.length,
+              daysInactive: fccResults.daysInactive,
+            })
+            resolve(mergedStudent)
+          })
+        })
+      }
+      return new Promise(resolve => {
+        resolve(mergedStudent)
+      })
+    })
+    .then(student => {
+      Student.findOneAndUpdate({ _id: student._id }, student).then(() =>
+        res.json(student)
+      )
+    })
+    .catch(err => {
+      console.error(err.message)
+      res.status(500).json({ errors: [err.message] })
+    })
 }
