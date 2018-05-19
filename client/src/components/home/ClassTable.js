@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import StudentRow from './StudentRow'
+import StudentRow from '../main/StudentRow'
 
 import './ClassTable.css'
 
@@ -51,7 +51,7 @@ export default class ClassTable extends Component {
   }
 
   render() {
-    const isStudentListEmpty = !this.props.students.length
+    const isStudentListEmpty = this.props.students && this.props.students.length === 0
     return (
       <div className="ClassTable">
         {isStudentListEmpty ? (

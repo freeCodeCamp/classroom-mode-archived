@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import ErrorBoundary from './components/ErrorBoundary'
+import ErrorBoundary from './components/main/ErrorBoundary'
 import './index.css'
-import RouterSetup from './components/RouterSetup'
+import RouterSetup from './components/main/RouterSetup'
 import registerServiceWorker from './registerServiceWorker'
 
 class Root extends Component {

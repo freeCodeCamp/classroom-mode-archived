@@ -1,7 +1,7 @@
 import React from 'react'
 import Enzyme, { mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import ClassTable from '../components/ClassTable'
+import ClassTable from '../components/home/ClassTable'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -56,8 +56,13 @@ describe('ClassTable When Student List Is Not Empty', () => {
     return mountedClassTable
   }
 
+  it('always renders a div', () => {
+    const divs = classTable().find('div')
+    expect(divs.length).toBeGreaterThan(0)
+  })
+
   it('populates student data as a table', () => {
-    expect(classTable().find('.students').length).toEqual(1)
+    expect(classTable().find('.ClassTable').length).toEqual(1)
     expect(classTable().find('table').length).toEqual(1)
     expect(classTable().find('th').length).toEqual(7)
     expect(classTable().find('td').length).toEqual(7)
