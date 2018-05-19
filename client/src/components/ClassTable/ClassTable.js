@@ -9,6 +9,7 @@ export default class ClassTable extends Component {
   static propTypes = {
     students: PropTypes.array,
     handleDelete: PropTypes.func.isRequired,
+    handleEditClick: PropTypes.func.isRequired,
   }
 
   populateStudents = () =>

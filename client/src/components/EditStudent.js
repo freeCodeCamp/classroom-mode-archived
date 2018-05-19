@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {
   Button,
   ControlLabel,
@@ -10,7 +11,19 @@ import {
 import axios from 'axios'
 
 export default class EditStudent extends Component {
+  static propTypes = {
+    onSuccessfulSubmission: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool,
+    onClose: PropTypes.func.isRequired,
+    student: PropTypes.object,
+  }
+
+  static defaultProps = {
+    isOpen: false,
+  }
+
   state = { isSubmitting: false, student: {} }
+
   static getDerivedStateFromProps = nextProps =>
     nextProps.student ? { student: nextProps.student } : null
 
