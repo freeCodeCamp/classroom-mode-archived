@@ -3,7 +3,7 @@ import axios from 'axios'
 import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 import './App.css'
 import AddStudentForm from './AddStudentForm'
-import EditStudent from '../components/EditStudent'
+import EditStudent from '../main/EditStudent'
 import NavBar from '../main/NavBar'
 import MainContent from './MainContent'
 import ClassTable from '../home/ClassTable'
@@ -80,6 +80,7 @@ export default class App extends Component {
                   students={this.state.students}
                   errors={this.state.errors}
                   handleDelete={this.handleDelete}
+                  handleEditClick={this.handleEditClick}
                 />
               )}
             />
