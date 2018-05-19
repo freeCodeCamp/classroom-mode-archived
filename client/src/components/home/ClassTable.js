@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import StudentRow from '../main/StudentRow'
 
-import './Home.css'
+import './ClassTable.css'
 
 const uuidv4 = require('uuid/v4')
 
-export default class Home extends Component {
+export default class ClassTable extends Component {
   static propTypes = {
     students: PropTypes.array,
     handleDelete: PropTypes.func.isRequired,

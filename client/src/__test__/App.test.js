@@ -59,17 +59,17 @@ describe('App', () => {
     expect(mockAxios.get).toHaveBeenCalledWith('/students')
   })
 
-  it('passes students props to Home', () => {
+  it('passes students props to ClassTable', () => {
     expect(
       app()
         .update()
-        .find('Home')
+        .find('ClassTable')
         .prop('students')
     ).toEqual(studentObjects)
     expect(
       app()
         .update()
-        .find('Home')
+        .find('ClassTable')
         .prop('students')[0].daysInactive
     ).toEqual(1)
   })

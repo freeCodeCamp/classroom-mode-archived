@@ -5,7 +5,7 @@ import './App.css'
 import AddStudentForm from './AddStudentForm'
 import NavBar from '../main/NavBar'
 import MainContent from './MainContent'
-import Home from '../home/Home'
+import ClassTable from '../home/ClassTable'
 
 const DEFAULT_STATE = {
   students: [],
@@ -53,7 +53,7 @@ export default class App extends Component {
             <Route
               to="/"
               render={() => (
-                <Home
+                <ClassTable
                   students={this.state.students}
                   errors={this.state.errors}
                   handleDelete={this.handleDelete}
