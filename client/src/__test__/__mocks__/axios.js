@@ -1,4 +1,7 @@
+const mockHttpRequest = () => Promise.resolve({ data: {} })
+
 export default {
-  get: jest.fn(() => Promise.resolve({ data: {} })),
-  post: jest.fn(() => Promise.resolve({ data: {} })),
+  get: jest.fn(mockHttpRequest),
+  post: jest.fn(mockHttpRequest),
+  put: jest.fn(mockHttpRequest),
 }
