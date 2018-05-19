@@ -51,7 +51,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const isStudentListEmpty = !this.props.studentLength
+    const isStudentListEmpty = this.props.students && this.props.students.length === 0
     return (
       <div className="ClassTable">
         {isStudentListEmpty ? (

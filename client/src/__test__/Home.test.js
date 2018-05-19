@@ -56,8 +56,13 @@ describe('Home When Student List Is Not Empty', () => {
     return mountedHome
   }
 
+  it('always renders a div', () => {
+    const divs = homePage().find('div')
+    expect(divs.length).toBeGreaterThan(0)
+  })
+
   it('populates student data as a table', () => {
-    expect(homePage().find('.students').length).toEqual(1)
+    expect(homePage().find('.ClassTable').length).toEqual(1)
     expect(homePage().find('table').length).toEqual(1)
     expect(homePage().find('th').length).toEqual(7)
     expect(homePage().find('td').length).toEqual(7)

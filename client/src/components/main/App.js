@@ -53,7 +53,6 @@ export default class App extends Component {
             to="/"
             render={() => (
               <Home
-                studentLength={this.state.students.length}
                 students={this.state.students}
                 errors={this.state.errors}
                 handleDelete={this.handleDelete}
