@@ -12,7 +12,7 @@ require('dotenv').config({ path: 'variables.env' })
 
 before(done => {
   // Connect to the Database
-  mongoose.connect(process.env.TEST_DATABASE, {
+  mongoose.connect(process.env.TEST_DATABASE || 'mongodb://localhost:27017/fcc-classroom', {
     useMongoClient: true,
   })
 
