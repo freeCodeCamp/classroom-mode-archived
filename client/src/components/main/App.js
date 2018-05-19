@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Route } from 'react-router-dom'
+import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 import './App.css'
 import AddStudentForm from './AddStudentForm'
 import NavBar from '../main/NavBar'
@@ -49,16 +49,18 @@ export default class App extends Component {
           fetchStudentsFromParent={this.fetchStudentList}
         />
         <MainContent>
-          <Route
-            to="/"
-            render={() => (
-              <Home
-                students={this.state.students}
-                errors={this.state.errors}
-                handleDelete={this.handleDelete}
-              />
-            )}
-          />
+          <BrowserRouter>
+            <Route
+              to="/"
+              render={() => (
+                <Home
+                  students={this.state.students}
+                  errors={this.state.errors}
+                  handleDelete={this.handleDelete}
+                />
+              )}
+            />
+          </BrowserRouter>
         </MainContent>
       </div>
     )
