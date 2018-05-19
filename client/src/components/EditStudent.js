@@ -15,14 +15,12 @@ export default class EditStudent extends Component {
     nextProps.student ? { student: nextProps.student } : null
 
   submit = () => {
-    const { onClose } = this.props
+    const { onSuccessfulSubmission } = this.props
 
     this.setState({ isSubmitting: true })
     axios
       .put('/students', this.state.student)
-      .then(res => {
-        onClose(res.data)
-      })
+      .then(res => onSuccessfulSubmission(res.data))
       .then(() => this.setState({ isSubmitting: false }))
   }
 

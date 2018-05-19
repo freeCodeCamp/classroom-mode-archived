@@ -3,6 +3,7 @@ import axios from 'axios'
 import './App.css'
 import AddStudentForm from '../components/AddStudentForm'
 import ClassTable from '../components/ClassTable'
+import EditStudent from '../components/EditStudent'
 import NavBar from '../components/NavBar'
 
 const DEFAULT_STATE = {
@@ -38,6 +39,23 @@ export default class App extends Component {
     }
   }
 
+  handleEditClick = studentInfo => {
+    this.setState({ isEditMode: true, editedStudent: studentInfo })
+  }
+
+  handleModalCloseClick = () =>
+    this.setState({ isEditMode: false, editedStudent: {} })
+
+  handleSuccessfulStudentEdit = newStudentInfo => {
+    const newStudents = this.state.students.map(student => {
+      if (newStudentInfo.studentId === student._id) {
+        return { ...student, ...newStudentInfo }
+      }
+      return student
+    })
+    this.setState({ students: newStudents }, this.handleModalCloseClick)
+  }
+
   render() {
     return (
       <div className="App">
@@ -46,8 +64,15 @@ export default class App extends Component {
           studentLength={this.state.students.length}
           fetchStudentsFromParent={this.fetchStudentList}
         />
+        <EditStudent
+          isOpen={this.state.isEditMode}
+          onClose={this.handleModalCloseClick}
+          onSuccessfulSubmission={this.handleSuccessfulStudentEdit}
+          student={this.state.editedStudent}
+        />
         <ClassTable
           handleDelete={this.handleDelete}
+          handleEditClick={this.handleEditClick}
           students={this.state.students}
           errors={this.state.errors}
         />

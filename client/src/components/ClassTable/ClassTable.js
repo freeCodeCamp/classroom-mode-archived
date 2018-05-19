@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import uuidv4 from 'uuid/v4'
-import EditStudent from './EditStudent'
 import StudentRow from '../StudentRow'
 
 import './ClassTable.css'
@@ -11,17 +10,6 @@ export default class ClassTable extends Component {
     students: PropTypes.array,
     handleDelete: PropTypes.func.isRequired,
   }
-
-  state = {
-    isEditMode: false,
-  }
-
-  handleEditClick = studentInfo => {
-    this.setState({ isEditMode: true, editedStudent: studentInfo })
-  }
-
-  handleModalCloseClick = () =>
-    this.setState({ isEditMode: false, editedStudent: {} })
 
   populateStudents = () =>
     this.props.students.map(student => (
@@ -34,7 +22,7 @@ export default class ClassTable extends Component {
         notes={student.notes}
         daysInactive={student.daysInactive}
         handleDelete={this.props.handleDelete}
-        handleEdit={this.handleEditClick}
+        handleEdit={this.props.handleEditClick}
         newSubmissionsCount={student.newSubmissionsCount}
       />
     ))
@@ -61,21 +49,14 @@ export default class ClassTable extends Component {
   render() {
     const isStudentListEmpty = !this.props.students.length
     return (
-      <div>
-        <EditStudent
-          isOpen={this.state.isEditMode}
-          onClose={this.handleModalCloseClick}
-          student={this.state.editedStudent}
-        />
-        <div className="ClassTable">
-          {isStudentListEmpty ? (
-            <div className="container has-no-students">
-              <h1>This classroom is empty</h1>
-            </div>
-          ) : (
-            this.showTable()
-          )}
-        </div>
+      <div className="ClassTable">
+        {isStudentListEmpty ? (
+          <div className="container has-no-students">
+            <h1>This classroom is empty</h1>
+          </div>
+        ) : (
+          this.showTable()
+        )}
       </div>
     )
   }

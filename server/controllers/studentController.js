@@ -110,7 +110,6 @@ exports.addStudent = (req, res) => {
 
 exports.updateStudent = (req, res) => {
   const errors = []
-  console.log(req.body)
   const { name, email, username } = req.body
 
   if (!name) {
@@ -128,7 +127,7 @@ exports.updateStudent = (req, res) => {
   }
 
   if (errors.length > 0) {
-    console.log(errors)
+    console.error(errors)
     res.status(422).json({ errors })
     return
   }
