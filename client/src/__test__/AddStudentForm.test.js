@@ -2,7 +2,7 @@ import React from 'react'
 import Enzyme, { mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import mockAxios from 'axios'
-import AddStudentForm from '../components/AddStudentForm'
+import AddStudentForm from '../components/main/AddStudentForm'
 
 Enzyme.configure({ adapter: new Adapter() })
 

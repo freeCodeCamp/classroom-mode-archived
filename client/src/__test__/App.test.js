@@ -2,7 +2,7 @@ import Enzyme, { mount } from 'enzyme'
 import React from 'react'
 import mockAxios from 'axios'
 import Adapter from 'enzyme-adapter-react-16'
-import App from '../containers/App'
+import App from '../components/main/App'
 
 Enzyme.configure({ adapter: new Adapter() })
 

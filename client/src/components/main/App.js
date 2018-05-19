@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 import './App.css'
-import AddStudentForm from '../components/AddStudentForm'
-import ClassTable from '../components/ClassTable'
+import AddStudentForm from './AddStudentForm'
 import EditStudent from '../components/EditStudent'
-import NavBar from '../components/NavBar'
+import NavBar from '../main/NavBar'
+import MainContent from './MainContent'
+import ClassTable from '../home/ClassTable'
 
 const DEFAULT_STATE = {
   students: [],
@@ -28,7 +30,6 @@ export default class App extends Component {
   handleDelete = studentId => {
     try {
       axios.delete(`/students/${studentId}`)
-      console.log(this.state)
       this.setState(prevState => ({
         students: prevState.students.filter(
           student => student._id !== studentId
@@ -70,12 +71,20 @@ export default class App extends Component {
           onSuccessfulSubmission={this.handleSuccessfulStudentEdit}
           student={this.state.editedStudent}
         />
-        <ClassTable
-          handleDelete={this.handleDelete}
-          handleEditClick={this.handleEditClick}
-          students={this.state.students}
-          errors={this.state.errors}
-        />
+        <MainContent>
+          <BrowserRouter>
+            <Route
+              to="/"
+              render={() => (
+                <ClassTable
+                  students={this.state.students}
+                  errors={this.state.errors}
+                  handleDelete={this.handleDelete}
+                />
+              )}
+            />
+          </BrowserRouter>
+        </MainContent>
       </div>
     )
   }
