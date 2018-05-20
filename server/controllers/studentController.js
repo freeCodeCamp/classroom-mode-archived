@@ -3,6 +3,17 @@ const mongoose = require('mongoose')
 const Student = mongoose.model('Student')
 const scraper = require('../helpers/scraper')
 
+function validateEmail(email) {
+  const re = /\S+@\S+\.\S+/
+  if (email && !re.test(email)) {
+    console.log('Email is invalid.')
+    return 'Email is invalid.'
+  } else if (!email) {
+    console.log('Email is required.')
+    return 'Email is required.'
+  }
+}
+
 exports.deleteStudent = async (req, res) => {
   try {
     await Student.findByIdAndRemove(req.params.studentId)
@@ -59,17 +70,6 @@ exports.addStudent = (req, res) => {
     errors.push('Username is required.')
   }
 
-  function validateEmail(email) {
-    const re = /\S+@\S+\.\S+/
-    if (email && !re.test(email)) {
-      console.log('Email is invalid.')
-      return 'Email is invalid.'
-    } else if (!email) {
-      console.log('Email is required.')
-      return 'Email is required.'
-    }
-  }
-
   const emailValidationError = validateEmail(email)
 
   if (emailValidationError) {
@@ -106,4 +106,64 @@ exports.addStudent = (req, res) => {
       res.status(422).json({ errors })
     }
   })
+}
+
+exports.updateStudent = (req, res) => {
+  const errors = []
+  const newStudent = req.body
+  const { name, email, studentId, username } = newStudent
+
+  if (!name) {
+    errors.push('Name is required.')
+  }
+
+  if (!username) {
+    errors.push('Username is required.')
+  }
+
+  const emailValidationError = validateEmail(email)
+
+  if (emailValidationError) {
+    errors.push(emailValidationError)
+  }
+
+  if (errors.length > 0) {
+    console.error(errors)
+    return res.status(422).json({ errors })
+  }
+
+  Student.findOne({ _id: studentId })
+    .then(document => document._doc)
+    .then(existingStudent => {
+      const mergedStudent = Object.assign({}, existingStudent, newStudent)
+      if (mergedStudent.username !== existingStudent.username) {
+        return new Promise((resolve, reject) => {
+          scraper.fetchUserInfoFromFCC(username, (error, fccResults) => {
+            if (error) {
+              reject(new Error('Error fetching user from FreeCodeCamp'))
+            }
+            Object.assign(mergedStudent, {
+              completedChallenges: fccResults.completedChallenges,
+              completedChallengesCount:
+                fccResults.completedChallenges &&
+                fccResults.completedChallenges.length,
+              daysInactive: fccResults.daysInactive,
+            })
+            resolve(mergedStudent)
+          })
+        })
+      }
+      return new Promise(resolve => {
+        resolve(mergedStudent)
+      })
+    })
+    .then(student => {
+      Student.findOneAndUpdate({ _id: student._id }, student).then(() =>
+        res.json(student)
+      )
+    })
+    .catch(err => {
+      console.error(err.message)
+      res.status(500).json({ errors: [err.message] })
+    })
 }

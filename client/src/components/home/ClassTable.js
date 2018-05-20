@@ -10,6 +10,7 @@ export default class ClassTable extends Component {
   static propTypes = {
     students: PropTypes.array,
     handleDelete: PropTypes.func.isRequired,
+    handleEditClick: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -27,6 +28,7 @@ export default class ClassTable extends Component {
         notes={student.notes}
         daysInactive={student.daysInactive}
         handleDelete={this.props.handleDelete}
+        handleEdit={this.props.handleEditClick}
         newSubmissionsCount={student.newSubmissionsCount}
       />
     ))

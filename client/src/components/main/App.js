@@ -3,6 +3,7 @@ import axios from 'axios'
 import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 import './App.css'
 import AddStudentForm from './AddStudentForm'
+import EditStudent from '../main/EditStudent'
 import NavBar from '../main/NavBar'
 import MainContent from './MainContent'
 import ClassTable from '../home/ClassTable'
@@ -39,6 +40,23 @@ export default class App extends Component {
     }
   }
 
+  handleEditClick = studentInfo => {
+    this.setState({ isEditMode: true, editedStudent: studentInfo })
+  }
+
+  handleModalCloseClick = () =>
+    this.setState({ isEditMode: false, editedStudent: {} })
+
+  handleSuccessfulStudentEdit = newStudentInfo => {
+    const newStudents = this.state.students.map(student => {
+      if (newStudentInfo._id === student._id) {
+        return { ...student, ...newStudentInfo }
+      }
+      return student
+    })
+    this.setState({ students: newStudents }, this.handleModalCloseClick)
+  }
+
   render() {
     return (
       <div className="App">
@@ -46,6 +64,12 @@ export default class App extends Component {
         <AddStudentForm
           studentLength={this.state.students.length}
           fetchStudentsFromParent={this.fetchStudentList}
+        />
+        <EditStudent
+          isOpen={this.state.isEditMode}
+          onClose={this.handleModalCloseClick}
+          onSuccessfulSubmission={this.handleSuccessfulStudentEdit}
+          student={this.state.editedStudent}
         />
         <MainContent>
           <BrowserRouter>
@@ -56,6 +80,7 @@ export default class App extends Component {
                   students={this.state.students}
                   errors={this.state.errors}
                   handleDelete={this.handleDelete}
+                  handleEditClick={this.handleEditClick}
                 />
               )}
             />
