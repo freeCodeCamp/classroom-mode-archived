@@ -1,5 +1,4 @@
 require('dotenv').config({ path: 'variables.env' })
-const mongoose = require('mongoose')
 const Student = require('../../../models/Student')
 const chai = require('chai')
 const expect = require('chai').expect
