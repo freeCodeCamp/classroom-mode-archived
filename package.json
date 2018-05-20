@@ -17,8 +17,8 @@
     "start": "cd server && npm install && node start.js",
     "server": "PORT=8083 npm run dev --prefix server",
     "client": "npm start --prefix client",
-    "dev": "npm run server & npm run client",
-    "setup": "npm install --prefix server && npm install --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "setup": "npm install && npm install --prefix server && npm install --prefix client",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
     "server-test": "npm test --prefix server",
     "client-test": "npm test --prefix client",
@@ -39,6 +39,7 @@
     "classroom-mode"
   ],
   "devDependencies": {
-    "husky": "^0.14.3"
+    "husky": "^0.14.3",
+    "concurrently": "^3.5.1"
   }
 }
