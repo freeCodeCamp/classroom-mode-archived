@@ -13,7 +13,7 @@
     "url": "https://github.com/freeCodeCamp/classroom-mode/issues"
   },
   "scripts": {
-    "precommit": "npm run test",
+    "precommit": "npm test --prefix server && npm run precommit-test --prefix client",
     "start": "cd server && npm install && node start.js",
     "server": "PORT=8083 npm run dev --prefix server",
     "client": "npm start --prefix client",
@@ -37,5 +37,8 @@
   },
   "keywords": [
     "classroom-mode"
-  ]
+  ],
+  "devDependencies": {
+    "husky": "^0.14.3"
+  }
 }
