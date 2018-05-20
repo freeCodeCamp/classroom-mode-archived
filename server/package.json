@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./start.js",
-    "dev": "nodemon --watch ./start.js",
+    "dev": "nodemon ./start.js",
     "test": "mocha $(find test -name '*.js')"
   },
   "dependencies": {
