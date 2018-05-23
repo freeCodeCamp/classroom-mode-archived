@@ -85,7 +85,7 @@ describe('POST /students', () => {
     }
   })
 
-  it('should find a Student by username', done => {
+  xit('should find a Student by username', done => {
     const fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
     fetchUserInfoFromFCC.yields(true, '{}')
     Student.findOne({ username: 'quincylarson' }).then(foundStudent => {
