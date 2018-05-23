@@ -33,7 +33,6 @@ export default class AddStudentForm extends Component {
 
   submit = () => {
     const { name, username, email, notes } = this.state
-    console.log("In submit ****");
     return axios
       .post('/students', {
         name,
@@ -42,13 +41,11 @@ export default class AddStudentForm extends Component {
         notes,
       })
       .then(res => {
-        console.log("submit succeded ****", res);
         this._fetchStudentsFromParent()
         this.setState({ showModal: !this.state.showModal })
       })
       .catch(e => {
         const { errors } = e.response.data
-        console.log("In error handler ****", errors);
         this.setState({ errors })
       })
   }
