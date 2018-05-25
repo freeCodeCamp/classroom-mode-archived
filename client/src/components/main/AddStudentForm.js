@@ -33,7 +33,6 @@ export default class AddStudentForm extends Component {
 
   submit = () => {
     const { name, username, email, notes } = this.state
-
     return axios
       .post('/students', {
         name,
