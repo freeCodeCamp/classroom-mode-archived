@@ -6,11 +6,9 @@
 
 ## Mission
 
-Freecodecamp started out as a powerful platform for individuals to learn coding at their own pace from anywhere in the world. It has been a great tool for individuals. However there is a new trend where groups are using freecodecamp as a platform to learn together. Teachers are using freecodecamp in their classrooms, and study groups are forming community learning experiences.
+Freecodecamp started out as an individual experience. But more and more teachers are using it to teach groups of students at a time. There is also an increasing number of study groups forming around freecodecamp. However, freecodecamp was not built with the group experience in mind. The goal of this project is to serve teachers and study groups.
 
-Our goal is to serve teachers, classrooms and study groups by creating a useful group experience for them around freecodecamp.
-
-We also serve the contributors to this project(specifically people who have not found their first tech job yet) by creating a supportive learning environment where they can find mentorship towards improving their skillset and portfolio.
+You can view the interactive prototype for our MVP [here](https://projects.invisionapp.com/share/J3C03W2SX#/screens)
 
 ## Architecture
 
