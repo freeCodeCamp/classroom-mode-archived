@@ -4,6 +4,14 @@
 
 [![Build Status](https://travis-ci.org/freeCodeCamp/classroom-mode.svg?branch=master)](https://travis-ci.org/freeCodeCamp/classroom-mode)
 
+## Mission
+
+Freecodecamp started out as a powerful platform for individuals to learn coding at their own pace from anywhere in the world. It has been a great tool for individuals. However there is a new trend where groups are using freecodecamp as a platform to learn together. Teachers are using freecodecamp in their classrooms, and study groups are forming community learning experiences.
+
+Our goal is to serve teachers, classrooms and study groups by creating a useful group experience for them around freecodecamp.
+
+We also serve the contributors to this project(specifically people who have not found their first tech job yet) by creating a supportive learning environment where they can find mentorship towards improving their skillset and portfolio.
+
 ## Architecture
 
 The application currently has a react frontend and an express backend.  The frontend is located inside of the the '/client' folder, while the backend is located inside of the '/server' folder. Both the client and the server run as seperate web applications, which means that they each have a separate server. The react server is runs on port 8080, while the express server runs on port 8083.
