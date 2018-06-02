@@ -16,6 +16,12 @@ You can view the interactive prototype for our MVP [here](https://projects.invis
 
 We envision a multitude of communities around the world empowering themselves to learn coding. Our goal is to foster community learning.
 
+## Values
+
+We strive to create a supportive learning environment for our contributors where they can find mentors as well as mentor others. We do this by encouraging pair programming as well as group coding sessions over zoom.
+
+We take a data driven approach towards designing this product based on user feedback. We practice the principles of Lean Startup.
+
 ## Contributing
 
 We welcome pull-requests from freecodecamp campers. Please follow [these steps](.github/CONTRIBUTING.md) to contribute. 
