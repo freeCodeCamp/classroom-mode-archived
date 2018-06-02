@@ -10,62 +10,15 @@ Freecodecamp started out as an individual experience. But more and more teachers
 
 You can view the interactive prototype for our MVP [here](https://projects.invisionapp.com/share/J3C03W2SX#/screens)
 
-## Architecture
+## Vision
 
-The application currently has a react frontend and an express backend.  The frontend is located inside of the the '/client' folder, while the backend is located inside of the '/server' folder. Both the client and the server run as seperate web applications, which means that they each have a separate server. The react server is runs on port 8080, while the express server runs on port 8083.
+> It’s 10pm at night, you’re in a remote town, you should be able to log on virtually and code with a community.
 
-The react server proxies requests to the express server (see /client/package.json to see how the proxy is defined).
+We envision a multitude of communities around the world empowering themselves to learn coding. Our goal is to foster community learning.
 
-## Install
+## Contributing
 
-`npm run setup` to install both server and client applications dependencies.
-
-If running on cloud9, you must rename the .env.development.cloud9 as .env.development. Note that you should not commit this file to github.  It should be disabled when deploying to a productoin environment
-
-To run the application, you must start both the client and the server:
-
-`npm run dev` to start both servers
-
-Or you may run the below script in separate terminals
-```bash
-npm run server
-```
-
-```bash
-npm run client
-```
-
-Setup Database Configuration
-```bash
-cp server/variables.env.sample server/variables.env
-```
-
-Run Test
-```bash
-npm test
-```
-
-## Contributors
-
-We welcome pull requests from freeCodeCamp campers (our students) and seasoned JavaScript developers alike! See the list of [contributors](https://github.com/freeCodeCamp/classroom-mode/contributors) who participated in writing this tool.
-
-To get started the first thing you're going to want to do is fork this repository over to your personal github.
-
-Next, go ahead and clone the repo from your repository locally. From there you have two steps:
-
-```bash
-git remote add upstream https://github.com/freeCodeCamp/classroom-mode.git
-```
-
-Then go ahead fetch the changes.
-
-```bash
-git fetch upstream
-```
-
-Afterward, you will want to create a new branch locally with `git checkout -b BRANCHNAME`
-
-When you're done and ready for a pull request fetch and merge anything that's been done on the upstream/master into your newly created `BRANCHNAME` and resolve any merge conflicts.
+We welcome pull-requests from freecodecamp campers. Please follow [these steps](.github/CONTRIBUTING.md) to contribute. 
 
 ## License
 
