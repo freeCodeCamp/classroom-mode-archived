@@ -21,8 +21,7 @@ export default class App extends Component {
 
   componentDidMount() {
     const client = new ApolloClient({
-      uri: 'http://localhost:4000/graphql',
-      headers: {'Authorization': 'some_token'}
+      uri: 'http://localhost:4000/graphql'
     })
     client
       .query({
@@ -34,6 +33,11 @@ export default class App extends Component {
             }
           }
         `,
+        context: {
+          headers: {
+            "Authorization": "Bearer some_token"
+          }
+        }
       })
       .then(data => console.log(data))
       .catch(error => console.error(error))
