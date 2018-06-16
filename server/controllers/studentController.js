@@ -77,17 +77,15 @@ exports.addStudent = (req, res) => {
   var postData = {
     query: `{ getUser(email: "${email}") {name email}}`
   }
-  console.log(postData)
   var url = 'http://localhost:4000/graphql'
   var options = {
-    method: 'post',
     body: postData,
     json: true,
     url: url,
     headers: {"Authorization": "Bearer some_token"}
   }
 
-  request(options, function(err, _apiRes, body) {
+  request.post(options, function(err, _apiRes, body) {
     if (err) {
       console.log(err)
     }
