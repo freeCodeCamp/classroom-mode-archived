@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const request = require('request')
 
 const Student = mongoose.model('Student')
 const scraper = require('../helpers/scraper')
@@ -60,15 +61,7 @@ exports.showStudent = (req, res) => {
 
 exports.addStudent = (req, res) => {
   const errors = []
-  const { name, email, username, notes } = req.body
-
-  if (!name) {
-    errors.push('Name is required.')
-  }
-
-  if (!username) {
-    errors.push('Username is required.')
-  }
+  const { email, notes } = req.body
 
   const emailValidationError = validateEmail(email)
 
@@ -81,31 +74,49 @@ exports.addStudent = (req, res) => {
     return
   }
 
-  scraper.fetchUserInfoFromFCC(username, (error, fccResults) => {
-    if (!error) {
-      const student = new Student({
-        name,
-        username,
-        email,
-        notes,
-        completedChallengesCount:
-          fccResults.completedChallenges &&
-          fccResults.completedChallenges.length,
-        completedChallenges: fccResults.completedChallenges,
-      })
-      student.save(err => {
-        if (err) {
-          console.log('Student saved failed', student)
-          res.sendStatus(500)
-        }
-        console.log(student)
-        res.sendStatus(200)
-      })
-    } else {
-      errors.push('freeCodeCamp username is invalid.')
-      res.status(422).json({ errors })
+  var postData = {
+    query: `{ getUser(email: "${email}") {name email}}`
+  }
+  console.log(postData)
+  var url = 'http://localhost:4000/graphql'
+  var options = {
+    method: 'post',
+    body: postData,
+    json: true,
+    url: url,
+    headers: {"Authorization": "Bearer some_token"}
+  }
+
+  request(options, function(err, _apiRes, body) {
+    if (err) {
+      console.log(err)
     }
-  })
+    if (!body.getUser) {
+      errors.push(body.errors[0].message)
+      res.status(422).json({ errors })
+    } else {
+      const { name } = body.data.getUser
+      const newEmail = body.data.getUser.email
+      if (!err) {
+        const student = new Student({
+          name,
+          email: newEmail,
+          notes,
+        })
+        student.save(err => {
+          if (err) {
+            console.log('Student saved failed', student)
+            res.sendStatus(500)
+          }
+          console.log('Studnet saved', student)
+          res.sendStatus(200)
+        })
+      } else {
+        errors.push('freeCodeCamp username is invalid.')
+        res.status(422).json({ errors })
+      }
+    }
+    })
 }
 
 exports.updateStudent = (req, res) => {

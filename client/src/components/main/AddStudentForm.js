@@ -32,11 +32,10 @@ export default class AddStudentForm extends Component {
   }
 
   submit = () => {
-    const { name, username, email, notes } = this.state
+    console.log('submit')
+    const { email, notes } = this.state
     return axios
       .post('/students', {
-        name,
-        username,
         email,
         notes,
       })
@@ -99,24 +98,6 @@ export default class AddStudentForm extends Component {
               {this.state.errors.map(error => <li key={uuidv4()}>{error}</li>)}
             </ul>
             <form>
-              <FormGroup controlId="name">
-                <ControlLabel>Name: </ControlLabel>
-                <FormControl
-                  type="text"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.handleChange}
-                />
-              </FormGroup>
-              <FormGroup controlId="username">
-                <ControlLabel>FCC Username: </ControlLabel>
-                <FormControl
-                  type="text"
-                  name="username"
-                  value={this.state.username}
-                  onChange={this.handleChange}
-                />
-              </FormGroup>
               <FormGroup controlId="email">
                 <ControlLabel>Email: </ControlLabel>
                 <FormControl
