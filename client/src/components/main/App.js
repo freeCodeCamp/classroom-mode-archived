@@ -7,8 +7,6 @@ import EditStudent from '../main/EditStudent'
 import NavBar from '../main/NavBar'
 import MainContent from './MainContent'
 import ClassTable from '../home/ClassTable'
-import ApolloClient from 'apollo-boost'
-import gql from 'graphql-tag'
 
 const DEFAULT_STATE = {
   students: [],
@@ -20,28 +18,7 @@ export default class App extends Component {
   state = DEFAULT_STATE
 
   componentDidMount() {
-    const client = new ApolloClient({
-      uri: 'http://localhost:4000/graphql'
-    })
-    client
-      .query({
-        query: gql`
-          query {
-            getUser(email: "charlie@thebear.me") {
-              name
-              isCheater
-            }
-          }
-        `,
-        context: {
-          headers: {
-            "Authorization": "Bearer some_token"
-          }
-        }
-      })
-      .then(data => console.log(data))
-      .catch(error => console.error(error))
-    // return this.fetchStudentList()
+    return this.fetchStudentList()
   }
 
   fetchStudentList = () => {
