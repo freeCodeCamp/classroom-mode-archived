@@ -3,6 +3,7 @@ const Student = require('../../../models/Student')
 const expect = require('chai').expect
 const sinon = require('sinon')
 const request = require('supertest')
+const apiRequest = require('request')
 const scraper = require('../../../helpers/scraper')
 const assert = require('assert')
 const app = require('../../../app')
@@ -22,7 +23,7 @@ describe('POST /students', () => {
     })
   })
 
-  xit('should return an error if student name is absent', done => {
+  it('should return an error if student name is absent', done => {
     try {
       request(app)
         .post('/students')
@@ -38,7 +39,7 @@ describe('POST /students', () => {
     }
   })
 
-  xit('should return an error if email in invalid', done => {
+  it('should return an error if email in invalid', done => {
     try {
       request(app)
         .post('/students')
@@ -53,16 +54,15 @@ describe('POST /students', () => {
     }
   })
 
-  it('should receive an error message if scraper returns error', done => {
+  it('should receive an error message if open-api returns error', done => {
     try {
-      // const fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
-      // fetchUserInfoFromFCC.yields(true, '{}')
-      // const apiResponseBody =  { data: { getUser: null },
-      //                             errors:
-      //                             [ { message: 'No user found for not-valid@test.com',
-      //                                 locations: [Array],
-      //                                 path: [Array] } ] }
-      // sandbox.stub(request, 'post').yields(false, {}, apiResponseBody)
+      const stubApiRequest = sandbox.stub(apiRequest, 'post')
+      const apiResponseBody =  { data: { getUser: null },
+                                  errors:
+                                  [ { message: 'No user found for not-valid@test.com',
+                                      locations: [Array],
+                                      path: [Array] } ] }
+      stubApiRequest.yields(false, {}, apiResponseBody)
 
       request(app)
         .post('/students')
@@ -92,24 +92,27 @@ describe('POST /students', () => {
     })
   })
 
-  xit('should not call the mongoose save method when username is invalid', done => {
+  it('should not call the mongoose save method when email is invalid', done => {
     try {
-      const fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
-      fetchUserInfoFromFCC.yields(true, '{}')
+      const stubApiRequest = sandbox.stub(apiRequest, 'post')
+      const apiResponseBody =  { data: { getUser: null },
+                                  errors:
+                                  [ { message: 'No user found for not-valid@test.com',
+                                      locations: [Array],
+                                      path: [Array] } ] }
+      stubApiRequest.yields(false, {}, apiResponseBody)
       const save = sandbox.stub(Student.prototype, 'save')
       save.yields(false)
 
       request(app)
         .post('/students')
         .send({
-          name: 'fccStudent',
-          email: 'user@freecodecamp.com',
-          username: 'invalidusername',
+          email: 'not-valid@test.com',
         })
         .end((_err, res) => {
           expect(res.statusCode).to.equal(422)
           expect(JSON.parse(res.text).errors).to.include(
-            'freeCodeCamp username is invalid.'
+            'No user found for not-valid@test.com'
           )
           expect(save).to.not.have.been.called
           done()
