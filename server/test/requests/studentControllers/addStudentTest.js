@@ -15,14 +15,6 @@ afterEach(() => {
 })
 
 describe('POST /students', () => {
-  beforeEach(async () => {
-    Student.create({
-      name: 'Quincy Larson',
-      email: 'whoknows@freecodecamp.com',
-      username: 'quincylarson',
-    })
-  })
-
   it('should return an error if student name is absent', done => {
     try {
       request(app)
@@ -81,15 +73,6 @@ describe('POST /students', () => {
         `Error! should receive an error message if scraper returns error: ${e}`
       )
     }
-  })
-
-  xit('should find a Student by username', done => {
-    const fetchUserInfoFromFCC = sandbox.stub(scraper, 'fetchUserInfoFromFCC')
-    fetchUserInfoFromFCC.yields(true, '{}')
-    Student.findOne({ username: 'quincylarson' }).then(foundStudent => {
-      assert(foundStudent.email === 'whoknows@freecodecamp.com')
-      done()
-    })
   })
 
   it('should not call the mongoose save method when email is invalid', done => {
