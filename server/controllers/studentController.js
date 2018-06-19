@@ -82,7 +82,7 @@ exports.addStudent = (req, res) => {
     body: postData,
     json: true,
     url: url,
-    headers: {"Authorization": "Bearer some_token"}
+    headers: {"Authorization": `Bearer ${process.env.OPENAPI_TEMP_TOKEN}`}
   }
 
   request.post(options, function(err, _apiRes, body) {
