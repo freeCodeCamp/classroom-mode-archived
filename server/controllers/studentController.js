@@ -89,7 +89,7 @@ exports.addStudent = (req, res) => {
     if (err) {
       console.log(err)
     }
-    if (!body.getUser) {
+    if (!body.data.getUser) {
       errors.push(body.errors[0].message)
       res.status(422).json({ errors })
     } else {

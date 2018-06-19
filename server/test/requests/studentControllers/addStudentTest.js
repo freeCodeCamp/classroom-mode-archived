@@ -46,6 +46,34 @@ describe('POST /students', () => {
     }
   })
 
+  it('should create a student when valid email', done => {
+    const stubApiRequest = sandbox.stub(apiRequest, 'post')
+    const apiResponseBody =  {
+      data:
+        {
+          getUser:
+           {
+             name: 'Jason',
+             email: 'jason@example.com'
+            }
+          }
+        }
+    stubApiRequest.yields(false, {}, apiResponseBody)
+    const save = sandbox.stub(Student.prototype, 'save')
+    save.yields(false)
+
+    request(app)
+      .post('/students')
+      .send({
+        email: 'jason@example.com',
+      })
+      .end((_err, res) => {
+        expect(res.statusCode).to.equal(200)
+        expect(save).to.have.been.calledOnce
+        done()
+      })
+  })
+
   it('should receive an error message if open-api returns error', done => {
     try {
       const stubApiRequest = sandbox.stub(apiRequest, 'post')
