@@ -43,7 +43,6 @@ describe('ClassTable When Student List Is Not Empty', () => {
           students={[
             {
               name: 'Utsab',
-              username: 'utsab',
               email: 'kdj@dfj',
               notes: 'kdlfj',
               daysInactive: 1,
@@ -64,8 +63,8 @@ describe('ClassTable When Student List Is Not Empty', () => {
   it('populates student data as a table', () => {
     expect(classTable().find('.ClassTable').length).toEqual(1)
     expect(classTable().find('table').length).toEqual(1)
-    expect(classTable().find('th').length).toEqual(7)
-    expect(classTable().find('td').length).toEqual(7)
+    expect(classTable().find('th').length).toEqual(6)
+    expect(classTable().find('td').length).toEqual(6)
     expect(
       classTable()
         .find('tr')
@@ -79,33 +78,26 @@ describe('ClassTable When Student List Is Not Empty', () => {
         .last()
         .childAt(1)
         .text()
-    ).toEqual('utsab')
+    ).toEqual('kdj@dfj')
     expect(
       classTable()
         .find('tr')
         .last()
         .childAt(2)
         .text()
-    ).toEqual('kdj@dfj')
+    ).toEqual('kdlfj')
     expect(
       classTable()
         .find('tr')
         .last()
         .childAt(3)
         .text()
-    ).toEqual('kdlfj')
-    expect(
-      classTable()
-        .find('tr')
-        .last()
-        .childAt(4)
-        .text()
     ).toEqual('1')
     expect(
       classTable()
         .find('tr')
         .last()
-        .childAt(5)
+        .childAt(4)
         .text()
     ).toEqual('2')
   })

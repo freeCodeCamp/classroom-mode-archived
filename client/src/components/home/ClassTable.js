@@ -23,7 +23,6 @@ export default class ClassTable extends Component {
         studentId={student._id}
         key={uuidv4()}
         name={student.name}
-        username={student.username}
         email={student.email}
         notes={student.notes}
         daysInactive={student.daysInactive}
@@ -39,7 +38,6 @@ export default class ClassTable extends Component {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Username</th>
             <th>Email</th>
             <th>Notes</th>
             <th>Days Inactive</th>
