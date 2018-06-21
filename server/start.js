@@ -9,12 +9,15 @@ mongoose.connect(process.env.DATABASE, {
 })
 
 mongoose.Promise = global.Promise
-mongoose.connection.on('error', err => {
-  console.error(`🙅 🚫 → ${err.message}`)
-})
+mongoose.connection
+  .once('open', () => console.log('Connected to mongodb'))
+  .on('error', err => {
+    console.error(`🙅 🚫 → ${err.message}`)
+  })
 
 // import all of the models
 require('./models/Student')
+require('./models/Teacher')
 
 // Start the server!
 const app = require('./app')
