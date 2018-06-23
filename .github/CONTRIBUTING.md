@@ -6,6 +6,8 @@ Follow these steps to contribute.
 
 2. Let us know you are working on it by posting a comment on the issue.
 
+Remember to feel free to ask for help in our [Contributors](https://gitter.im/FreeCodeCamp/classroom-mode) Gitter room.
+
 Working on your first Pull Request? You can learn how from this free series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
 
 ## Quick Reference
