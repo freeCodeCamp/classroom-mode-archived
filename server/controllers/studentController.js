@@ -46,11 +46,11 @@ exports.addStudent = (req, res) => {
     return
   }
 
-  var postData = {
+  const postData = {
     query: `{ getUser(email: "${email}") {name email}}`
   }
-  var url = 'http://localhost:4000/graphql'
-  var options = {
+  const url = 'http://localhost:4000/graphql'
+  const options = {
     body: postData,
     json: true,
     url: url,
