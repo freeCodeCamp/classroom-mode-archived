@@ -24,38 +24,11 @@ exports.deleteStudent = async (req, res) => {
   }
 }
 
-exports.showStudent = (req, res) => {
-  let numStudents = 0
-  let numResponsesReceived = 0
-
+exports.showStudent = (_req, res) => {
   Student.find({})
     .lean()
     .then(students => {
-      numStudents = students.length
-
-      if (numStudents === 0) {
-        res.status(200).json(students)
-      }
-
-      students.map(student => {
-        scraper.fetchUserInfoFromFCC(student.username, (_err, fccResults) => {
-          student.daysInactive = fccResults.daysInactive
-
-          if (fccResults.completedChallenges) {
-            const completedChallengesCount = student.completedChallengesCount
-              ? student.completedChallengesCount
-              : 0
-            student.newSubmissionsCount =
-              fccResults.completedChallenges.length - completedChallengesCount
-          }
-
-          numResponsesReceived++
-
-          if (numResponsesReceived >= numStudents) {
-            res.status(200).json(students)
-          }
-        })
-      })
+      res.status(200).json(students)
     })
 }
 

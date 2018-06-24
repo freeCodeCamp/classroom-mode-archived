@@ -6,7 +6,6 @@ const chai = require('chai')
 const expect = chai.expect
 const sinon = require('sinon')
 const request = require('supertest')
-const scraper = require('../../../helpers/scraper')
 const app = require('../../../app')
 
 chai.use(require('sinon-chai'))
@@ -20,12 +19,9 @@ afterEach(() => {
 describe('GET /students', () => {
   beforeEach(done => {
     const student = new Student({
-      name: 'studentName',
-      username: 'user512',
-      email: 'test@example.com',
+      name: 'Jason',
+      email: 'jason@example.com',
       notes: 'studentNote',
-      completedChallengesCount: 1,
-      completedChallenges: [{}],
     })
 
     student.save(() => done())
@@ -38,14 +34,7 @@ describe('GET /students', () => {
 
   // server/test/database.js drops students after each test
 
-  function stubScraper(error, scraperResponse) {
-    sandbox
-      .stub(scraper, 'fetchUserInfoFromFCC')
-      .yieldsAsync(error, scraperResponse)
-  }
-
   it('should return 200', done => {
-    stubScraper(false, { daysInactive: 1 })
     request(app)
       .get('/students')
       .end((_err, res) => {
@@ -55,15 +44,12 @@ describe('GET /students', () => {
   })
 
   it('should returns student info', done => {
-    stubScraper(false, { daysInactive: 1 })
     request(app)
       .get('/students')
       .end((_err, res) => {
-        expect(JSON.parse(res.text)[0].name).to.equal('studentName')
-        expect(JSON.parse(res.text)[0].username).to.equal('user512')
-        expect(JSON.parse(res.text)[0].email).to.equal('test@example.com')
+        expect(JSON.parse(res.text)[0].name).to.equal('Jason')
+        expect(JSON.parse(res.text)[0].email).to.equal('jason@example.com')
         expect(JSON.parse(res.text)[0].notes).to.equal('studentNote')
-        expect(JSON.parse(res.text)[0].daysInactive).to.equal(1)
         done()
       })
   })
@@ -78,53 +64,6 @@ describe('GET /students', () => {
           expect(JSON.parse(res.text)).to.be.an('array').that.is.empty
           done()
         })
-    })
-  })
-
-  it('should returns new submissions count and titles', done => {
-    stubScraper(false, {
-      completedChallenges: [
-        { title: 'Reverse a String' },
-        { title: 'Say Hello to HTML Elements' },
-      ],
-    })
-    request(app)
-      .get('/students')
-      .end((_err, res) => {
-        expect(JSON.parse(res.text)[0].newSubmissionsCount).to.equal(1)
-        done()
-      })
-  })
-
-  describe('when student completedChallengeCount is undefinded', () => {
-    it('should returns new submissions count', done => {
-      const student = new Student({
-        name: 'studentName',
-        username: 'user512',
-        email: 'test@example.com',
-        notes: 'studentNote',
-        completedChallengesCount: 0,
-        completedChallenges: [],
-      })
-
-      stubScraper(false, {
-        completedChallenges: [
-          { title: 'Reverse a String' },
-          { title: 'Say Hello to HTML Elements' },
-        ],
-      })
-
-      const db = mongoose.connection
-      db.dropDatabase(() => {
-        student.save(() => {
-          request(app)
-            .get('/students')
-            .end((_err, res) => {
-              expect(JSON.parse(res.text)[0].newSubmissionsCount).to.equal(2)
-              done()
-            })
-        })
-      })
     })
   })
 })
