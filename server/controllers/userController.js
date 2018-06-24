@@ -1,5 +1,3 @@
-const scraper = require('../helpers/scraper')
-
 exports.getUserById = (req, res) => {
   const githubName = req.params.userId
   console.log('params: ', req.params)

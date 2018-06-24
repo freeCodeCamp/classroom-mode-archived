@@ -12,6 +12,17 @@ afterEach(() => {
   sandbox.restore()
 })
 
+// TODO: Extract this into a stub helper
+function stubGetStudentApiRequest(email = 'user@freecodecamp.com', valid = true) {
+  const sandbox = sinon.sandbox.create()
+  const apiResponseBody = valid ?
+    { data: { getUser: { name: 'Student Name', email } } } :
+    { data: { getUser: null }, errors: [ { message: `No user found for ${email}` } ] }
+
+  const stubApiRequest = sandbox.stub(apiRequest, 'post')
+  stubApiRequest.yields(false, {}, apiResponseBody)
+}
+
 describe('POST /students', () => {
   it('should return an error if student name is absent', done => {
     try {
@@ -26,6 +37,7 @@ describe('POST /students', () => {
       console.log(
         `Error! should return an error if student name is absent: ${e}`
       )
+      done()
     }
   })
 
@@ -41,29 +53,19 @@ describe('POST /students', () => {
         })
     } catch (e) {
       console.log(`Error! should return an error if email in invalid ${e}`)
+      done()
     }
   })
 
   it('should create a student when valid email', done => {
-    const stubApiRequest = sandbox.stub(apiRequest, 'post')
-    const apiResponseBody =  {
-      data:
-        {
-          getUser:
-           {
-             name: 'Jason',
-             email: 'jason@example.com'
-            }
-          }
-        }
-    stubApiRequest.yields(false, {}, apiResponseBody)
+    stubGetStudentApiRequest('user@freecodecamp.com', true)
     const save = sandbox.stub(Student.prototype, 'save')
     save.yields(false)
 
     request(app)
       .post('/students')
       .send({
-        email: 'jason@example.com',
+        email: 'user@freecodecamp.com',
       })
       .end((_err, res) => {
         expect(res.statusCode).to.equal(200)
@@ -74,13 +76,7 @@ describe('POST /students', () => {
 
   it('should receive an error message if open-api returns error', done => {
     try {
-      const stubApiRequest = sandbox.stub(apiRequest, 'post')
-      const apiResponseBody =  { data: { getUser: null },
-                                  errors:
-                                  [ { message: 'No user found for not-valid@test.com',
-                                      locations: [Array],
-                                      path: [Array] } ] }
-      stubApiRequest.yields(false, {}, apiResponseBody)
+      stubGetStudentApiRequest('not-valid@test.com', false)
 
       request(app)
         .post('/students')
@@ -96,20 +92,15 @@ describe('POST /students', () => {
         })
     } catch (e) {
       console.log(
-        `Error! should receive an error message if scraper returns error: ${e}`
+        `Error! should receive an error message if open api returns error: ${e}`
       )
+      done()
     }
   })
 
   it('should not call the mongoose save method when email is invalid', done => {
     try {
-      const stubApiRequest = sandbox.stub(apiRequest, 'post')
-      const apiResponseBody =  { data: { getUser: null },
-                                  errors:
-                                  [ { message: 'No user found for not-valid@test.com',
-                                      locations: [Array],
-                                      path: [Array] } ] }
-      stubApiRequest.yields(false, {}, apiResponseBody)
+      stubGetStudentApiRequest('not-valid@test.com', false)
       const save = sandbox.stub(Student.prototype, 'save')
       save.yields(false)
 
@@ -130,6 +121,7 @@ describe('POST /students', () => {
       console.log(
         `Error! should not call the mongoose save method when username is invalid: ${e}`
       )
+      done()
     }
   })
 })

@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const request = require('request')
 
 const Student = mongoose.model('Student')
-const scraper = require('../helpers/scraper')
 
 function validateEmail(email) {
   const re = /\S+@\S+\.\S+/
@@ -57,7 +56,6 @@ exports.addStudent = (req, res) => {
     url: url,
     headers: {"Authorization": `Bearer ${process.env.OPENAPI_TEMP_TOKEN}`}
   }
-
   request.post(options, function(err, _apiRes, body) {
     if (err) {
       console.log(err)
@@ -93,15 +91,7 @@ exports.addStudent = (req, res) => {
 exports.updateStudent = (req, res) => {
   const errors = []
   const newStudent = req.body
-  const { name, email, studentId, username } = newStudent
-
-  if (!name) {
-    errors.push('Name is required.')
-  }
-
-  if (!username) {
-    errors.push('Username is required.')
-  }
+  const { email, studentId } = newStudent
 
   const emailValidationError = validateEmail(email)
 
