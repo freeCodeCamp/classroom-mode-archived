@@ -4,8 +4,6 @@ const expect = require('chai').expect
 const sinon = require('sinon')
 const request = require('supertest')
 const apiRequest = require('request')
-const scraper = require('../../../helpers/scraper')
-const assert = require('assert')
 const app = require('../../../app')
 
 const sandbox = sinon.sandbox.create()
