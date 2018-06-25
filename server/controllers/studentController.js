@@ -108,19 +108,22 @@ exports.updateStudent = (req, res) => {
     .then(document => document._doc)
     .then(existingStudent => {
       const mergedStudent = Object.assign({}, existingStudent, newStudent)
-      if (mergedStudent.username !== existingStudent.username) {
+      if (mergedStudent.email !== existingStudent.email) {
         return new Promise((resolve, reject) => {
-          scraper.fetchUserInfoFromFCC(username, (error, fccResults) => {
-            if (error) {
-              reject(new Error('Error fetching user from FreeCodeCamp'))
+          const postData = {
+            query: `{ getUser(email: "${mergedStudent.email}") {name email}}`
+          }
+          const url = 'http://localhost:4000/graphql'
+          const options = {
+            body: postData,
+            json: true,
+            url: url,
+            headers: {"Authorization": `Bearer ${process.env.OPENAPI_TEMP_TOKEN}`}
+          }
+          request.post(options, (err, _apiRes, body) => {
+            if (!body.data.getUser) {
+              reject(body.errors)
             }
-            Object.assign(mergedStudent, {
-              completedChallenges: fccResults.completedChallenges,
-              completedChallengesCount:
-                fccResults.completedChallenges &&
-                fccResults.completedChallenges.length,
-              daysInactive: fccResults.daysInactive,
-            })
             resolve(mergedStudent)
           })
         })
@@ -134,8 +137,8 @@ exports.updateStudent = (req, res) => {
         res.json(student)
       )
     })
-    .catch(err => {
-      console.error(err.message)
-      res.status(500).json({ errors: [err.message] })
+    .catch(errors => {
+      console.error(errors)
+      res.status(422).json(errors)
     })
 }

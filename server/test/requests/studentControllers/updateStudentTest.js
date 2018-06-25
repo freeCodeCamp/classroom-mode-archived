@@ -1,12 +1,9 @@
 require('dotenv').config({ path: 'variables.env' })
 const Student = require('../../../models/Student')
-const chai = require('chai')
 const expect = require('chai').expect
 const sinon = require('sinon')
 const request = require('supertest')
-const serverRequestToScraper = require('request')
-const scraper = require('../../../helpers/scraper')
-const assert = require('assert')
+const apiRequest = require('request')
 const app = require('../../../app')
 
 const sandbox = sinon.sandbox.create()
@@ -19,77 +16,60 @@ describe('PUT /students', () => {
   beforeEach(done => {
     const student = new Student({
       name: 'studentName',
-      username: 'user512',
-      email: 'test@example.com',
-      notes: 'studentNote',
-      completedChallengesCount: 1,
-      completedChallenges: [{}],
+      email: 'user@freecodecamp.com',
+      notes: 'oldStudentNote',
     })
 
     student.save(() => done())
   })
 
-  const stubScraper = (error, scraperResponse) => {
-    sandbox
-      .stub(scraper, 'fetchUserInfoFromFCC')
-      .yieldsAsync(error, scraperResponse)
-  }
-
-  const noScraperErrorResponse = {
-    completedChallenges: [
-      {
-        solution: 'some code',
-      },
-      {
-        solution: 'some code',
-      },
-    ],
-    dayInactive: 5,
-  }
-
-  it("should return 200 when username isn't modified", async () => {
-    const student = await Student.findOne({ username: 'user512' })
-    stubScraper(false, {})
+  it("should return 200 when email isn't modified", async () => {
+    const student = await Student.findOne({ email: 'user@freecodecamp.com' })
     const res = await request(app)
       .put('/students')
       .send({
-        name: 'fccStudent',
         email: 'user@freecodecamp.com',
-        username: 'user512',
+        notes: 'oldStudentNote',
         studentId: student._id.toString(),
       })
     expect(res.statusCode).to.equal(200)
   })
 
-  it('should return 200 when username is modified', async () => {
-    const student = await Student.findOne({ username: 'user512' })
-    stubScraper(false, noScraperErrorResponse)
+  it('should return 200 when username is modified and valid', async () => {
+    const email = 'newUser@freecodecamp.com'
+    const apiResponseBody = { data: { getUser: { name: 'Student Name', email } } }
+    const stubApiRequest = sandbox.stub(apiRequest, 'post')
+    stubApiRequest.yields(false, {}, apiResponseBody)
+    const student = await Student.findOne({ email: 'user@freecodecamp.com' })
     const res = await request(app)
       .put('/students')
       .send({
-        name: 'fccStudent',
-        email: 'user@freecodecamp.com',
-        username: 'updatedser512',
+        email,
+        notes: 'newStudentNotes',
         studentId: student._id.toString(),
       })
     expect(res.statusCode).to.equal(200)
   })
 
-  it("should returns 'Error fetching user from FreeCodeCamp' when scraper returns error", async () => {
-    const student = await Student.findOne({ username: 'user512' })
-    stubScraper(true, {})
+  it("should returns open api errors when api returns error", async () => {
+    const email = 'not-valid@test.com'
+    const apiResponseBody = { data: { getUser: null }, errors: [ { message: `No user found for ${email}` } ] }
+    const stubApiRequest = sandbox.stub(apiRequest, 'post')
+    stubApiRequest.yields(false, {}, apiResponseBody)
+    const student = await Student.findOne({ email: 'user@freecodecamp.com' })
     const res = await request(app)
       .put('/students')
       .send({
-        name: 'fccStudent',
-        email: 'user@freecodecamp.com',
-        username: 'updatedser512',
+        email,
+        notes: 'newStudentNotes',
         studentId: student._id.toString(),
       })
-    expect(res.statusCode).to.equal(500)
+    expect(res.statusCode).to.equal(422)
     const errorJSON = JSON.stringify({
-      errors: ['Error fetching user from FreeCodeCamp'],
+      errors: [`No user found for ${email}`],
     })
-    expect(res.text).to.equal(errorJSON)
+    expect(res.body[0].message).to.include(
+      `No user found for ${email}`
+    )
   })
 })
