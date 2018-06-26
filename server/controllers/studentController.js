@@ -80,7 +80,8 @@ exports.addStudent = (req, res) => {
           console.log('Studnet saved', student)
           res.sendStatus(200)
         })
-      } else {
+      } else { 
+        //TODO remove this
         errors.push('freeCodeCamp username is invalid.')
         res.status(422).json({ errors })
       }
