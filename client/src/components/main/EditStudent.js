@@ -38,17 +38,12 @@ export default class EditStudent extends Component {
     axios
       .put('/students', this.state.student)
       .then(res => {
-        console.log(res);
         onSuccessfulSubmission(res.data)
         this.setState({ errors: [] })
       })
       .catch(e => {
-        // console.log(e);
-        // debugger;
-        // const { errors } = e.response.data
-        // this.setState({ errors })
-        const errors = e.response.data[0].message
-        this.setState({ errors: [errors] })
+        const errors = e.response.data.map(obj => obj.message)
+        this.setState({ errors })
       })
       .then(() => this.setState({ isSubmitting: false }))
   }
