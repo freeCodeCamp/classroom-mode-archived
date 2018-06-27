@@ -77,15 +77,6 @@ export default class EditStudent extends Component {
                 onChange={this.handleInputChange}
               />
             </FormGroup>
-            <FormGroup controlId="username">
-              <ControlLabel>FCC Username: </ControlLabel>
-              <FormControl
-                type="text"
-                name="username"
-                defaultValue={student.username}
-                onChange={this.handleInputChange}
-              />
-            </FormGroup>
             <FormGroup controlId="email">
               <ControlLabel>Email: </ControlLabel>
               <FormControl

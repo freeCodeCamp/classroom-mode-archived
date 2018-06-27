@@ -19,14 +19,6 @@ describe('EditStudent component', () => {
       expect(nameInput.type()).toEqual(FormControl)
     })
 
-    it('should have a username field', () => {
-      const usernameInput = shallowEditStudentComponent.find(
-        '[name="username"]'
-      )
-      expect(usernameInput).toHaveLength(1)
-      expect(usernameInput.type()).toEqual(FormControl)
-    })
-
     it('should have a email field', () => {
       const emailInput = shallowEditStudentComponent.find('[name="email"]')
       expect(emailInput).toHaveLength(1)
