@@ -5,6 +5,7 @@ import {
   FormGroup,
   ControlLabel,
   FormControl,
+  Alert
 } from 'react-bootstrap'
 import axios from 'axios'
 import './AddStudentForm.css'
@@ -60,6 +61,8 @@ export default class AddStudentForm extends Component {
     })
   }
 
+  clearErrors = () => this.setState({ errors: [] })
+
   renderStudentCount() {
     let message
     if (this.props.studentLength > 1) {
@@ -94,9 +97,13 @@ export default class AddStudentForm extends Component {
             <Modal.Title>Add Student</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <ul id="errors">
-              {this.state.errors.map(error => <li key={uuidv4()}>{error}</li>)}
-            </ul>
+          {this.state.errors &&
+            this.state.errors.map(error => (
+              <Alert bsStyle="danger" key={error} onDismiss={this.clearErrors}>
+                {error}
+              </Alert>
+            ))
+          }
             <form>
               <FormGroup controlId="email">
                 <ControlLabel>Email: </ControlLabel>

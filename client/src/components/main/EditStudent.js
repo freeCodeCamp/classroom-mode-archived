@@ -67,6 +67,13 @@ export default class EditStudent extends Component {
           <Modal.Title>Edit Student</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        {this.state.errors &&
+            this.state.errors.map(error => (
+              <Alert bsStyle="danger" key={error} onDismiss={this.clearErrors}>
+                {error}
+              </Alert>
+            ))
+        }
           <form method="PUT">
             <FormGroup controlId="name">
               <ControlLabel>Name: </ControlLabel>
@@ -108,12 +115,6 @@ export default class EditStudent extends Component {
               </Button>
             </ButtonGroup>
           </form>
-          {this.state.errors &&
-            this.state.errors.map(error => (
-              <Alert bsStyle="danger" key={error} onDismiss={this.clearErrors}>
-                {error}
-              </Alert>
-            ))}
         </Modal.Body>
       </Modal>
     )
