@@ -42,7 +42,7 @@ export default class EditStudent extends Component {
         this.setState({ errors: [] })
       })
       .catch(e => {
-        const { errors } = e.response.data
+        const errors = e.response.data.map(obj => obj.message)
         this.setState({ errors })
       })
       .then(() => this.setState({ isSubmitting: false }))
@@ -59,6 +59,7 @@ export default class EditStudent extends Component {
   }
 
   render() {
+    console.log("Errors: ", this.state.errors);
     const { isOpen, onClose, student = {} } = this.props
     return (
       <Modal show={isOpen} onHide={onClose}>
@@ -80,15 +81,6 @@ export default class EditStudent extends Component {
                 type="text"
                 name="name"
                 defaultValue={student.name}
-                onChange={this.handleInputChange}
-              />
-            </FormGroup>
-            <FormGroup controlId="username">
-              <ControlLabel>FCC Username: </ControlLabel>
-              <FormControl
-                type="text"
-                name="username"
-                defaultValue={student.username}
                 onChange={this.handleInputChange}
               />
             </FormGroup>

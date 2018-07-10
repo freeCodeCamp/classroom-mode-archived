@@ -16,13 +16,12 @@ export default class StudentRow extends Component {
   }
 
   handleEditButtonClick = () => {
-    const { studentId, email, name, notes, username } = this.props
+    const { studentId, email, name, notes } = this.props
     const studentInfo = {
       email,
       name,
       notes,
       studentId,
-      username,
     }
     this.props.handleEdit(studentInfo)
   }
@@ -30,7 +29,6 @@ export default class StudentRow extends Component {
   render() {
     const {
       name,
-      username,
       email,
       notes,
       daysInactive,
@@ -41,7 +39,6 @@ export default class StudentRow extends Component {
     return (
       <tr>
         <td>{name}</td>
-        <td>{username}</td>
         <td>{email}</td>
         <td>{notes}</td>
         <td>{daysInactive}</td>

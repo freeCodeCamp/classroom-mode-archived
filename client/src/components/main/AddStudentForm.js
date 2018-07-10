@@ -33,11 +33,9 @@ export default class AddStudentForm extends Component {
   }
 
   submit = () => {
-    const { name, username, email, notes } = this.state
+    const { email, notes } = this.state
     return axios
       .post('/students', {
-        name,
-        username,
         email,
         notes,
       })
@@ -106,24 +104,6 @@ export default class AddStudentForm extends Component {
             ))
           }
             <form>
-              <FormGroup controlId="name">
-                <ControlLabel>Name: </ControlLabel>
-                <FormControl
-                  type="text"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.handleChange}
-                />
-              </FormGroup>
-              <FormGroup controlId="username">
-                <ControlLabel>FCC Username: </ControlLabel>
-                <FormControl
-                  type="text"
-                  name="username"
-                  value={this.state.username}
-                  onChange={this.handleChange}
-                />
-              </FormGroup>
               <FormGroup controlId="email">
                 <ControlLabel>Email: </ControlLabel>
                 <FormControl

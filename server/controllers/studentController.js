@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
+const request = require('request')
 
 const Student = mongoose.model('Student')
-const scraper = require('../helpers/scraper')
 
 function validateEmail(email) {
   const re = /\S+@\S+\.\S+/
@@ -23,52 +23,17 @@ exports.deleteStudent = async (req, res) => {
   }
 }
 
-exports.showStudent = (req, res) => {
-  let numStudents = 0
-  let numResponsesReceived = 0
-
+exports.showStudent = (_req, res) => {
   Student.find({})
     .lean()
     .then(students => {
-      numStudents = students.length
-
-      if (numStudents === 0) {
-        res.status(200).json(students)
-      }
-
-      students.map(student => {
-        scraper.fetchUserInfoFromFCC(student.username, (_err, fccResults) => {
-          student.daysInactive = fccResults.daysInactive
-
-          if (fccResults.completedChallenges) {
-            const completedChallengesCount = student.completedChallengesCount
-              ? student.completedChallengesCount
-              : 0
-            student.newSubmissionsCount =
-              fccResults.completedChallenges.length - completedChallengesCount
-          }
-
-          numResponsesReceived++
-
-          if (numResponsesReceived >= numStudents) {
-            res.status(200).json(students)
-          }
-        })
-      })
+      res.status(200).json(students)
     })
 }
 
 exports.addStudent = (req, res) => {
   const errors = []
-  const { name, email, username, notes } = req.body
-
-  if (!name) {
-    errors.push('Name is required.')
-  }
-
-  if (!username) {
-    errors.push('Username is required.')
-  }
+  const { email, notes } = req.body
 
   const emailValidationError = validateEmail(email)
 
@@ -81,45 +46,49 @@ exports.addStudent = (req, res) => {
     return
   }
 
-  scraper.fetchUserInfoFromFCC(username, (error, fccResults) => {
-    if (!error) {
-      const student = new Student({
-        name,
-        username,
-        email,
-        notes,
-        completedChallengesCount:
-          fccResults.completedChallenges &&
-          fccResults.completedChallenges.length,
-        completedChallenges: fccResults.completedChallenges,
-      })
-      student.save(err => {
-        if (err) {
-          console.log('Student saved failed', student)
-          res.sendStatus(500)
-        }
-        console.log(student)
-        res.sendStatus(200)
-      })
-    } else {
-      errors.push('freeCodeCamp username is invalid.')
-      res.status(422).json({ errors })
+  const postData = {
+    query: `{ getUser(email: "${email}") {name email}}`
+  }
+  const url = 'http://localhost:4000/graphql'
+  const options = {
+    body: postData,
+    json: true,
+    url: url,
+    headers: {"Authorization": `Bearer ${process.env.OPENAPI_TEMP_TOKEN}`}
+  }
+  request.post(options, function(err, _apiRes, body) {
+    if (err) {
+      console.log(err)
     }
-  })
+    if (!body.data.getUser) {
+      errors.push(body.errors[0].message)
+      res.status(422).json({ errors })
+    } else {
+      const { name } = body.data.getUser
+      const newEmail = body.data.getUser.email
+      if (!err) {
+        const student = new Student({
+          name,
+          email: newEmail,
+          notes,
+        })
+        student.save(err => {
+          if (err) {
+            console.log('Student saved failed', student)
+            res.sendStatus(500)
+          }
+          console.log('Studnet saved', student)
+          res.sendStatus(200)
+        })
+      }
+    }
+    })
 }
 
 exports.updateStudent = (req, res) => {
   const errors = []
   const newStudent = req.body
-  const { name, email, studentId, username } = newStudent
-
-  if (!name) {
-    errors.push('Name is required.')
-  }
-
-  if (!username) {
-    errors.push('Username is required.')
-  }
+  const { email, studentId } = newStudent
 
   const emailValidationError = validateEmail(email)
 
@@ -136,19 +105,22 @@ exports.updateStudent = (req, res) => {
     .then(document => document._doc)
     .then(existingStudent => {
       const mergedStudent = Object.assign({}, existingStudent, newStudent)
-      if (mergedStudent.username !== existingStudent.username) {
+      if (mergedStudent.email !== existingStudent.email) {
         return new Promise((resolve, reject) => {
-          scraper.fetchUserInfoFromFCC(username, (error, fccResults) => {
-            if (error) {
-              reject(new Error('Error fetching user from FreeCodeCamp'))
+          const postData = {
+            query: `{ getUser(email: "${mergedStudent.email}") {name email}}`
+          }
+          const url = 'http://localhost:4000/graphql'
+          const options = {
+            body: postData,
+            json: true,
+            url: url,
+            headers: {"Authorization": `Bearer ${process.env.OPENAPI_TEMP_TOKEN}`}
+          }
+          request.post(options, (err, _apiRes, body) => {
+            if (!body.data.getUser) {
+              reject(body.errors)
             }
-            Object.assign(mergedStudent, {
-              completedChallenges: fccResults.completedChallenges,
-              completedChallengesCount:
-                fccResults.completedChallenges &&
-                fccResults.completedChallenges.length,
-              daysInactive: fccResults.daysInactive,
-            })
             resolve(mergedStudent)
           })
         })
@@ -162,8 +134,8 @@ exports.updateStudent = (req, res) => {
         res.json(student)
       )
     })
-    .catch(err => {
-      console.error(err.message)
-      res.status(500).json({ errors: [err.message] })
+    .catch(errors => {
+      console.error(errors)
+      res.status(422).json(errors)
     })
 }

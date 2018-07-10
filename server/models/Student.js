@@ -12,7 +12,7 @@ const studentSchema = new Schema({
       message: 'Name must be longer than 2 characters.',
     },
     trim: true,
-    required: [true, 'Name is required.'],
+    // required: [true, 'Name is required.'],
   },
   username: {
     type: String,
