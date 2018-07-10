@@ -1,10 +1,15 @@
 const express = require('express')
+const session = require('express-session')
+const mongoose = require('mongoose')
+const MongoStore = require('connect-mongo')(session)
+const expressGraphQL = require('express-graphql')
 const path = require('path')
 const logger = require('morgan')
-const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const schema = require('./schema/schema')
 
 const app = express()
+
 const index = require('./routes/index')
 
 // view engine setup
@@ -13,11 +18,32 @@ app.set('view engine', 'hjs')
 console.log('server running')
 
 app.use(logger('dev'))
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser())
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    key: process.env.KEY,
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      autoReconnect: true,
+    }),
+  })
+)
 
 app.use(express.static(path.join(__dirname, '../client/build')))
+
+app.use(
+  '/graphql',
+  expressGraphQL({
+    schema,
+    graphiql: true,
+  })
+)
 
 // @todo prefix with /api/
 app.use('/', index)
